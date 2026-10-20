@@ -19,6 +19,9 @@ struct CryptoCardDemoApp: App {
         WindowGroup {
             RootView(store: store)
                 .tint(Design.accent)
+                // Owner decision 2026-10-21: text stays at the standard size whatever the system setting, because
+                // larger sizes broke words in buttons and activity rows. VoiceOver and Bold Text still apply.
+                .dynamicTypeSize(.large)
         }
     }
 }
@@ -65,11 +68,15 @@ struct RootView: View {
             }
         }
         .sheet(item: $sheet) { item in
-            switch item {
-            case .topup: TopUpScreen(store: store, wallet: walletFlow.store)
-            case .credentials: CredentialsScreen(store: store)
-            case .testPurchase: TestPurchaseSheet(store: store)
+            Group {
+                switch item {
+                case .topup: TopUpScreen(store: store, wallet: walletFlow.store)
+                case .credentials: CredentialsScreen(store: store)
+                case .testPurchase: TestPurchaseSheet(store: store)
+                }
             }
+            // Sheets take the text size from the system again, so the standard size is set here as well.
+            .dynamicTypeSize(.large)
         }
         .onChange(of: scenePhase) {
             if scenePhase == .background, sheet != .topup { sheet = nil }
@@ -118,6 +125,9 @@ enum AppSheet: String, Identifiable {
 struct WelcomeScreen: View {
     let store: AppStore
     let walletFlow: WalletSignInFlow
+    static let space = "welcome"
+    @State private var buttonsBottom: CGFloat = .infinity
+    @Environment(\.dynamicTypeSize) private var textSize
 
     var body: some View {
         ScrollView {
@@ -134,22 +144,29 @@ struct WelcomeScreen: View {
                     Text("Your card, balance and activity, in one place.")
                         .font(.body).foregroundStyle(Design.textSecondary).multilineTextAlignment(.center)
                 }
-                VStack(spacing: Design.medium) {
-                    PrimaryButton(title: "Get started", symbol: "arrow.right") {
-                        Task { await store.connectFixture() }
+                VStack(spacing: 12) {
+                    Button { Task { await store.connectFixture() } } label: {
+                        Text("Get started")
+                            .frame(maxWidth: .infinity)
+                            .overlay(alignment: .trailing) {
+                                Image(systemName: "arrow.right").font(.system(size: 20, weight: .regular)).accessibilityHidden(true)
+                            }
                     }
+                    .buttonStyle(WelcomeButtonStyle(prominent: true))
                     .accessibilityIdentifier("button-enter-fixture")
                     .disabled(store.isLoading)
                     NavigationLink(value: "wallet") {
-                        Label { Text("Wallet sign-in") } icon: { Image("GlyphPasskey").renderingMode(.template) }
-                            .font(Design.displayMedium(17, relativeTo: .headline))
-                            .frame(maxWidth: .infinity, minHeight: 50)
+                        Text("Wallet sign-in").frame(maxWidth: .infinity)
                     }
-                    .secondaryActionStyle()
-                    .controlSize(.large)
+                    .buttonStyle(WelcomeButtonStyle(prominent: false))
                     .accessibilityIdentifier("button-open-wallet")
                 }
                 .padding(.top, Design.medium)
+                .background {
+                    GeometryReader { proxy in
+                        Color.clear.preference(key: WelcomeButtonsBottom.self, value: proxy.frame(in: .named(WelcomeScreen.space)).maxY)
+                    }
+                }
                 if store.isLoading { ProgressView("Loading…") }
                 if let message = store.errorMessage {
                     Label { Text(message) } icon: { Image(systemName: "exclamationmark.circle.fill").fontWeight(Design.symbolWeight) }
@@ -161,7 +178,19 @@ struct WelcomeScreen: View {
             }
             .padding(.horizontal, Design.large)
         }
+        // The USDT coin is tossed up from below the screen, behind the content (in front of the screen
+        // colour, which themedScreen adds below it) and never above the buttons.
+        .background {
+            if !textSize.isAccessibilitySize {
+                GeometryReader { proxy in
+                    CoinToss(ceiling: buttonsBottom + Design.medium, size: proxy.size, animated: !store.options.fixture)
+                }
+                .ignoresSafeArea(edges: .bottom)
+            }
+        }
         .themedScreen()
+        .coordinateSpace(name: WelcomeScreen.space)
+        .onPreferenceChange(WelcomeButtonsBottom.self) { buttonsBottom = $0 }
         .navigationBarTitleDisplayMode(.inline)
         .navigationDestination(for: String.self) { destination in
             if destination == "wallet" {
@@ -170,6 +199,68 @@ struct WelcomeScreen: View {
                 }
             }
         }
+    }
+}
+
+private struct WelcomeButtonsBottom: PreferenceKey {
+    static let defaultValue: CGFloat = .infinity
+    // Views that do not report keep the default (infinity); the reported bottom edge is the smallest value.
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = min(value, nextValue()) }
+}
+
+/// The two welcome actions: a filled accent capsule and an outlined one, 56 pt tall, sentence case.
+struct WelcomeButtonStyle: ButtonStyle {
+    let prominent: Bool
+    @Environment(\.isEnabled) private var isEnabled
+    func makeBody(configuration: Configuration) -> some View {
+        let shape = RoundedRectangle(cornerRadius: 24, style: .continuous)
+        configuration.label
+            .font(Design.display(18, relativeTo: .headline))
+            .foregroundStyle(prominent ? Design.onAccent : Design.accent)
+            .padding(.horizontal, Design.large)
+            .frame(maxWidth: .infinity, minHeight: 56)
+            .background { if prominent { shape.fill(Design.accent) } }
+            .overlay { if !prominent { shape.strokeBorder(Design.accent, lineWidth: 1.5) } }
+            .contentShape(shape)
+            .opacity(isEnabled ? (configuration.isPressed ? 0.75 : 1) : 0.5)
+    }
+}
+
+/// A USDT coin tossed up from below the screen: 120 pre-rendered rotation frames at 60 fps, then a short pause,
+/// looped. The arc peaks just below `ceiling`, so the coin never rises over the buttons. Decorative only.
+struct CoinToss: View {
+    let ceiling: CGFloat
+    /// The area the coin flies in; it enters and leaves through the bottom edge.
+    let size: CGSize
+    var animated = true
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    private static let flightFrames = 120
+    private static let cycleFrames = 150
+    private static let fps = 60.0
+    /// The sprite is 192 pt with transparent margins for the tilts; the coin itself is about 128 pt.
+    private static let sprite: CGFloat = 192
+    private static let coinRadius: CGFloat = 64
+
+    var body: some View {
+        TimelineView(.animation(paused: !animated || reduceMotion)) { context in
+            let frame = animated && !reduceMotion
+                ? Int(context.date.timeIntervalSinceReferenceDate * Self.fps) % Self.cycleFrames
+                : 45
+            let start = size.height + Self.sprite / 2
+            let apex = ceiling + Self.coinRadius
+            if frame < Self.flightFrames, ceiling.isFinite, apex < start {
+                let u = Double(frame) / Double(Self.flightFrames - 1)
+                let height = 4 * u * (1 - u)
+                Image(String(format: "UsdtToss%03d", frame))
+                    .resizable()
+                    .frame(width: Self.sprite, height: Self.sprite)
+                    .position(x: size.width / 2, y: start - CGFloat(height) * (start - apex))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .clipped()
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 }
 
