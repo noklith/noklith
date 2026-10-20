@@ -1,0 +1,415 @@
+{
+  "checked_on": "2026-10-16",
+  "purpose": "First-party official marks replacing placeholder company/network glyphs. Research only; site integration and publication owned by root agent.",
+  "global_guidance": [
+    "Preserve original geometry, proportion and colours unless an official alternate variant is supplied.",
+    "Do not apply Noklith stone texture, engraving filters, arbitrary recolouring or drop shadows to third-party marks. A Noklith stone wrapper may surround a clean neutral chip while respecting clearspace.",
+    "Logos identify the named technology; they do not establish partnership, endorsement, production deployment or permission. Preserve accurate planned-network copy."
+  ],
+  "brands": [
+    {
+      "brand": "Base",
+      "files": [
+        "base-black.svg",
+        "base-blue.svg"
+      ],
+      "source_page": "https://brand.base.org/core-identifiers",
+      "asset_urls": [
+        "https://raw.githubusercontent.com/base/brand-kit/main/logo/TheSquare/Digital/Base_square_black.svg",
+        "https://raw.githubusercontent.com/base/brand-kit/main/logo/TheSquare/Digital/Base_square_blue.svg"
+      ],
+      "notes": [
+        "Current Base Square identity, not the older circle/minus glyph.",
+        "Only approved blue, black or white. Do not redraw square, distort it, use secondary fills, transparency or effects."
+      ],
+      "permissions": "Official brand kit supplies vector assets; brand guidelines apply.",
+      "recommended": "Use base-black.svg on light panels, base-blue.svg if brand colour is desired. Keep mark unfiltered."
+    },
+    {
+      "brand": "Arbitrum",
+      "files": [
+        "arbitrum.svg",
+        "arbitrum-official.svg"
+      ],
+      "source_page": "https://arbitrum.io/brand-kit",
+      "asset_urls": [
+        "https://docs.arbitrum.io/img/logo.svg",
+        "https://raw.githubusercontent.com/OffchainLabs/arbitrum-docs/master/public/img/logo.svg"
+      ],
+      "notes": [
+        "The official kit ZIP endpoint returned HTTP403. Supplied file is the current first-party documentation logomark, byte-identical to the official OffchainLabs docs repository copy.",
+        "Use supplied colours; the kit permits supplied navy and white variants, not arbitrary recolouring. Do not rotate, outline or add effects. Minimum icon size24px, clearspace half hexagon width."
+      ],
+      "permissions": "Official brand-kit legal text states use must be expressly authorized in writing and must not imply sponsorship. Downloaded locally for asset research; this is not a confirmation of publication permission.",
+      "recommended": "Preserve first-party artwork. If written brand permission is unavailable, use the plain Arbitrum name rather than a made-up glyph."
+    },
+    {
+      "brand": "Ethereum",
+      "files": [
+        "ethereum.svg"
+      ],
+      "source_page": "https://ethereum.org/assets/",
+      "asset_urls": [
+        "https://ethereum.org/images/assets/svgs/eth-diamond-black.svg"
+      ],
+      "notes": [
+        "Official transparent black ETH diamond asset. Preserve its faceted geometry.",
+        "No logo-specific recolouring authorization was established from the asset page. Use supplied black artwork."
+      ],
+      "permissions": "Publicly supplied official brand asset; Ethereum name/logo rights remain with their owners.",
+      "recommended": "Use supplied black SVG on a light clean chip, without stone filtering or distortion."
+    },
+    {
+      "brand": "BNB Chain",
+      "files": [
+        "bnb.svg",
+        "bnb-black.svg"
+      ],
+      "source_page": "https://www.bnbchain.org/en/brand-guidelines",
+      "asset_urls": [
+        "https://www.bnbchain.org/images/brand-guidelines/svg/BNB%20Chain_Symbol_Yellow.svg",
+        "https://www.bnbchain.org/images/brand-guidelines/svg/BNB%20Chain_Symbol_Black.svg"
+      ],
+      "notes": [
+        "Yellow is the preferred supplied variant. Monochrome supplied logos are allowed if yellow has low contrast.",
+        "Do not alter shape/form/colour or add shadows/gradients/outlines. Symbol minimum15px. Use logomark as an icon; wordmark preferred where space permits.",
+        "Guidelines limit website use to identifying a project building on/being powered by BNB Chain and say projects should seek approval. A planned integration should not appear to be an existing endorsed relationship."
+      ],
+      "permissions": "Official guidelines apply; they advise seeking approval and prohibit implied endorsement.",
+      "recommended": "Use supplied yellow or black depending on contrast, on a clean chip. If this is only a future plan, plain BNB Chain text is the conservative presentation."
+    },
+    {
+      "brand": "Robinhood Chain",
+      "files": [
+        "robinhood-chain.svg",
+        "robinhood-chain-white.svg",
+        "robinhood-chain-avatar.jpg",
+        "robinhood-chain-feather.svg",
+        "robinhood-chain-feather-black.svg"
+      ],
+      "source_page": "https://docs.robinhood.com/chain/brand-guidelines/",
+      "asset_urls": [
+        "https://cdn.robinhood.com/robinhood_chain/brand_assets/robinhood-chain-brand-assets-v1.zip",
+        "https://cdn.robinhood.com/assets/generated_assets/hoodchain_docsite/feather-light.svg",
+        "https://cdn.robinhood.com/assets/generated_assets/hoodchain_docsite/feather-dark.svg"
+      ],
+      "notes": [
+        "Primary black/white Chain logo and avatar extracted unchanged from the official V1 asset ZIP. File robinhood-chain-feather.svg is WHITE; feather-black.svg is BLACK.",
+        "Use full name Robinhood Chain. Never substitute standard Robinhood master lockup.",
+        "Feather may be used only in designated compact symbol spaces where the full Chain wordmark is impractical; do not substitute it for primary Chain logo.",
+        "No altering/recolouring/cropping/rotating/effects. Approved pairings:black on white, white on black, black on Robin Neon #ccff00. Minimum symbol height20px.",
+        "Do not combine logo with other branding/images. Guidelines prohibit AI-generated or manipulated uses that could create a false impression of involvement, endorsement or sponsorship."
+      ],
+      "permissions": "Use is governed by Robinhood Chain Terms of Service trademark license, not an unrestricted copyright grant.",
+      "recommended": "Use exact primary Chain logo in a clean white/black brand chip, or exact feather in genuinely compact UI. Keep it separate from textured stone effects and describe plans accurately."
+    },
+    {
+      "brand": "Solana",
+      "files": [
+        "solana.svg"
+      ],
+      "source_page": "https://solana.com/branding",
+      "asset_urls": [
+        "https://solana.com/src/img/branding/solanaLogoMark.svg"
+      ],
+      "notes": [
+        "Official three-bar gradient logomark.",
+        "Preserve gradient and geometry. Do not recolour, distort, add shadow, outline, blur or photographic fill. Keep adequate clearspace and contrast."
+      ],
+      "permissions": "Public download for promoting Solana in websites and communications, subject to Foundation Brand Guidelines; no implied affiliation/endorsement.",
+      "recommended": "Use supplied gradient SVG on a clean panel, unfiltered."
+    },
+    {
+      "brand": "Bun",
+      "files": [
+        "bun.svg"
+      ],
+      "source_page": "https://bun.com/press-kit",
+      "asset_urls": [
+        "https://bun.com/icon.svg"
+      ],
+      "notes": [
+        "Official small-size icon.",
+        "Bun press kit explicitly asks not to stretch or recolour its artwork without asking. Preserve supplied cream/pink/ink colours."
+      ],
+      "permissions": "Official press-kit asset supplied for brand identification; no logo alteration grant.",
+      "recommended": "Use original multicolour icon at compact UI size, no stone fill/filter."
+    },
+    {
+      "brand": "Hono",
+      "files": [
+        "hono.svg",
+        "hono-LICENSE.txt"
+      ],
+      "source_page": "https://hono.dev/",
+      "asset_urls": [
+        "https://hono.dev/images/logo.svg",
+        "https://raw.githubusercontent.com/honojs/website/main/LICENSE"
+      ],
+      "notes": [
+        "Official Hono web framework flame; this is not the unrelated Eclipse Hono project.",
+        "Original orange gradient preserved; MIT notice retained from official website repository. No separate brand guideline was found."
+      ],
+      "permissions": "Official honojs website repository declares MIT; retained notice. No separate trademark permission is asserted.",
+      "recommended": "Use exact supplied flame with Hono text; no invented flame or arbitrary recolouring."
+    },
+    {
+      "brand": "viem",
+      "files": [
+        "viem.svg",
+        "viem-icon.png",
+        "viem-LICENSE.txt"
+      ],
+      "source_page": "https://viem.sh/",
+      "asset_urls": [
+        "https://viem.sh/logo-light-hug.svg",
+        "https://viem.sh/icon-light.png",
+        "https://raw.githubusercontent.com/wevm/viem/main/src/LICENSE"
+      ],
+      "notes": [
+        "viem.svg is the official outlined wordmark, not a square icon. Preserve its 615:224 ratio. viem-icon.png is the official small icon also declared by the homepage.",
+        "MIT notice retained from official repository. No separate logo-specific brand rules found."
+      ],
+      "permissions": "Official repository MIT notice retained; no separate trademark permission is asserted.",
+      "recommended": "Prefer the official full wordmark where space allows; official icon is available for compact UI. Never use a generic diamond as viem."
+    },
+    {
+      "brand": "Foundry",
+      "files": [
+        "foundry.png"
+      ],
+      "source_page": "https://www.getfoundry.sh/",
+      "asset_urls": [
+        "https://www.getfoundry.sh/foundry-logo.png"
+      ],
+      "notes": [
+        "Official300x300 transparent PNG from the Foundry Ethereum development framework documentation. Correct foundry-rs project, not FoundryVTT or a generic hammer glyph.",
+        "No official SVG variant was located in the bounded primary-source research. Preserve original black/white crest."
+      ],
+      "permissions": "First-party documentation mark provided; source project has MIT/Apache code licenses but no separate logo-specific permission was established.",
+      "recommended": "Use supplied PNG at28–64CSSpx;300px source is ample. A plain Foundry label is preferable to invented artwork if vector-only UI is required."
+    }
+  ],
+  "files": {
+    "ethereum.svg": {
+      "bytes": 419,
+      "sha256": "4611f65a00cff2e61dd7815aa59cb1bed0e0a266acca7eafc8212e78c7c7d10e",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1920 1920",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "robinhood-chain-feather.svg": {
+      "bytes": 1235,
+      "sha256": "5b7506f11991ee9a62c45f5457020aae595dc7bcb93b48b7af0f27989d68aeac",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 32 42",
+      "width": "32",
+      "height": "42",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "foundry.png": {
+      "bytes": 49040,
+      "sha256": "49dd39834d6bef7f6b585dd9a169f5add8e5734db4ca20c406cecda699d14ded",
+      "unmodified_from_source": true
+    },
+    "viem.svg": {
+      "bytes": 2236,
+      "sha256": "59e643e41a57cd7a51b321ae56238c4e7e18661cb44f54582f4200636992dcd6",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 615 224",
+      "width": "615",
+      "height": "224",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "base-black.svg": {
+      "bytes": 571,
+      "sha256": "78dbcb008bb4c9abb53a675e5ec88cc8636041aa3d26df2cbf89264aa469e40b",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1280 1280",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "hono.svg": {
+      "bytes": 418,
+      "sha256": "1cf46b5319b87bb62139c8578b387f0bfa826ee4791ad314df8d7b5c081c334f",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 76 98",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "base-blue.svg": {
+      "bytes": 672,
+      "sha256": "b4f2b487011713f98481cc53c4ce095629b4876acbdbc2f0f3ad69a9688ba82e",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1280 1280",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "viem-LICENSE.txt": {
+      "bytes": 1074,
+      "sha256": "091d17ae5f625ffeb381e7109daaf6c492dd32502d612d8ecd24e2ddf6d16b74",
+      "unmodified_from_source": true
+    },
+    "robinhood-chain-white.svg": {
+      "bytes": 4938,
+      "sha256": "0ae4d1f6e2a933ba375c44527d17d7f81d419c2fce7e92a56cc8d3975612c584",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1576 207",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "bnb.svg": {
+      "bytes": 1070,
+      "sha256": "b8ff1ce0b5af2e2d9bcf5ec89fedd5224079f4f7267e306e23e8d691024f5eff",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 96 96",
+      "width": "96",
+      "height": "96",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "robinhood-chain.svg": {
+      "bytes": 4777,
+      "sha256": "6b6c878e3235b7f3e3c2f327e46f0d7ba58c29ef16078fdef9047961a16a3e8b",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1576 207",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "robinhood-chain-feather-black.svg": {
+      "bytes": 1235,
+      "sha256": "82ef124f9e1446c480bdc6a8569df83f547cd3312ed231854dafd4c21610ae7d",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 32 42",
+      "width": "32",
+      "height": "42",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "bun.svg": {
+      "bytes": 1744,
+      "sha256": "ee9527f42b5a8f32ffba1bdc3e1b19c6e192ff1d79ae74a0aacd180d01f9856e",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 24 24",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "hono-LICENSE.txt": {
+      "bytes": 1101,
+      "sha256": "a6ab98e5c77b9070c443eaff2ff81034a6f8cc05a7524d5098eb0f24defa0115",
+      "unmodified_from_source": true
+    },
+    "robinhood-chain-avatar.jpg": {
+      "bytes": 91842,
+      "sha256": "d480c7cbcfa79f017a6bff8d6482cd1e85c98e5fe70dc5491588e3153274a4c5",
+      "unmodified_from_source": true
+    },
+    "viem-icon.png": {
+      "bytes": 8364,
+      "sha256": "5febe4d8dd5bf41dc1fec5c3de4b1fcfca02c25effaf20f52bb4c124bab680a2",
+      "unmodified_from_source": true
+    },
+    "bnb-black.svg": {
+      "bytes": 1070,
+      "sha256": "95621a88c55cadaff217977c9929f9443894bf56a8d8d195165cf25c2dc9e536",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 96 96",
+      "width": "96",
+      "height": "96",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "arbitrum-official.svg": {
+      "bytes": 2053,
+      "sha256": "aa503c2b5318494157bee5dccf26632932d8571a111981cfd484785d90320920",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1080 1218.5",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "solana.svg": {
+      "bytes": 2519,
+      "sha256": "3d3401109aa061dec40a8659f1847817a8e647f98de1e65e76e86a95bbe1f08a",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 101 88",
+      "width": "101",
+      "height": "88",
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    },
+    "arbitrum.svg": {
+      "bytes": 2053,
+      "sha256": "aa503c2b5318494157bee5dccf26632932d8571a111981cfd484785d90320920",
+      "unmodified_from_source": true,
+      "viewBox": "0 0 1080 1218.5",
+      "width": null,
+      "height": null,
+      "active_content_check": {
+        "script": false,
+        "foreignObject": false,
+        "event_handlers": false
+      }
+    }
+  }
+}

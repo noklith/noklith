@@ -1,0 +1,59 @@
+---
+# Bitrise: the same simulator pipeline as .github/workflows/ios-simulator.yml (Xcode 26.6 stack,
+# free Hobby credits). Builds start manually only; no triggers. Kept in sync with the copy stored
+# on Bitrise. Secrets (Reown Project ID etc.) belong in Bitrise Secrets, never here.
+format_version: '26'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+app:
+  envs:
+  - IOS_SIMULATOR_DEVICE: com.apple.CoreSimulator.SimDeviceType.iPhone-17
+  - IOS_SIMULATOR_LABEL: iphone17-ios26
+  - PYTHONUNBUFFERED: '1'
+workflows:
+  ios-simulator:
+    steps:
+    - activate-ssh-key@4:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@8: {}
+    - script@1:
+        title: Pick the iOS 26 simulator runtime
+        inputs:
+        - content: |-
+            set -euo pipefail
+            xcodebuild -version
+            xcrun simctl list runtimes
+            runtime=$(xcrun simctl list runtimes --json | python3 -c '
+            import json, sys
+            ids = [r["identifier"] for r in json.load(sys.stdin)["runtimes"] if r.get("isAvailable") and ".iOS-26-" in r["identifier"]]
+            preferred = "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+            print(preferred if preferred in ids else sorted(ids, key=lambda i: [int(p) for p in i.rsplit("iOS-", 1)[1].split("-")])[-1])')
+            echo "Using $runtime"
+            envman add --key IOS_SIMULATOR_RUNTIME --value "$runtime"
+    - script@1:
+        title: Resolve, build, package, test and capture
+        inputs:
+        - content: |-
+            set -euo pipefail
+            python3 scripts/ci/write_wallet_config.py
+            for phase in resolve build package prepare test screenshots manifest; do
+              echo "::: $phase"
+              python3 scripts/ci/ios_simulator.py "$phase"
+            done
+    - script@1:
+        title: Stop task simulators and pack evidence
+        is_always_run: true
+        inputs:
+        - content: |-
+            python3 scripts/ci/ios_simulator.py cleanup || true
+            mkdir -p "$BITRISE_DEPLOY_DIR"
+            if [ -d build/evidence ]; then
+              (cd build && zip -qr "$BITRISE_DEPLOY_DIR/evidence.zip" evidence -x 'evidence/*.zip')
+              cp build/evidence/*.zip "$BITRISE_DEPLOY_DIR/" 2>/dev/null || true
+            fi
+    - deploy-to-bitrise-io@2:
+        is_always_run: true
+meta:
+  bitrise.io:
+    stack: osx-xcode-26.6.x
+    machine_type_id: g2.mac.large

@@ -1,0 +1,11 @@
+{
+  "name": "noklith-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Noklith website and account dashboard",
+  "scripts": {
+    "build": "python3 build-landing.py && python3 build-pages.py && python3 build-scene-pages.py && python3 build-photography.py && python3 prepare-site.py",
+    "preview": "python3 -m http.server 4173 --bind 127.0.0.1 --directory dist",
+    "check": "python3 checks/validate-site.py"
+  }
+}

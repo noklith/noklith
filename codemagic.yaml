@@ -1,0 +1,70 @@
+# Codemagic: the same simulator pipeline as .github/workflows/ios-simulator.yml, on the free
+# Mac mini M2 tier (500 macOS minutes/month). Builds start manually only; nothing runs on push.
+# Secrets (Reown Project ID etc.) live in the Codemagic environment group "wallet", never here.
+workflows:
+  ios-simulator:
+    name: Native iOS simulator
+    instance_type: mac_mini_m2
+    max_build_duration: 45
+    environment:
+      xcode: 26.6
+      # Environment group "wallet": REOWN_PROJECT_ID (secret) and the WALLET_* values.
+      groups:
+        - wallet
+      vars:
+        IOS_SIMULATOR_RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS-26-5
+        IOS_SIMULATOR_DEVICE: com.apple.CoreSimulator.SimDeviceType.iPhone-17
+        IOS_SIMULATOR_LABEL: iphone17-ios26
+        PYTHONUNBUFFERED: "1"
+    scripts:
+      - name: Write wallet configuration when fully configured
+        script: python3 scripts/ci/write_wallet_config.py
+      - name: Resolve pinned Swift packages and collect upstream notices
+        script: python3 scripts/ci/ios_simulator.py resolve
+      - name: Build ARM simulator app (iOS 17 minimum)
+        script: python3 scripts/ci/ios_simulator.py build
+      - name: Package and validate Appetize archive
+        script: python3 scripts/ci/ios_simulator.py package
+      - name: Boot isolated simulator
+        script: python3 scripts/ci/ios_simulator.py prepare
+      - name: Run native UI smoke tests
+        script: python3 scripts/ci/ios_simulator.py test
+      - name: Capture compiled SwiftUI screens
+        script: python3 scripts/ci/ios_simulator.py screenshots
+      - name: Record verifiable evidence manifest
+        script: python3 scripts/ci/ios_simulator.py manifest
+      - name: Stop task simulators
+        script: python3 scripts/ci/ios_simulator.py cleanup || true
+    artifacts:
+      - build/evidence/**
+
+  ios-simulator-with-ios17:
+    name: Native iOS simulator + iOS 17 fallback screens
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      xcode: 26.6
+      groups:
+        - wallet
+      vars:
+        IOS_SIMULATOR_RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS-26-5
+        IOS_SIMULATOR_DEVICE: com.apple.CoreSimulator.SimDeviceType.iPhone-17
+        IOS_SIMULATOR_LABEL: iphone17-ios26
+        PYTHONUNBUFFERED: "1"
+    scripts:
+      - name: Write wallet configuration when fully configured
+        script: python3 scripts/ci/write_wallet_config.py
+      - name: Resolve, build, package, test and capture
+        script: |
+          set -e
+          for phase in resolve build package prepare test screenshots; do python3 scripts/ci/ios_simulator.py "$phase"; done
+      - name: Download iOS 17 simulator runtime
+        script: xcodebuild -downloadPlatform iOS -buildVersion 17.5
+      - name: Capture iOS 17 fallback screens
+        script: python3 scripts/ci/ios_simulator.py fallback_screenshots
+      - name: Record verifiable evidence manifest
+        script: python3 scripts/ci/ios_simulator.py manifest
+      - name: Stop task simulators
+        script: python3 scripts/ci/ios_simulator.py cleanup || true
+    artifacts:
+      - build/evidence/**

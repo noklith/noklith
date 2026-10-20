@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "packages": [
+    {
+      "identity": "reown-swift",
+      "url": "https://github.com/reown-com/reown-swift",
+      "revision": "1286a56685266804f3ceae93e394f45eb4473dfb",
+      "release": "2.4.0",
+      "products": ["ReownAppKit", "WalletConnectNetworking"]
+    },
+    {
+      "identity": "web3.swift",
+      "url": "https://github.com/Boilertalk/Web3.swift",
+      "revision": "b85187ddf230a10b04fa8574c44980f3369ddff5",
+      "release": "0.8.8",
+      "products": ["Web3"]
+    },
+    {
+      "identity": "cryptoswift",
+      "url": "https://github.com/krzyzanowskim/CryptoSwift.git",
+      "revision": "678d442c6f7828def400a70ae15968aef67ef52d",
+      "release": "1.8.3",
+      "products": ["CryptoSwift"]
+    }
+  ]
+}

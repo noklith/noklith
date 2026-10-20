@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <!-- Original Noklith petroglyph silhouettes. Symbol viewBoxes are 0 0 64 64.
+       Set the parent SVG colour. Angular, deliberately chipped boundaries are
+       filled shapes rather than modern monoline icon strokes. -->
+  <symbol id="passkey" viewBox="0 0 64 64">
+    <title>Passkey</title>
+    <g fill="currentColor">
+      <path fill-rule="evenodd" d="M12 6 23 5 33 10 38 20 35 30 27 37 16 36 7 29 4 20 7 11ZM16 14 24 13 29 18 29 25 24 29 17 28 12 23 12 18Z"/>
+      <path d="m29 28 7-5 24 25-2 7-8 5-7-7-1-6-7-1 1-7-7-4Z"/>
+      <path fill="#f4e5c9" opacity=".38" d="m35 29 20 21-3 3-18-20ZM9 13l6-4 12 1-10 2-6 5Z"/>
+    </g>
+  </symbol>
+  <symbol id="slabs" viewBox="0 0 64 64">
+    <title>Slabs</title>
+    <g fill="currentColor">
+      <path d="m8 8 12-2 5 2 24-1 8 5-1 9-8 4-14-1-5 2-20-4-4-7Z"/>
+      <path d="m8 28 10 1 9 3 9-2 15-1 6 4-2 10-7 3-20-1-5 1-16-4-2-7Z"/>
+      <path d="m8 48 15 3 7-1 18 1 8-2 2 8-6 4-17-1-6 1-19-3-5-5Z"/>
+      <path fill="#f4e5c9" opacity=".34" d="m9 16 20 5 22-2-5 4-17 1-19-4ZM8 36l19 5 26-2-5 4-21 1-18-4Z"/>
+    </g>
+  </symbol>
+  <symbol id="card" viewBox="0 0 64 64">
+    <title>Card Desk</title>
+    <g fill="currentColor">
+      <path fill-rule="evenodd" d="m7 11 14-2 8 2 25-1 6 7-2 12 2 5-2 15-6 5-22-1-5 2-18-3-4-7 1-23ZM13 22l39-1 1 6-41 1ZM13 35l12-1 1 10-13-1ZM33 40l17-1 1 4-18 1Z"/>
+      <path fill="#f4e5c9" opacity=".35" d="m9 15 21-1 23-1 3 4-25-1-22 2ZM9 47l18 3 25-2-3 3-23 1-15-2Z"/>
+    </g>
+  </symbol>
+  <symbol id="activity" viewBox="0 0 64 64">
+    <title>Activity</title>
+    <path fill="currentColor" d="m5 32 10-1 7-21 7-4 8 37 6-17 4-2 13 1-1 8-10-1-9 25-8 1-9-35-4 13-5 4-9-1Z"/>
+    <path fill="#f4e5c9" opacity=".35" d="m23 15 4-4 8 36-1 6-9-33ZM7 34l9 1-2 3-7-1Z"/>
+  </symbol>
+  <symbol id="rules" viewBox="0 0 64 64">
+    <title>Payday rules</title>
+    <g fill="currentColor">
+      <path d="m11 5 8 1 1 20 12 1-1-8 16 11-16 11 1-8-12 1 1 14 8-1-12 15L6 47l8 1-2-15-6 1-1-8 7 1Z"/>
+      <path d="m38 7 7-1 2 7 8-1 3 6-12 1-6-4Z"/>
+      <path d="m39 47 15-1 4 5-2 8-13 1-6-5Z"/>
+      <path fill="#f4e5c9" opacity=".35" d="m14 8 2 19-1 24-3-1 1-21ZM42 51l10-1 1 5-10 1Z"/>
+    </g>
+  </symbol>
+  <symbol id="recovery" viewBox="0 0 64 64">
+    <title>Recovery</title>
+    <g fill="currentColor">
+      <path fill-rule="evenodd" d="m30 4 24 8 5 6-3 21-10 13-14 9-14-8L8 40 5 18l3-7ZM31 12l-17 6 2 19 8 10 8 5 9-6 8-11 2-17Z"/>
+      <path d="m21 23 7-4 9 1 8 8-1 11-7 5-8-1-6-4 6-5 4 3 5-2 1-6-5-3-5 1 4 5-14-1-1-14Z"/>
+      <path fill="#f4e5c9" opacity=".33" d="m9 17 3-3 3 24 11 13-6-3-9-11Z"/>
+    </g>
+  </symbol>
+  <symbol id="send" viewBox="0 0 64 64"><path fill="currentColor" d="m18 46 25-25-11 1-4-6 27-2 2 27-7-4-1-10-25 26-7-1Z"/></symbol>
+  <symbol id="receive" viewBox="0 0 64 64"><path fill="currentColor" d="m46 18-25 25 11-1 4 6-27 2-2-27 7 4 1 10 25-26 7 1Z"/></symbol>
+<symbol id="sun" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M29 13 37 14 45 23 47 32 41 44 30 48 19 43 15 33 17 23 23 16ZM28 2l8 1-1 7-7 1ZM50 9l5 5-6 6-4-6ZM54 27l8 1-1 7-7-1ZM48 46l8 5-4 6-7-6ZM28 53l8-1-1 10-7-1ZM5 47l10-5 4 6-10 5ZM2 26l10 1-1 7-9-1ZM9 8l9 7-5 5-8-8Z"/></symbol><symbol id="shelter" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M4 30 28 7 36 6 60 29 55 36 49 31 50 57 35 59 35 40 26 40 26 58 12 56 13 31 8 36ZM20 23l11-10 13 11Z"/></symbol><symbol id="compass" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M31 3 37 7 40 22 58 28 61 34 40 40 34 61 28 59 23 40 4 34 5 28 24 22ZM29 29l-6 13 13-6 7-14Z"/></symbol><symbol id="cairn" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M9 48 26 45 49 47 58 53 55 61 8 59 5 54ZM18 31 38 28 48 32 47 41 31 44 14 40ZM25 12 39 9 44 19 39 26 21 25 17 20ZM29 2l7 1 3 4-12 1Z"/></symbol><symbol id="ripple" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M7 19 19 13 33 17 47 11 58 16 56 23 46 20 33 25 19 21 8 27ZM7 34 19 28 33 32 47 26 58 31 56 38 46 35 33 40 19 36 8 42ZM7 49 19 43 33 47 47 41 58 46 56 53 46 50 33 55 19 51 8 57Z"/></symbol><symbol id="hearth" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M28 3 39 21 37 30 46 24 54 38 50 51 39 59 22 58 10 47 11 34 19 21 22 33 28 25ZM31 37l-9 10 4 7 9-1 7-9-7 2Z"/></symbol><symbol id="hourglass" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M10 6 54 5 55 13 48 15 47 23 38 32 48 42 49 50 55 52 53 60 10 59 9 52 15 50 16 41 25 32 15 22 16 14 9 13ZM24 15l1 6 8 7 7-8 1-5ZM25 43l-1 7 17-1-2-7-7-7Z"/></symbol><symbol id="footprints" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M18 19 26 20 31 29 28 44 22 50 13 47 10 36 12 25ZM6 12l7-4 4 6-3 5-7-1ZM17 4l7 1 1 8-5 2-4-4ZM39 34l9-1 7 10-1 12-7 7-10-3-4-11ZM35 22l6-3 4 7-4 5-6-2ZM48 17l7 1 2 8-5 3-5-5Z"/></symbol><symbol id="carving" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M6 48 40 13 49 21 14 57 5 59ZM37 8 45 1 56 12 52 22ZM21 6 27 5 31 13 26 18ZM45 36 59 41 58 48 45 43ZM29 52l9-3 5 7-11 5Z"/></symbol><symbol id="flint" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M28 2 38 7 45 20 59 30 55 48 40 60 21 58 5 45 10 25ZM30 12 20 32 40 25ZM17 37l8 13 22-6-12-12Z"/></symbol><symbol id="guardian" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M14 5 23 6 27 14 22 21 12 20 8 13ZM42 6 51 5 56 13 52 21 42 22 37 14ZM7 28 20 25 29 30 26 45 16 56 4 45ZM37 30 49 25 60 29 59 46 47 57 35 46ZM28 30l8 1 2 27-8 4-5-7Z"/></symbol></svg>

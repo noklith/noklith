@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "retrieved_on": "2026-10-16",
+  "notes": "Four distinct openly licensed reference photographs for Noklith field notes, each intended for one use. All files are untouched Wikimedia Commons renditions with original aspect ratios. CSS palette grading affects presentation only. No endorsement by photographers or institutions is implied.",
+  "images": [
+    {
+      "id": "hands",
+      "path": "assets/stock/hands.jpg",
+      "author": "Gabinete de Prensa del Gobierno de Cantabria",
+      "photographer": "Miguel Angel de Arriba (embedded photographic metadata)",
+      "author_url": "https://www.cantabria.es/",
+      "title": "Panel de manos de la cueva del Castillo",
+      "caption": "Hand stencils and bison on the wall of El Castillo cave, Cantabria, Spain.",
+      "attribution": "Gabinete de Prensa del Gobierno de Cantabria, photograph by Miguel Angel de Arriba — Panel de manos de la cueva del Castillo / Wikimedia Commons, CC BY 3.0 ES.",
+      "license": "CC BY 3.0 es",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/es/deed.en",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Panel_de_manos_de_la_cueva_del_Castillo.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Panel_de_manos_de_la_cueva_del_Castillo.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/Panel_de_manos_de_la_cueva_del_Castillo.jpg/1920px-Panel_de_manos_de_la_cueva_del_Castillo.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1280
+      },
+      "original_dimensions": {
+        "width": 3000,
+        "height": 2000
+      },
+      "bytes": 1206220,
+      "sha256": "50289050db2ecb0833a133afd13e8b7848cb28a337ed2d4f6762ee4b98faf61b",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Source photograph retained in full, without cropping, stretching, anatomical retouching or pixel editing. Website display applies CSS palette grading only; original downloaded pixels remain unchanged.",
+      "attribution_required": true
+    },
+    {
+      "id": "flint",
+      "path": "assets/stock/flint.jpg",
+      "author": "Kent County Council; Walter (Jo) Ahmet",
+      "photographer": "Walter (Jo) Ahmet",
+      "author_url": "https://finds.org.uk/database/artefacts/record/id/874960",
+      "title": "Flint handaxe (FindID 874960)",
+      "caption": "A bifacially flaked Lower Palaeolithic flint handaxe from Kent, shown from multiple sides.",
+      "attribution": "Kent County Council, photograph by Walter (Jo) Ahmet — Flint handaxe (FindID 874960), Portable Antiquities Scheme / Wikimedia Commons, CC BY 2.0.",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Flint_handaxe_(FindID_874960).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Flint_handaxe_%28FindID_874960%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Flint_handaxe_%28FindID_874960%29.jpg/1920px-Flint_handaxe_%28FindID_874960%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1246
+      },
+      "original_dimensions": {
+        "width": 5637,
+        "height": 3659
+      },
+      "bytes": 316685,
+      "sha256": "63baca6add225207800ac2b854af4cbba4683f92057d2b3169b6ba95db6bb263",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Source photograph retained in full, without cropping, stretching, anatomical retouching or pixel editing. Website display applies CSS palette grading only; original downloaded pixels remain unchanged.",
+      "attribution_required": true
+    },
+    {
+      "id": "cave",
+      "path": "assets/stock/cave.jpg",
+      "author": "U.S. National Park Service",
+      "photographer": "NPS image (individual photographer not specified)",
+      "author_url": "https://www.nps.gov/maca/",
+      "title": "Mammoth Cave travertine formation",
+      "caption": "Stalactites and stalagmites formed by dripping water inside Mammoth Cave National Park.",
+      "attribution": "U.S. National Park Service — Mammoth Cave travertine formation / Wikimedia Commons. Public domain (U.S. federal government work).",
+      "original_source": "https://npgallery.nps.gov/AssetDetail/31ae4f7f-1dd8-b71b-0bf1-1f0110b23707",
+      "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+      "license": "Public domain",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Mammoth_Cave_travertine_formation_(31ae4f7f-1dd8-b71b-0bf1-1f0110b23707).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/34/Mammoth_Cave_travertine_formation_%2831ae4f7f-1dd8-b71b-0bf1-1f0110b23707%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Mammoth_Cave_travertine_formation_%2831ae4f7f-1dd8-b71b-0bf1-1f0110b23707%29.jpg/1920px-Mammoth_Cave_travertine_formation_%2831ae4f7f-1dd8-b71b-0bf1-1f0110b23707%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1920
+      },
+      "original_dimensions": {
+        "width": 3000,
+        "height": 3000
+      },
+      "bytes": 1747020,
+      "sha256": "fc0bca13b13fe83e5caf4a77d4dae3ee151c7cfcbf23f31a2ad18a47af396272",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Source photograph retained in full, without cropping, stretching, anatomical retouching or pixel editing. Website display applies CSS palette grading only; original downloaded pixels remain unchanged.",
+      "attribution_required": false
+    },
+    {
+      "id": "animals",
+      "path": "assets/stock/animals.jpg",
+      "author": "Francisco Ferreira",
+      "photographer": "Francisco Ferreira",
+      "author_url": "https://www.flickr.com/people/franciscoferreira",
+      "title": "Pintura rupestre en Brazil 01",
+      "caption": "Rock painting of a large bird in Diamantina, Morro do Chapéu, Brazil.",
+      "attribution": "Francisco Ferreira — Pintura rupestre en Brazil 01 / Wikimedia Commons, CC BY 2.0.",
+      "original_source": "https://www.flickr.com/photos/franciscoferreira/3982375940",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pintura_rupestre_en_Brazil_01.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Pintura_rupestre_en_Brazil_01.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Pintura_rupestre_en_Brazil_01.jpg/1920px-Pintura_rupestre_en_Brazil_01.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1440
+      },
+      "original_dimensions": {
+        "width": 3488,
+        "height": 2616
+      },
+      "bytes": 1263368,
+      "sha256": "749f83997b2d78db05c4b5a5b0dd9609f6d284e3a7db6aa5674db5a7ad71e98c",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Source photograph retained in full, without cropping, stretching, anatomical retouching or pixel editing. Website display applies CSS palette grading only; original downloaded pixels remain unchanged.",
+      "attribution_required": true
+    }
+  ]
+}

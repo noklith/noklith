@@ -1,0 +1,399 @@
+{
+  "schema_version": 2,
+  "retrieved_on": "2026-10-16",
+  "notes": "Thirteen new stock photographs for Noklith. Each intended for one display only. Downloaded pixels unedited; full original aspect ratios preserved. No photographer/institution endorsement is implied. No generated images, infographic montages or visible watermarks included.",
+  "images": [
+    {
+      "id": "slabs",
+      "path": "assets/stock-v2/slabs.jpg",
+      "assignment": "Product feature: Slabs",
+      "author": "Romain Guy",
+      "title": "The Wave rock formation - Arizona",
+      "subject": "Curving sandstone strata at The Wave, Arizona.",
+      "attribution": "Romain Guy — The Wave rock formation - Arizona / Wikimedia Commons, CC0 1.0.",
+      "primary_source": "https://www.flickr.com/photos/romainguy/52438139047",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_page": "https://commons.wikimedia.org/wiki/File:The_Wave_rock_formation_-_Arizona.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/1d/The_Wave_rock_formation_-_Arizona.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/The_Wave_rock_formation_-_Arizona.jpg/1920px-The_Wave_rock_formation_-_Arizona.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 972
+      },
+      "original_dimensions": {
+        "width": 6477,
+        "height": 3279
+      },
+      "bytes": 848088,
+      "sha256": "7cfc164071c3884bf932c13906e91a8a8af1090f3b7f44c7baeb931bee660c8a",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 107
+    },
+    {
+      "id": "float",
+      "path": "assets/stock-v2/float.jpg",
+      "assignment": "Product feature: Float",
+      "author": "James St. John",
+      "title": "Milky-colored creek (Sulphur Works, Lassen Volcano National Park, California, USA) 2",
+      "subject": "Pale creek water flowing between weathered rocks and a mineral bank.",
+      "attribution": "James St. John — Milky-colored creek (Sulphur Works, Lassen Volcano National Park, California, USA) 2 / Wikimedia Commons, CC BY 2.0.",
+      "primary_source": "https://www.flickr.com/photos/jsjgeology/37118022663/",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Milky-colored_creek_(Sulphur_Works,_Lassen_Volcano_National_Park,_California,_USA)_2_(37118022663).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Milky-colored_creek_%28Sulphur_Works%2C_Lassen_Volcano_National_Park%2C_California%2C_USA%29_2_%2837118022663%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Milky-colored_creek_%28Sulphur_Works%2C_Lassen_Volcano_National_Park%2C_California%2C_USA%29_2_%2837118022663%29.jpg/1920px-Milky-colored_creek_%28Sulphur_Works%2C_Lassen_Volcano_National_Park%2C_California%2C_USA%29_2_%2837118022663%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1277
+      },
+      "original_dimensions": {
+        "width": 3008,
+        "height": 2000
+      },
+      "bytes": 1060410,
+      "sha256": "f580734288b58502092703f469e674a1086d2ec930287255ef1abe5ffc3c6e6f",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": true,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 109
+    },
+    {
+      "id": "payday",
+      "path": "assets/stock-v2/payday.jpg",
+      "assignment": "Product feature: Payday rules",
+      "author": "U.S. National Park Service (individual photographer unspecified)",
+      "title": "Aerial shot of braided river channel",
+      "subject": "Branching channels of the Alagnak Wild River, Alaska.",
+      "attribution": "U.S. National Park Service — Aerial shot of braided river channel / Wikimedia Commons. Public domain (U.S. federal government work).",
+      "primary_source": "https://npgallery.nps.gov/AssetDetail/dde9849d-1dd8-b71c-07aa-06181427b213",
+      "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+      "license": "Public domain",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Aerial_shot_of_braided_river_channel_(dde9849d-1dd8-b71c-07aa-06181427b213).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Aerial_shot_of_braided_river_channel_%28dde9849d-1dd8-b71c-07aa-06181427b213%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Aerial_shot_of_braided_river_channel_%28dde9849d-1dd8-b71c-07aa-06181427b213%29.jpg/1920px-Aerial_shot_of_braided_river_channel_%28dde9849d-1dd8-b71c-07aa-06181427b213%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1278
+      },
+      "original_dimensions": {
+        "width": 3461,
+        "height": 2304
+      },
+      "bytes": 373772,
+      "sha256": "f0f93fa0dff63cccec6bce94e888c8e778a43b7c40da9fae6e1cedd1f1ff5990",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 96
+    },
+    {
+      "id": "shared",
+      "path": "assets/stock-v2/shared.jpg",
+      "assignment": "Product feature: Shared money",
+      "author": "Nagarjun Kandukuru",
+      "title": "Pre-historic dancers at Bhimbetka",
+      "subject": "A group of people depicted dancing together in Bhimbetka rock art, Madhya Pradesh, India.",
+      "attribution": "Nagarjun Kandukuru — Pre-historic dancers at Bhimbetka / Wikimedia Commons, CC BY 2.0.",
+      "primary_source": "https://www.flickr.com/photos/64924693@N00/6536854457",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:20_dancers_with_musician,_some_in_group,_few_separate,_a_pre-historic_rock_cave_painting_near_Bhopal_India.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/20_dancers_with_musician%2C_some_in_group%2C_few_separate%2C_a_pre-historic_rock_cave_painting_near_Bhopal_India.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/20_dancers_with_musician%2C_some_in_group%2C_few_separate%2C_a_pre-historic_rock_cave_painting_near_Bhopal_India.jpg",
+      "downloaded_dimensions": {
+        "width": 1589,
+        "height": 993
+      },
+      "original_dimensions": {
+        "width": 1589,
+        "height": 993
+      },
+      "bytes": 1380472,
+      "sha256": "86b5dbfb113760e5eec709dba03841c3a42100f5d5e7e01ec9d75634a4758de4",
+      "downloaded_version": "Original Commons file",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": true,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 107
+    },
+    {
+      "id": "tools",
+      "path": "assets/stock-v2/tools.jpg",
+      "assignment": "Homepage process: keys / ownership; ancient tool metaphor",
+      "author": "The Metropolitan Museum of Art (individual photographer unspecified; ancient maker unknown)",
+      "title": "Implement, accession 26.2.66",
+      "subject": "A Predynastic Egyptian flint implement from the Metropolitan Museum of Art Open Access collection, accession 26.2.66.",
+      "attribution": "The Metropolitan Museum of Art — Implement, accession 26.2.66 / Wikimedia Commons, CC0 1.0.",
+      "primary_source": "https://www.metmuseum.org/art/collection/search/571804",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Implement_MET_26.2.66_EGDP011609.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Implement_MET_26.2.66_EGDP011609.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Implement_MET_26.2.66_EGDP011609.jpg/1920px-Implement_MET_26.2.66_EGDP011609.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1280
+      },
+      "original_dimensions": {
+        "width": 4000,
+        "height": 2667
+      },
+      "bytes": 288179,
+      "sha256": "387403f91466bb0159a6e8d572662237584935c951fcf21d7425af9e94694b87",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 107,
+      "primary_original_url": "https://images.metmuseum.org/CRDImages/eg/original/26.2.66_EGDP011609.jpg",
+      "institution_credit": "Rogers Fund, 1926"
+    },
+    {
+      "id": "passage",
+      "path": "assets/stock-v2/passage.jpg",
+      "assignment": "Homepage process: moves / path; stone passage",
+      "author": "U.S. National Park Service (individual photographer unspecified)",
+      "title": "Cleaveland Avenue in Mammoth Cave",
+      "subject": "A dirt path running through a sculpted cave passage.",
+      "attribution": "U.S. National Park Service — Cleaveland Avenue in Mammoth Cave / Wikimedia Commons. Public domain (U.S. federal government work).",
+      "primary_source": "https://npgallery.nps.gov/AssetDetail/23f46528-f2af-4d62-8829-a5889c413a55",
+      "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+      "license": "Public domain",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Cleaveland_Avenue_in_Mammoth_Cave,_NPS_Photo_(23f46528-f2af-4d62-8829-a5889c413a55).JPG",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Cleaveland_Avenue_in_Mammoth_Cave%2C_NPS_Photo_%2823f46528-f2af-4d62-8829-a5889c413a55%29.JPG",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Cleaveland_Avenue_in_Mammoth_Cave%2C_NPS_Photo_%2823f46528-f2af-4d62-8829-a5889c413a55%29.JPG/1920px-Cleaveland_Avenue_in_Mammoth_Cave%2C_NPS_Photo_%2823f46528-f2af-4d62-8829-a5889c413a55%29.JPG",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1440
+      },
+      "original_dimensions": {
+        "width": 4032,
+        "height": 3024
+      },
+      "bytes": 897426,
+      "sha256": "765cf7baa29014de64f7cc02e47f95a181e333e211de85554fa1400a16fa6a37",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 97
+    },
+    {
+      "id": "layers-process",
+      "path": "assets/stock-v2/layers-process.jpg",
+      "assignment": "Homepage process: Slabs / layers",
+      "author": "Bob Wick / Bureau of Land Management",
+      "title": "The Wave, Vermilion Cliffs — TravelTuesday with My Public Lands",
+      "subject": "Deep sandstone channels and layered rock surfaces in northern Arizona.",
+      "attribution": "Bob Wick / Bureau of Land Management — The Wave, Vermilion Cliffs / Wikimedia Commons. Public domain.",
+      "primary_source": "https://www.flickr.com/photos/mypubliclands/23824722953",
+      "license": "Public domain",
+      "license_url": "https://commons.wikimedia.org/wiki/File:-TravelTuesday_with_My_Public_Lands_(23824722953).jpg",
+      "source_page": "https://commons.wikimedia.org/wiki/File:-TravelTuesday_with_My_Public_Lands_(23824722953).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/-TravelTuesday_with_My_Public_Lands_%2823824722953%29.jpg",
+      "download_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/-TravelTuesday_with_My_Public_Lands_%2823824722953%29.jpg",
+      "downloaded_dimensions": {
+        "width": 2048,
+        "height": 1365
+      },
+      "original_dimensions": {
+        "width": 2048,
+        "height": 1365
+      },
+      "bytes": 2206643,
+      "sha256": "30754fdb12eab3c807b2a696b3cbbc6de5a4f32033c8fd4c7a91f60de2c4f45a",
+      "downloaded_version": "Original Commons file",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 107
+    },
+    {
+      "id": "float-process",
+      "path": "assets/stock-v2/float-process.jpg",
+      "assignment": "Homepage process: Float / water",
+      "author": "Kevin.Daniels",
+      "title": "The Narrows, Zion, June 2011",
+      "subject": "River water winding between stone canyon walls and weathered rocks.",
+      "attribution": "Kevin.Daniels — The Narrows, Zion, June 2011 / Wikimedia Commons, CC BY 3.0.",
+      "primary_source": "https://web.archive.org/web/20161020212908/http://www.panoramio.com/photo/56328617",
+      "license": "CC BY 3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:The_Narrows,_Zion,_June_2011_-_panoramio.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/d/d7/The_Narrows%2C_Zion%2C_June_2011_-_panoramio.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/The_Narrows%2C_Zion%2C_June_2011_-_panoramio.jpg/1920px-The_Narrows%2C_Zion%2C_June_2011_-_panoramio.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1280
+      },
+      "original_dimensions": {
+        "width": 2304,
+        "height": 1536
+      },
+      "bytes": 807536,
+      "sha256": "8e27d4232f18afc343277b026c087bcc2cdbc2ed2d65586c70be2854c840ee9f",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": true,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 98
+    },
+    {
+      "id": "organize-tab",
+      "path": "assets/stock-v2/organize-tab.jpg",
+      "assignment": "Tab illustration: Organize",
+      "author": "zzz_zzz",
+      "title": "Hex top of devil's postpile",
+      "subject": "Interlocking natural basalt column tops with visible polygonal divisions.",
+      "attribution": "zzz_zzz — Hex top of devil's postpile / Wikimedia Commons, CC BY 2.0.",
+      "primary_source": "https://www.flickr.com/photos/42316425@N08/8894610258/",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Hex_top_of_devil%27s_postpile.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Hex_top_of_devil%27s_postpile.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6d/Hex_top_of_devil%27s_postpile.jpg/1920px-Hex_top_of_devil%27s_postpile.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1081
+      },
+      "original_dimensions": {
+        "width": 5472,
+        "height": 3080
+      },
+      "bytes": 931880,
+      "sha256": "7f968bce568a4f18062e6d21eb5b7f9578edc35aa803bf4456ddf1d27d956a50",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": true,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 107
+    },
+    {
+      "id": "flow-tab",
+      "path": "assets/stock-v2/flow-tab.jpg",
+      "assignment": "Tab illustration: Flow",
+      "author": "U.S. National Park Service (individual photographer unspecified)",
+      "title": "Inside a Lava Tube",
+      "subject": "A natural lava passage at Craters of the Moon with daylight entering from the cave roof.",
+      "attribution": "U.S. National Park Service — Inside a Lava Tube / Wikimedia Commons. Public domain (U.S. federal government work).",
+      "primary_source": "https://npgallery.nps.gov/AssetDetail/ae4b0a7b-7121-4f23-9c86-f9ef4141c375",
+      "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+      "license": "Public domain",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Inside_a_Lava_Tube_(ae4b0a7b-7121-4f23-9c86-f9ef4141c375).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f7/Inside_a_Lava_Tube_%28ae4b0a7b-7121-4f23-9c86-f9ef4141c375%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Inside_a_Lava_Tube_%28ae4b0a7b-7121-4f23-9c86-f9ef4141c375%29.jpg/1920px-Inside_a_Lava_Tube_%28ae4b0a7b-7121-4f23-9c86-f9ef4141c375%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 909
+      },
+      "original_dimensions": {
+        "width": 4032,
+        "height": 1908
+      },
+      "bytes": 266129,
+      "sha256": "758190557d94bffee59c9c8f5ad99878f0da354e69455129f45571d01942b8ec",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 86
+    },
+    {
+      "id": "shared-tab",
+      "path": "assets/stock-v2/shared-tab.jpg",
+      "assignment": "Tab illustration: Shared money",
+      "author": "U.S. National Park Service (individual photographer unspecified)",
+      "title": "Petroglyphs Newspaper Rock",
+      "subject": "Anthropomorphic rock engravings at Newspaper Rock, Petrified Forest National Park, Arizona.",
+      "attribution": "U.S. National Park Service — Petroglyphs Newspaper Rock / Wikimedia Commons. Public domain (U.S. federal government work).",
+      "primary_source": "https://npgallery.nps.gov/AssetDetail/d76df017-0469-4e1f-abd5-38fb30448993",
+      "license_url": "https://www.nps.gov/aboutus/disclaimer.htm",
+      "license": "Public domain",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Petroglyphs_Newspaper_Rock_(d76df017-0469-4e1f-abd5-38fb30448993).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Petroglyphs_Newspaper_Rock_%28d76df017-0469-4e1f-abd5-38fb30448993%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Petroglyphs_Newspaper_Rock_%28d76df017-0469-4e1f-abd5-38fb30448993%29.jpg/1920px-Petroglyphs_Newspaper_Rock_%28d76df017-0469-4e1f-abd5-38fb30448993%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1285
+      },
+      "original_dimensions": {
+        "width": 3872,
+        "height": 2592
+      },
+      "bytes": 1103906,
+      "sha256": "4d2a0643e09a98595cb727f8761a13683d968fd2d5e87e4a233f593bdccf6bbd",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 104
+    },
+    {
+      "id": "card-tab",
+      "path": "assets/stock-v2/card-tab.jpg",
+      "assignment": "Tab illustration: Card / stone",
+      "author": "Thirunavukkarasye-Raveendran",
+      "title": "Faustkeil Nachbau, 2020 PD a-5",
+      "subject": "A flat knapped stone handaxe photographed on a pale surface. This is a modern experimental replica, not an ancient artefact.",
+      "attribution": "Thirunavukkarasye-Raveendran — Faustkeil Nachbau, 2020 PD a-5 / Wikimedia Commons, CC0 1.0.",
+      "primary_source": "https://commons.wikimedia.org/wiki/File:Faustkeil_Nachbau,_2020_PD_a-5.jpg",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Faustkeil_Nachbau,_2020_PD_a-5.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/90/Faustkeil_Nachbau%2C_2020_PD_a-5.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/90/Faustkeil_Nachbau%2C_2020_PD_a-5.jpg/1920px-Faustkeil_Nachbau%2C_2020_PD_a-5.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1280
+      },
+      "original_dimensions": {
+        "width": 4144,
+        "height": 2763
+      },
+      "bytes": 374944,
+      "sha256": "d04936dcc7f9a653c02d3b532994f5545877d29b0117baaabbb97d387f6f3480",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": false,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 111
+    },
+    {
+      "id": "slabs-aside",
+      "path": "assets/stock-v2/slabs-aside.jpg",
+      "assignment": "Slabs page aside",
+      "author": "James St. John",
+      "title": "Interference ripples in Moenkopi Formation redbeds, Capitol Reef",
+      "subject": "Ripple patterns and cracks preserved in red sedimentary rock.",
+      "attribution": "James St. John — Interference ripples, Moenkopi Fm. redbeds, Capitol Reef National Park, southern Utah 2 / Wikimedia Commons, CC BY 2.0.",
+      "primary_source": "https://www.flickr.com/photos/jsjgeology/8434798246/",
+      "license": "CC BY 2.0",
+      "license_url": "https://creativecommons.org/licenses/by/2.0",
+      "source_page": "https://commons.wikimedia.org/wiki/File:Interference_ripples,_Moenkopi_Fm._redbeds_(Lower_Triassic),_Goosenecks_Point_along_Sulphur_Creek,_Capitol_Reef_National_Park,_southern_Utah_2_(8434798246).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Interference_ripples%2C_Moenkopi_Fm._redbeds_%28Lower_Triassic%29%2C_Goosenecks_Point_along_Sulphur_Creek%2C_Capitol_Reef_National_Park%2C_southern_Utah_2_%288434798246%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Interference_ripples%2C_Moenkopi_Fm._redbeds_%28Lower_Triassic%29%2C_Goosenecks_Point_along_Sulphur_Creek%2C_Capitol_Reef_National_Park%2C_southern_Utah_2_%288434798246%29.jpg/1920px-Interference_ripples%2C_Moenkopi_Fm._redbeds_%28Lower_Triassic%29%2C_Goosenecks_Point_along_Sulphur_Creek%2C_Capitol_Reef_National_Park%2C_southern_Utah_2_%288434798246%29.jpg",
+      "downloaded_dimensions": {
+        "width": 1920,
+        "height": 1277
+      },
+      "original_dimensions": {
+        "width": 3008,
+        "height": 2000
+      },
+      "bytes": 786387,
+      "sha256": "50648594c66833d30be7998a91d9bd6ab02988975e71549e6f33e900d2a79a5e",
+      "downloaded_version": "Wikimedia Commons 1920px rendition, copied without local image edits",
+      "modification_note": "Full photograph and original aspect ratio preserved. No local cropping, stretching, retouching, generation or pixel editing. Website display may use CSS warm palette grading only; downloaded image bytes remain unchanged.",
+      "attribution_required": true,
+      "watermark_check": "Visually inspected: no visible watermark.",
+      "dedup_nearest_dhash_hamming_256": 110
+    }
+  ]
+}

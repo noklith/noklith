@@ -1,0 +1,96 @@
+name: Native iOS simulator
+
+on:
+  workflow_dispatch:
+    inputs:
+      free_quota_confirmed:
+        description: 'Owner checked remaining free Actions/storage quota and disabled paid overages'
+        required: true
+        default: false
+        type: boolean
+      ios17_fallback:
+        description: 'Also download the iOS 17 simulator runtime and capture the fallback (no Liquid Glass) screenshot set'
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches: [main]
+    paths:
+      - 'apps/ios/**'
+      - 'scripts/ci/**'
+      - '.github/workflows/ios-simulator.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-simulator-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  simulator:
+    # Default is no runner allocation. Account quota/budget are checked by its owner.
+    if: >-
+      github.event.repository.private == true &&
+      vars.IOS_CI_FREE_QUOTA_CONFIRMED == 'true' &&
+      ((github.event_name == 'workflow_dispatch' && inputs.free_quota_confirmed) ||
+       (github.event_name == 'push' && vars.ENABLE_IOS_PUSH_CI == 'true'))
+    runs-on: macos-26
+    timeout-minutes: 45
+    env:
+      # Xcode 26 SDK enables Liquid Glass on iOS 26; the deployment target stays iOS 17.0.
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+      IOS_SIMULATOR_RUNTIME: com.apple.CoreSimulator.SimRuntime.iOS-26-5
+      IOS_SIMULATOR_DEVICE: com.apple.CoreSimulator.SimDeviceType.iPhone-17
+      IOS_SIMULATOR_LABEL: iphone17-ios26
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Checkout private sources
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Write wallet configuration when fully configured
+        env:
+          REOWN_PROJECT_ID: ${{ secrets.REOWN_PROJECT_ID }}
+          WALLET_API_BASE_URL: ${{ vars.WALLET_API_BASE_URL }}
+          WALLET_SIWE_ORIGIN: ${{ vars.WALLET_SIWE_ORIGIN }}
+          WALLET_SIWE_URI: ${{ vars.WALLET_SIWE_URI }}
+          WALLET_APP_GROUP: ${{ vars.WALLET_APP_GROUP }}
+          WALLET_CHAIN_IDS: ${{ vars.WALLET_CHAIN_IDS }}
+        run: python3 scripts/ci/write_wallet_config.py
+      - name: Resolve pinned Swift packages and collect upstream notices
+        run: python3 scripts/ci/ios_simulator.py resolve
+      - name: Build ARM simulator app (iOS 17 minimum)
+        run: python3 scripts/ci/ios_simulator.py build
+      - name: Package and validate Appetize archive
+        run: python3 scripts/ci/ios_simulator.py package
+      - name: Boot isolated simulator
+        run: python3 scripts/ci/ios_simulator.py prepare
+      - name: Run native UI smoke tests
+        run: python3 scripts/ci/ios_simulator.py test
+      - name: Capture compiled SwiftUI screens
+        run: python3 scripts/ci/ios_simulator.py screenshots
+      - name: Download iOS 17 simulator runtime (fallback set only)
+        if: github.event_name == 'workflow_dispatch' && inputs.ios17_fallback
+        run: xcodebuild -downloadPlatform iOS -buildVersion 17.5
+      - name: Capture iOS 17 fallback screens
+        if: github.event_name == 'workflow_dispatch' && inputs.ios17_fallback
+        run: python3 scripts/ci/ios_simulator.py fallback_screenshots
+      - name: Record verifiable evidence manifest
+        run: python3 scripts/ci/ios_simulator.py manifest
+      - name: Stop task simulators
+        if: always()
+        run: python3 scripts/ci/ios_simulator.py cleanup
+      - name: Upload simulator app and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ios-simulator-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            build/evidence/
+          if-no-files-found: warn
+          retention-days: 3
+          compression-level: 6
+      - name: Publish run summary
+        if: always()
+        run: python3 scripts/ci/ios_simulator.py summary

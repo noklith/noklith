@@ -1,0 +1,858 @@
+{
+  "schema_version": 3,
+  "retrieved_on": "2026-10-16",
+  "notes": "25 distinct new CC0/public-domain photographs plus a higher-resolution hero variant of intro-03. Each source is for one runtime placement. intro-03 is unused after hero promotion. Entire photo and aspect ratio retained. Master renditions outside hosted dist; complete original source URLs and dimensions recorded.",
+  "images": [
+    {
+      "id": "intro-01",
+      "path": "assets/stock-v3/intro-01.webp",
+      "title": "Abstract sandstone ravine (Unsplash).jpg",
+      "short_title": "Carved ravine",
+      "assignment": "Account structure and natural layers",
+      "author": "Preston Pownell prestonpownell",
+      "credit": "https://unsplash.com/photos/v0bNMwWDUcA\nImage at the Wayback Machine\nGallery at the Wayback Machine",
+      "description": "Preston Pownell 2015-04-11",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Abstract_sandstone_ravine_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Abstract_sandstone_ravine_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Abstract_sandstone_ravine_%28Unsplash%29.jpg/1280px-Abstract_sandstone_ravine_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        2448,
+        3264
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1707
+      ],
+      "web_dimensions": [
+        750,
+        1000
+      ],
+      "web_bytes": 230114,
+      "sha256_original": "ed2ad51460f116e1e7f5b065ccd0a079cccc9ed4415102a2ebd8ae728a20fe92",
+      "sha256_webp": "3c702a88a5aa162d0d78052ff882877cb2365b0a4579a2e341d271d2139e348a",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 105,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-02",
+      "path": "assets/stock-v3/intro-02.webp",
+      "title": "Antelope canyon (Unsplash).jpg",
+      "short_title": "Antelope curves",
+      "assignment": "Named Slabs and clear boundaries",
+      "author": "Martina Misar-Tummeltshammer tiniiiii",
+      "credit": "https://unsplash.com/photos/7he8rO3qdsc\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Antelope Canyon, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Antelope_canyon_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/9/95/Antelope_canyon_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Antelope_canyon_%28Unsplash%29.jpg/1280px-Antelope_canyon_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        3168,
+        4752
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1920
+      ],
+      "web_dimensions": [
+        667,
+        1000
+      ],
+      "web_bytes": 125680,
+      "sha256_original": "cd394b85f23d60e762f43576ba3b8c37c0cc8a2ca409fa5893feacc3530609c1",
+      "sha256_webp": "3a430879bc0109e97233fcd5ee816d23c009a4d2bd6bb8e99f36452f98a52e34",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 97,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-04",
+      "path": "assets/stock-v3/intro-04.webp",
+      "title": "Pegeia, Cyprus, Sea caves, limestone formation seen to north.jpg",
+      "short_title": "Sea-cut limestone",
+      "assignment": "Adaptable movement and money flow",
+      "author": "Gerda Arendt",
+      "credit": "Own work",
+      "description": "Pegeia, Cyprus, Sea caves, limestone formation seen to north",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pegeia,_Cyprus,_Sea_caves,_limestone_formation_seen_to_north.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Pegeia%2C_Cyprus%2C_Sea_caves%2C_limestone_formation_seen_to_north.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Pegeia%2C_Cyprus%2C_Sea_caves%2C_limestone_formation_seen_to_north.jpg/1280px-Pegeia%2C_Cyprus%2C_Sea_caves%2C_limestone_formation_seen_to_north.jpg",
+      "original_dimensions": [
+        3907,
+        2930
+      ],
+      "downloaded_dimensions": [
+        1280,
+        960
+      ],
+      "web_dimensions": [
+        800,
+        600
+      ],
+      "web_bytes": 236452,
+      "sha256_original": "459188d0a1370d4fabccc6071d031b877ccc20d94172fdefea42a546518d713c",
+      "sha256_webp": "c8cc6f1c8b74a06d382fdf88942bb3fcf42059244281ff6c375290173c9db4c8",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 104,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-05",
+      "path": "assets/stock-v3/intro-05.webp",
+      "title": "Swirling red rock wallpaper (Unsplash).jpg",
+      "short_title": "Swirling sandstone",
+      "assignment": "Money routes shaped to your plans",
+      "author": "Preston Pownell prestonpownell",
+      "credit": "https://unsplash.com/photos/SwIQu6xODrI\n\narchive copy at the Wayback Machine",
+      "description": "Preston Pownell 2015-04-21",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Swirling_red_rock_wallpaper_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Swirling_red_rock_wallpaper_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Swirling_red_rock_wallpaper_%28Unsplash%29.jpg/1280px-Swirling_red_rock_wallpaper_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        2448,
+        3264
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1707
+      ],
+      "web_dimensions": [
+        750,
+        1000
+      ],
+      "web_bytes": 177244,
+      "sha256_original": "92189588573e9621878e7de9930e6b59f2517fd102900c0d49655a9597596941",
+      "sha256_webp": "b19e0d66fbd31939df2734ca4faea6ee85716cabe42cada1e4fa98dbab3d072d",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 99,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-06",
+      "path": "assets/stock-v3/intro-06.webp",
+      "title": "Monochrome coastal rocks (Unsplash).jpg",
+      "short_title": "Coastal stones",
+      "assignment": "Steady ground for everyday activity",
+      "author": "David Marcu davidmarcu",
+      "credit": "https://unsplash.com/photos/b2oaLHHycWc\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "stagnes",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Monochrome_coastal_rocks_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/1/17/Monochrome_coastal_rocks_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Monochrome_coastal_rocks_%28Unsplash%29.jpg/1280px-Monochrome_coastal_rocks_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        3799,
+        2148
+      ],
+      "downloaded_dimensions": [
+        1280,
+        724
+      ],
+      "web_dimensions": [
+        800,
+        453
+      ],
+      "web_bytes": 59648,
+      "sha256_original": "7156a15b1323591cdb3c5fd6cc05654b0e910bad9010805517385a4ee61ecb9b",
+      "sha256_webp": "239de85a262f2339fcd85db06d16bf110775725ed444de1de77df552409170ac",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 94,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-07",
+      "path": "assets/stock-v3/intro-07.webp",
+      "title": "Red Rocks and Sand (Unsplash).jpg",
+      "short_title": "Red rock and sand",
+      "assignment": "Elemental tools and durable control",
+      "author": "Evan Kirby evankirby2",
+      "credit": "https://unsplash.com/photos/l19y3JYsGwk\n\narchive copy at the Wayback Machine",
+      "description": "Evan Kirby 2016-02-15",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Red_Rocks_and_Sand_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/fb/Red_Rocks_and_Sand_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Red_Rocks_and_Sand_%28Unsplash%29.jpg/1280px-Red_Rocks_and_Sand_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5184,
+        3456
+      ],
+      "downloaded_dimensions": [
+        1280,
+        853
+      ],
+      "web_dimensions": [
+        800,
+        533
+      ],
+      "web_bytes": 131394,
+      "sha256_original": "e3c0c5c6f525c14bba2a5cae4ae618187fe0df932b5513ad00b89d5cd5550cb6",
+      "sha256_webp": "df643251cac30859fd7fb04f09dfba9e91ae426fa298d370d3e2c7f5d21a4259",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 104,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-08",
+      "path": "assets/stock-v3/intro-08.webp",
+      "title": "Pebble Stack (Unsplash).jpg",
+      "short_title": "Pebble balance",
+      "assignment": "Balancing allocations with clear rules",
+      "author": "Nick Tong thenickt16",
+      "credit": "https://unsplash.com/photos/zjy2yMUGzRU\n\narchive copy at the Wayback Machine",
+      "description": "Joshua Tree National Park, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Pebble_Stack_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Pebble_Stack_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Pebble_Stack_%28Unsplash%29.jpg/1280px-Pebble_Stack_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        3840,
+        5760
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1920
+      ],
+      "web_dimensions": [
+        667,
+        1000
+      ],
+      "web_bytes": 157344,
+      "sha256_original": "7f135d93bc7f22675c58453b3597077573d215a99c4e067663552fe92a463dfc",
+      "sha256_webp": "aeea69d59af8575fb370d081ea9d0192067bda9de147010bd72e798f386a41f0",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 109,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-09",
+      "path": "assets/stock-v3/intro-09.webp",
+      "title": "Stone in hand (Unsplash).jpg",
+      "short_title": "Stone in hand",
+      "assignment": "Ownership and personal control",
+      "author": "Simon Schmitt helloschmitt",
+      "credit": "https://unsplash.com/photos/PO1IOH18AVA\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Simon Schmitt 2015-11-15",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Stone_in_hand_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Stone_in_hand_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Stone_in_hand_%28Unsplash%29.jpg/1280px-Stone_in_hand_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5184,
+        3456
+      ],
+      "downloaded_dimensions": [
+        1280,
+        853
+      ],
+      "web_dimensions": [
+        800,
+        533
+      ],
+      "web_bytes": 54792,
+      "sha256_original": "ef4c98a236984c8cc75040169e3d4ae11f35cfee1c98cf16d7968b69ce0519dd",
+      "sha256_webp": "05bcbd04aa7f84f18ce9bd5e6ade3dd2fb04206eb50896ed0c41fe8f32188830",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 106,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-10",
+      "path": "assets/stock-v3/intro-10.webp",
+      "title": "Group of 3 worked obsidian fragments and a raw obsidian lump MET DP322103.jpg",
+      "short_title": "Worked obsidian",
+      "assignment": "Ownership and durable primitives",
+      "author": "",
+      "credit": "This file was donated to Wikimedia Commons as part of a project by the Metropolitan Museum of Art. See the Image and Data Resources Open Access Policy",
+      "description": "Cycladic; 3 fragments of worked obsidian and a lump of obsidian; Miscellaneous-Stone",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Group_of_3_worked_obsidian_fragments_and_a_raw_obsidian_lump_MET_DP322103.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Group_of_3_worked_obsidian_fragments_and_a_raw_obsidian_lump_MET_DP322103.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/Group_of_3_worked_obsidian_fragments_and_a_raw_obsidian_lump_MET_DP322103.jpg/1280px-Group_of_3_worked_obsidian_fragments_and_a_raw_obsidian_lump_MET_DP322103.jpg",
+      "original_dimensions": [
+        3893,
+        2718
+      ],
+      "downloaded_dimensions": [
+        1280,
+        894
+      ],
+      "web_dimensions": [
+        800,
+        559
+      ],
+      "web_bytes": 70694,
+      "sha256_original": "574bc3c0c6db1b67bd7cef5769b3d6512b9ef524b977cd959170342c8cf485f9",
+      "sha256_webp": "faaa030a0595b0276d2240e9dd392775dd5be48322abc66d8cafd242d8c9c14a",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 87,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-11",
+      "path": "assets/stock-v3/intro-11.webp",
+      "title": "Obsidian Mirror MET 1980.34.43.jpg",
+      "short_title": "Obsidian mirror",
+      "assignment": "Visibility into account activity",
+      "author": "",
+      "credit": "This file was donated to Wikimedia Commons as part of a project by the Metropolitan Museum of Art. See the Image and Data Resources Open Access Policy",
+      "description": "Ecuador; Mirror; Stone-Implements",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Obsidian_Mirror_MET_1980.34.43.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Obsidian_Mirror_MET_1980.34.43.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Obsidian_Mirror_MET_1980.34.43.jpg/1280px-Obsidian_Mirror_MET_1980.34.43.jpg",
+      "original_dimensions": [
+        2523,
+        2195
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1114
+      ],
+      "web_dimensions": [
+        800,
+        696
+      ],
+      "web_bytes": 104198,
+      "sha256_original": "07f4191f6fb96fd7e594c7ffd3fd02365c399154c7d98011ff92cc06db3c5099",
+      "sha256_webp": "c6fd2a03b42bab119320d9613d5341b462f2a814f3aef4366621c35ad2484cd8",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 100,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-12",
+      "path": "assets/stock-v3/intro-12.webp",
+      "title": "Stone rock wall (Unsplash).jpg",
+      "short_title": "Rock wall",
+      "assignment": "Durable foundations and account layers",
+      "author": "Gustavo Belemmi gustavo_belemmi",
+      "credit": "https://unsplash.com/photos/CEeoDFpVxxw\n\narchive copy at the Wayback Machine",
+      "description": "Gustavo Belemmi 2016-02-21",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Stone_rock_wall_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/65/Stone_rock_wall_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/65/Stone_rock_wall_%28Unsplash%29.jpg/1280px-Stone_rock_wall_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5152,
+        3864
+      ],
+      "downloaded_dimensions": [
+        1280,
+        960
+      ],
+      "web_dimensions": [
+        800,
+        600
+      ],
+      "web_bytes": 289934,
+      "sha256_original": "47dd82f27c528851b07342c430878912ec936edb8af5b2a6ed3f7957061b2728",
+      "sha256_webp": "d989cedf161747c73eeab35134f36ea5de9385e989b3ad52e7351980258f67f5",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 101,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-13",
+      "path": "assets/stock-v3/intro-13.webp",
+      "title": "A braided river flowing from the Alaska Range (f2d9caa0-6205-4207-ac3a-aef301357d65).jpg",
+      "short_title": "Braided river",
+      "assignment": "Payday allocation and branching rules",
+      "author": "Mary Lewandowski",
+      "credit": "NPGallery",
+      "description": "braided river flowing from brown mountains through a green landscape\nA braided river flowing from the Alaska Range\nKeywords: landscape",
+      "license": "Public domain",
+      "license_url": "",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:A_braided_river_flowing_from_the_Alaska_Range_(f2d9caa0-6205-4207-ac3a-aef301357d65).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/0b/A_braided_river_flowing_from_the_Alaska_Range_%28f2d9caa0-6205-4207-ac3a-aef301357d65%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/A_braided_river_flowing_from_the_Alaska_Range_%28f2d9caa0-6205-4207-ac3a-aef301357d65%29.jpg/1280px-A_braided_river_flowing_from_the_Alaska_Range_%28f2d9caa0-6205-4207-ac3a-aef301357d65%29.jpg",
+      "original_dimensions": [
+        6000,
+        4000
+      ],
+      "downloaded_dimensions": [
+        1280,
+        853
+      ],
+      "web_dimensions": [
+        800,
+        533
+      ],
+      "web_bytes": 78154,
+      "sha256_original": "1097385a9b99da5e97315a862cff29d5efe945b0626801196432f42a490898ad",
+      "sha256_webp": "ed5aba302b46e0108d4bc0334afc801223d7758d010f3f10198c6b513c766c92",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 97,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-14",
+      "path": "assets/stock-v3/intro-14.webp",
+      "title": "Braided Streams near the Katmai Coast (43417091514).jpg",
+      "short_title": "Katmai streams",
+      "assignment": "Refill routes and flow control",
+      "author": "Katmai National Park and Preserve",
+      "credit": "Braided Streams near the Katmai Coast",
+      "description": "A birds eye perspective. Braided streams make their way to the ocean on the coast of Katmai. Networks of small channels like these occur when there is an abundance of sediment and relatively high stream gradients.",
+      "license": "Public domain",
+      "license_url": "",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Braided_Streams_near_the_Katmai_Coast_(43417091514).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Braided_Streams_near_the_Katmai_Coast_%2843417091514%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Braided_Streams_near_the_Katmai_Coast_%2843417091514%29.jpg/1280px-Braided_Streams_near_the_Katmai_Coast_%2843417091514%29.jpg",
+      "original_dimensions": [
+        1961,
+        1961
+      ],
+      "downloaded_dimensions": [
+        1280,
+        1280
+      ],
+      "web_dimensions": [
+        800,
+        800
+      ],
+      "web_bytes": 239966,
+      "sha256_original": "61c4b5dd895699a36882939e36823ef416da9cb5c39df18c72b0ee23ac99ce47",
+      "sha256_webp": "cfbb20446ff3845c346cbb5fe2623aa3d1a8b4d3f8f4dd6b1025802e417b5b34",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 102,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-15",
+      "path": "assets/stock-v3/intro-15.webp",
+      "title": "East Fork- Braided gold (5727685143).jpg",
+      "short_title": "Braided gold",
+      "assignment": "Planning routes for incoming money",
+      "author": "Denali National Park and Preserve",
+      "credit": "East Fork- Braided gold\n\nUploaded by AlbertHerring",
+      "description": "(NPS/ Tim Rains)",
+      "license": "Public domain",
+      "license_url": "",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:East_Fork-_Braided_gold_(5727685143).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/6/69/East_Fork-_Braided_gold_%285727685143%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/69/East_Fork-_Braided_gold_%285727685143%29.jpg/1280px-East_Fork-_Braided_gold_%285727685143%29.jpg",
+      "original_dimensions": [
+        3846,
+        2747
+      ],
+      "downloaded_dimensions": [
+        1280,
+        914
+      ],
+      "web_dimensions": [
+        800,
+        571
+      ],
+      "web_bytes": 221678,
+      "sha256_original": "72bd1158637544bdab506d1e3a3b375def22452df58687b9066069ab8d93e2d1",
+      "sha256_webp": "d815e22ed3e63f2d7ad12f9d73834db3638ddb78c30bc0fa8a03fecb38d6ef8a",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 102,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-16",
+      "path": "assets/stock-v3/intro-16.webp",
+      "title": "Art-desert-dunes-bw (23959074279).jpg",
+      "short_title": "Dune contours",
+      "assignment": "Simple shapes and clear boundaries",
+      "author": "www.Pixel.la Free Stock Photos",
+      "credit": "art-desert-dunes-bw",
+      "description": "art-desert-dunes-bw",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Art-desert-dunes-bw_(23959074279).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Art-desert-dunes-bw_%2823959074279%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Art-desert-dunes-bw_%2823959074279%29.jpg/1280px-Art-desert-dunes-bw_%2823959074279%29.jpg",
+      "original_dimensions": [
+        4256,
+        2848
+      ],
+      "downloaded_dimensions": [
+        1280,
+        857
+      ],
+      "web_dimensions": [
+        800,
+        536
+      ],
+      "web_bytes": 76876,
+      "sha256_original": "4bbe73899b588bb3cf236cf0e5c105498a611f2adc656dc115682ad9c49c6c9c",
+      "sha256_webp": "beb0a247cffc8639a006911a8c112bde7c5e88e8183b56899efa44bfeeb47697",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 92,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-17",
+      "path": "assets/stock-v3/intro-17.webp",
+      "title": "Desert Dunes (Unsplash).jpg",
+      "short_title": "Desert dunes",
+      "assignment": "Purpose and long-term reserves",
+      "author": "Joe Mania joemania",
+      "credit": "https://unsplash.com/photos/tyAAl6r_c2U\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "New York, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Desert_Dunes_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/Desert_Dunes_%28Unsplash%29.jpg/1280px-Desert_Dunes_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        4550,
+        2560
+      ],
+      "downloaded_dimensions": [
+        1280,
+        720
+      ],
+      "web_dimensions": [
+        800,
+        450
+      ],
+      "web_bytes": 15576,
+      "sha256_original": "73da093fee2ba9a2b6c3a0e85c6aee9303fab5d1dba1c1fdcbca83bb40f34905",
+      "sha256_webp": "27dfbeb848f3b3589e0929e41cf287167c29fd583ac218120866878d9d90d42a",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 73,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-18",
+      "path": "assets/stock-v3/intro-18.webp",
+      "title": "Desert Dunes in New Mexico (Unsplash).jpg",
+      "short_title": "New Mexico dunes",
+      "assignment": "Room for everyday plans",
+      "author": "Breanna Galley breannagalley",
+      "credit": "https://unsplash.com/photos/ywAU-bN0JFA\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "New Mexico, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Desert_Dunes_in_New_Mexico_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Desert_Dunes_in_New_Mexico_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Desert_Dunes_in_New_Mexico_%28Unsplash%29.jpg/1280px-Desert_Dunes_in_New_Mexico_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        4368,
+        2912
+      ],
+      "downloaded_dimensions": [
+        1280,
+        853
+      ],
+      "web_dimensions": [
+        800,
+        533
+      ],
+      "web_bytes": 57950,
+      "sha256_original": "476bc06959cfda12092d250315337290076b5873300c07058c86b26b4f3a89c3",
+      "sha256_webp": "c4bd90f822c73c3a745ae4d42ae0775d4f6b7eb288ee52782188fadd5d3ad544",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 104,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-19",
+      "path": "assets/stock-v3/intro-19.webp",
+      "title": "At The Cave's Opening (Unsplash).jpg",
+      "short_title": "Cave opening",
+      "assignment": "A clear route to everyday possibilities",
+      "author": "Daniel Burka dburka",
+      "credit": "https://unsplash.com/photos/AyPStDvdQS0\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Sơn Động District, Vietnam",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:At_The_Cave%27s_Opening_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/At_The_Cave%27s_Opening_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/At_The_Cave%27s_Opening_%28Unsplash%29.jpg/1280px-At_The_Cave%27s_Opening_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5472,
+        3648
+      ],
+      "downloaded_dimensions": [
+        1280,
+        853
+      ],
+      "web_dimensions": [
+        800,
+        533
+      ],
+      "web_bytes": 27606,
+      "sha256_original": "d1676a418444b901909c7f720e6eb2dfbff059ccf311a741d42649620c6abcd4",
+      "sha256_webp": "638ea8d6486882a013b829aeafafef5b20e6029794dc3ba2768a09288fdb6f7d",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 58,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "intro-20",
+      "path": "assets/stock-v3/intro-20.webp",
+      "title": "Sossusvlei Dunes Namib.jpg",
+      "short_title": "Namib dunes",
+      "assignment": "Reserve and steady foundations",
+      "author": "Vicartb",
+      "credit": "Own work",
+      "description": "Namib desert dunes near Sossusvlei, Namib Naukluft National Park, Namibia",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sossusvlei_Dunes_Namib.jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Sossusvlei_Dunes_Namib.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Sossusvlei_Dunes_Namib.jpg/1280px-Sossusvlei_Dunes_Namib.jpg",
+      "original_dimensions": [
+        5184,
+        3888
+      ],
+      "downloaded_dimensions": [
+        1280,
+        960
+      ],
+      "web_dimensions": [
+        800,
+        600
+      ],
+      "web_bytes": 66572,
+      "sha256_original": "a4e79a7dcc040ccc4f9c7a31e5ba21fb9b067f7948de2b9b0a509283e3a1b2b4",
+      "sha256_webp": "d9d5eaba2f7c3d3c50c93b417ed0f19a6f9714334c43a6a715a54a657a300c4f",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 106,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "about-01",
+      "path": "assets/stock-v3/about-01.webp",
+      "title": "Eroded sandstone in the Antelope Canyon (Unsplash).jpg",
+      "short_title": "Eroded sandstone",
+      "assignment": "Rules and structure shaped around everyday life",
+      "author": "Paul Van Cotthem paulvancotthem",
+      "credit": "https://unsplash.com/photos/gQZTOtbD2Js\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Page, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Eroded_sandstone_in_the_Antelope_Canyon_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e3/Eroded_sandstone_in_the_Antelope_Canyon_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Eroded_sandstone_in_the_Antelope_Canyon_%28Unsplash%29.jpg/3840px-Eroded_sandstone_in_the_Antelope_Canyon_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        3824,
+        2168
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2177
+      ],
+      "web_dimensions": [
+        2400,
+        1361
+      ],
+      "web_bytes": 1289670,
+      "sha256_original": "a77ac06765f8d59e967c730b58b9716cc26d1eac4ad9d3e979210518bfbad645",
+      "sha256_webp": "5c81520d2c37bde9e883451d0bffd3920ce091df47059b9f2312ecf04d82a02f",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 103,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "about-02",
+      "path": "assets/stock-v3/about-02.webp",
+      "title": "Craggy rocks (Unsplash).jpg",
+      "short_title": "Craggy rocks",
+      "assignment": "A lasting foundation for personal ownership",
+      "author": "Galen Crout galen_crout",
+      "credit": "https://unsplash.com/photos/6r3soZ-wKd0\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Galen Crout 2016-03-29",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Craggy_rocks_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Craggy_rocks_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Craggy_rocks_%28Unsplash%29.jpg/3840px-Craggy_rocks_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        4240,
+        2832
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2565
+      ],
+      "web_dimensions": [
+        2400,
+        1603
+      ],
+      "web_bytes": 1155972,
+      "sha256_original": "2a2fb2ad97e59e95463636031db30aa3bd8214953bc34a22ab4e0ce8c6ea702b",
+      "sha256_webp": "0579e3b84550e38c7faebc0f1b3684f98f9cb7c8d469b72ff4717890ce40735c",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 83,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "about-03",
+      "path": "assets/stock-v3/about-03.webp",
+      "title": "Aerial view of winding river (Unsplash).jpg",
+      "short_title": "Winding river",
+      "assignment": "Money moves along the routes you choose",
+      "author": "Martin Sattler martinsattler",
+      "credit": "https://unsplash.com/photos/6H0D8czIAq0\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Caumasee, Flims, Switzerland",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_winding_river_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Aerial_view_of_winding_river_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Aerial_view_of_winding_river_%28Unsplash%29.jpg/3840px-Aerial_view_of_winding_river_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        3992,
+        2986
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2872
+      ],
+      "web_dimensions": [
+        2400,
+        1795
+      ],
+      "web_bytes": 465154,
+      "sha256_original": "56755f14d442b337e1417a1a6db2b160609635ccbb1653971109a5d1b388f7fb",
+      "sha256_webp": "2bb7a835e974e68a84568e678648ec4cbc712b01e5618af883970e2b2126953e",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 98,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "process-hero",
+      "path": "assets/stock-v3/process-hero.webp",
+      "title": "Great red rock formation at dusk (Unsplash).jpg",
+      "short_title": "Red rock at dusk",
+      "assignment": "An elemental foundation for account ownership",
+      "author": "Hogarth de la Plante hogarthd",
+      "credit": "https://unsplash.com/photos/n2QxaEjczJM\nImage at the Wayback Machine\n\nGallery at the Wayback Machine",
+      "description": "Hogarth de la Plante 2015",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Great_red_rock_formation_at_dusk_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Great_red_rock_formation_at_dusk_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Great_red_rock_formation_at_dusk_%28Unsplash%29.jpg/3840px-Great_red_rock_formation_at_dusk_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5215,
+        3477
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2560
+      ],
+      "web_dimensions": [
+        2400,
+        1600
+      ],
+      "web_bytes": 1244584,
+      "sha256_original": "36929e57dc0ba26d15c22fae9dc366c0be02a73d738d337227ec5d31251103be",
+      "sha256_webp": "340ad717bb5f7f332804bdac85fa7f872b4e08aa84b5c535f8da6b0a16347403",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 102,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "motto-backdrop",
+      "path": "assets/stock-v3/motto-backdrop.webp",
+      "title": "Ice formations in Boy Scout Cave (36882481916).jpg",
+      "short_title": "Cave ice formations",
+      "assignment": "A deep cave backdrop for the Noklith ethos",
+      "author": "Craters of the Moon National Monument & Preserve",
+      "credit": "Ice formations in Boy Scout Cave",
+      "description": "NPS / Jacob W. Frank",
+      "license": "Public domain",
+      "license_url": "",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Ice_formations_in_Boy_Scout_Cave_(36882481916).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Ice_formations_in_Boy_Scout_Cave_%2836882481916%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Ice_formations_in_Boy_Scout_Cave_%2836882481916%29.jpg/3840px-Ice_formations_in_Boy_Scout_Cave_%2836882481916%29.jpg",
+      "original_dimensions": [
+        8085,
+        5390
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2560
+      ],
+      "web_dimensions": [
+        2400,
+        1600
+      ],
+      "web_bytes": 1278118,
+      "sha256_original": "51192ea7731a424b2b041383ad5f6dc79fd8c2372dac2fd52f8075e5bf52043b",
+      "sha256_webp": "3fc29c03e725a6ac47c3e7e9ffff4b824423a8a4c054b7973630054de84d3f98",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 106,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label."
+    },
+    {
+      "id": "hero-rock",
+      "path": "assets/stock-v3/hero-rock.webp",
+      "title": "Sandstone formations in Sedona (Unsplash).jpg",
+      "short_title": "Sandstone formations",
+      "assignment": "Full-bleed landing hero: sandstone formations as elemental foundation of account ownership",
+      "author": "Tyrel Johnson tyreljohnson",
+      "credit": "https://unsplash.com/photos/afPGplppiOE\n\narchive copy at the Wayback Machine",
+      "description": "Sedona, United States",
+      "license": "CC0",
+      "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "attribution_required": false,
+      "source_page": "https://commons.wikimedia.org/wiki/File:Sandstone_formations_in_Sedona_(Unsplash).jpg",
+      "original_url": "https://upload.wikimedia.org/wikipedia/commons/0/01/Sandstone_formations_in_Sedona_%28Unsplash%29.jpg",
+      "download_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Sandstone_formations_in_Sedona_%28Unsplash%29.jpg/3840px-Sandstone_formations_in_Sedona_%28Unsplash%29.jpg",
+      "original_dimensions": [
+        5184,
+        3456
+      ],
+      "downloaded_dimensions": [
+        3840,
+        2560
+      ],
+      "web_dimensions": [
+        2400,
+        1600
+      ],
+      "web_bytes": 1161872,
+      "sha256_original": "2e2c9c70dd26308ee6025345769c57e03fc9e71d16581d82229916c57564b57c",
+      "sha256_webp": "0dd8bc1976d4b004d95e439f33b2ca68e7e6ef4474e6976dd7eb55fe149f9250",
+      "modifications": "Mechanical downsize and WebP encoding only; original aspect ratio preserved. No crop or retouch. Colour grading is applied separately through website CSS.",
+      "dedup_nearest_dhash_hamming_256": 99,
+      "watermark_check": "Visually inspected full contact sheet: no visible watermark, annotation, or museum inventory label.",
+      "runtime_use_note": "Promoted from intro-03 to a single full-bleed hero placement. intro-03 is an unused lower-resolution derivative of this same source photo; replace its intro slot with cave.webp and do not render both variants."
+    }
+  ]
+}

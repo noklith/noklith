@@ -1,0 +1,71 @@
+# Production stack on the VPS. Started by deploy/activate.sh with project name "cryptocard";
+# secrets come from /srv/crypto-card/shared/.env (mode 600), never from the repository.
+name: cryptocard
+
+services:
+  postgres:
+    image: postgres:18.3
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: crypto_card
+      POSTGRES_USER: crypto_card
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set in shared/.env}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    networks: [backend]
+    # No ports: the database is reachable only from containers on the backend network.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crypto_card -d crypto_card"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    image: cryptocard-api:${RELEASE:?set by activate.sh}
+    build:
+      context: ..
+      dockerfile: deploy/api.Dockerfile
+    restart: unless-stopped
+    env_file: /srv/crypto-card/shared/.env
+    environment:
+      HOST: 0.0.0.0
+      PORT: "3000"
+      # Shown at /version: the exact commit this release was built from.
+      RELEASE_COMMIT: ${RELEASE:?set by activate.sh}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [backend]
+    # Loopback only: Caddy on the host network is the single public entry point.
+    ports:
+      - "127.0.0.1:3000:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+  caddy:
+    image: caddy:2.10.2
+    restart: unless-stopped
+    # Host network so UFW rules (Cloudflare-only 80/443) apply; Docker-published ports would bypass UFW.
+    network_mode: host
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../apps/web/dist:/srv/web:ro
+      - /srv/crypto-card/shared/caddy:/etc/caddy/shared:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+networks:
+  backend:
+    ipam:
+      config:
+        # Fixed subnet: the API trusts X-Forwarded-For only from the gateway (TRUSTED_PROXY=172.30.10.1).
+        - subnet: 172.30.10.0/24
+          gateway: 172.30.10.1
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

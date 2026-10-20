@@ -1,0 +1,90 @@
+# CircleCI: the same simulator pipeline as bitrise.yml and .github/workflows/ios-simulator.yml,
+# on the Free plan macOS machine (m4pro.medium, ~150 free minutes/month). Nothing runs on push:
+# start it from the CircleCI UI with "Trigger Pipeline" and the parameter run_ios = true
+# (simulator build, tests, screenshots) or run_testflight = true (signed upload to TestFlight).
+# Secrets (Reown Project ID etc.) belong in CircleCI project environment variables, never here.
+version: 2.1
+
+parameters:
+  run_ios:
+    type: boolean
+    default: false
+  run_testflight:
+    type: boolean
+    default: false
+
+jobs:
+  ios-simulator:
+    macos:
+      xcode: "26.5.0"
+    resource_class: m4pro.medium
+    environment:
+      IOS_SIMULATOR_DEVICE: com.apple.CoreSimulator.SimDeviceType.iPhone-17
+      IOS_SIMULATOR_LABEL: iphone17-ios26
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - checkout
+      - run:
+          name: Pick the iOS 26 simulator runtime
+          command: |
+            set -euo pipefail
+            xcodebuild -version
+            xcrun simctl list runtimes
+            runtime=$(xcrun simctl list runtimes --json | python3 -c '
+            import json, sys
+            ids = [r["identifier"] for r in json.load(sys.stdin)["runtimes"] if r.get("isAvailable") and ".iOS-26-" in r["identifier"]]
+            preferred = "com.apple.CoreSimulator.SimRuntime.iOS-26-5"
+            print(preferred if preferred in ids else sorted(ids, key=lambda i: [int(p) for p in i.rsplit("iOS-", 1)[1].split("-")])[-1])')
+            echo "Using $runtime"
+            echo "export IOS_SIMULATOR_RUNTIME=$runtime" >> "$BASH_ENV"
+      - run:
+          name: Wallet configuration
+          command: python3 scripts/ci/write_wallet_config.py
+      - run:
+          name: Resolve, build, package, test and capture
+          no_output_timeout: 30m
+          command: |
+            set -euo pipefail
+            for phase in resolve build package prepare test screenshots manifest; do
+              echo "::: $phase"
+              python3 scripts/ci/ios_simulator.py "$phase"
+            done
+      - run:
+          name: Stop task simulators and pack evidence
+          when: always
+          command: |
+            python3 scripts/ci/ios_simulator.py cleanup || true
+            mkdir -p /tmp/deploy
+            if [ -d build/evidence ]; then
+              (cd build && zip -qr /tmp/deploy/evidence.zip evidence -x 'evidence/*.zip')
+              cp build/evidence/*.zip /tmp/deploy/ 2>/dev/null || true
+            fi
+      - store_artifacts:
+          path: /tmp/deploy
+
+  testflight:
+    macos:
+      xcode: "26.5.0"
+    resource_class: m4pro.medium
+    environment:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - checkout
+      - run:
+          name: Archive, sign and upload to TestFlight
+          no_output_timeout: 30m
+          command: bash scripts/ci/testflight.sh
+      - store_artifacts:
+          path: build/testflight/archive.log
+      - store_artifacts:
+          path: build/testflight/export.log
+
+workflows:
+  ios-simulator:
+    when: << pipeline.parameters.run_ios >>
+    jobs:
+      - ios-simulator
+  testflight:
+    when: << pipeline.parameters.run_testflight >>
+    jobs:
+      - testflight

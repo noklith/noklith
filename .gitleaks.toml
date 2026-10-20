@@ -1,0 +1,12 @@
+# Gitleaks settings: the default rules plus values that are public by design.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Public values flagged by the generic-api-key rule"
+regexes = [
+  # USDC contract address on Base Sepolia (public token contract)
+  '''0x036CbD53842c5426634e7929541eC2318f3dCF7e''',
+  # Browser storage key for the light/dark theme preference
+  '''noklith-appearance-v2''',
+]

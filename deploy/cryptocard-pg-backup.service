@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily pg_dump of the crypto card database
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/cryptocard-pg-backup daily

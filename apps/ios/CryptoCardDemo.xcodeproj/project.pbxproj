@@ -1,0 +1,972 @@
+// !$*UTF8*$!
+{
+	"archiveVersion" = "1";
+	"classes" = {
+	};
+	"objectVersion" = "56";
+	"objects" = {
+		"63A05D38A79A0C105337BABC" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "APIClient.swift";
+			"sourceTree" = "<group>";
+		};
+		"7116FFDCDC247B2A7F82C880" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "63A05D38A79A0C105337BABC";
+		};
+		"5AE304791430BC41194509F9" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "AppStore.swift";
+			"sourceTree" = "<group>";
+		};
+		"72DF91039940F214F64B22A8" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "5AE304791430BC41194509F9";
+		};
+		"3A5BFBC81AE84B0EF20F8CED" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CardScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"9608FF842E8EFA1F5B8E937B" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "3A5BFBC81AE84B0EF20F8CED";
+		};
+		"7BFE52FC045A39CEEC720108" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CredentialsScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"BA55584F5A4B75426F79E4F0" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "7BFE52FC045A39CEEC720108";
+		};
+		"A06437DDDC1DA748D8D3E73C" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "CryptoCardDemoApp.swift";
+			"sourceTree" = "<group>";
+		};
+		"52D413F62422599B1AE2E764" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "A06437DDDC1DA748D8D3E73C";
+		};
+		"153909EDE69ADAB6217422B9" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "DesignSystem.swift";
+			"sourceTree" = "<group>";
+		};
+		"5A8FB2E1779708B441110C8D" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "153909EDE69ADAB6217422B9";
+		};
+		"298011ADAC8E73E1225A17CD" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "DeviceAuthentication.swift";
+			"sourceTree" = "<group>";
+		};
+		"B665D2C047120A203F5AE8CA" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "298011ADAC8E73E1225A17CD";
+		};
+		"8A173E60CC8449FA9F7E8E6D" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "EventStream.swift";
+			"sourceTree" = "<group>";
+		};
+		"F23E14B026E5A324D2B83709" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "8A173E60CC8449FA9F7E8E6D";
+		};
+		"B7DB29807C981587E479347D" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "HistoryCache.swift";
+			"sourceTree" = "<group>";
+		};
+		"29A42B6214364E3604B515BF" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "B7DB29807C981587E479347D";
+		};
+		"C2F48CB5234B14B12CC68101" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "HistoryScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"B90EB5DB4485C0E9FE3D81F6" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "C2F48CB5234B14B12CC68101";
+		};
+		"2140ADFC03F3B24D94E96E76" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "Models.swift";
+			"sourceTree" = "<group>";
+		};
+		"D394C040B95310DE4133E518" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "2140ADFC03F3B24D94E96E76";
+		};
+		"2FFB1C951E0B6C464095A77C" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ReownCryptoProvider.swift";
+			"sourceTree" = "<group>";
+		};
+		"3B7F6A27861364A660A2D806" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "2FFB1C951E0B6C464095A77C";
+		};
+		"E0A122589FA96D3E1AA9516C" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ReownWalletConnector.swift";
+			"sourceTree" = "<group>";
+		};
+		"A0B9C9213651B585059ADED6" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "E0A122589FA96D3E1AA9516C";
+		};
+		"A6C3B1523F5CE3E2B545594B" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ReownWebSocket.swift";
+			"sourceTree" = "<group>";
+		};
+		"7926CE83EB338451AB63FFE4" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "A6C3B1523F5CE3E2B545594B";
+		};
+		"033CD3803E69FABD5663D7A2" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ServerModels.swift";
+			"sourceTree" = "<group>";
+		};
+		"F0A0AF577BBEA66702175743" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "033CD3803E69FABD5663D7A2";
+		};
+		"21DE6859D91C10FFF78517CB" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "SettingsScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"6E6971081938E53431F76220" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "21DE6859D91C10FFF78517CB";
+		};
+		"2AD3D3995D0EF00E4822085D" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "TopUpScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"7E8BD0702C953A73F428E300" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "2AD3D3995D0EF00E4822085D";
+		};
+		"BE41AEFD97466E0CEB13E6EA" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletAuthentication.swift";
+			"sourceTree" = "<group>";
+		};
+		"E35D068F7D8BBA0F4CBE7859" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "BE41AEFD97466E0CEB13E6EA";
+		};
+		"37926453F46DE7009B66C3D7" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletHTTPAPI.swift";
+			"sourceTree" = "<group>";
+		};
+		"8FEB212E76C832FAAE29BAE6" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "37926453F46DE7009B66C3D7";
+		};
+		"51F94761EFFFA94256DA678E" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletIntegrationConfiguration.swift";
+			"sourceTree" = "<group>";
+		};
+		"BCCFCAB25D9ACC6B18D5613F" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "51F94761EFFFA94256DA678E";
+		};
+		"A82F2C931EED1ADCC8E8E80B" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletSignInScreen.swift";
+			"sourceTree" = "<group>";
+		};
+		"216583F1D8FD7A3FA0CBC7C0" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "A82F2C931EED1ADCC8E8E80B";
+		};
+		"F25E935293DAC368290BAF3E" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletSignInStore.swift";
+			"sourceTree" = "<group>";
+		};
+		"C5286FE7D27DF8C4EE43C4B5" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F25E935293DAC368290BAF3E";
+		};
+		"CEA6F5859D75707BB87DC8B9" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletTopUpView.swift";
+			"sourceTree" = "<group>";
+		};
+		"9E45F5EBBDFDD18A3CBF1304" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "CEA6F5859D75707BB87DC8B9";
+		};
+		"B6227AE02DDF7314DD668914" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "folder.assetcatalog";
+			"path" = "Assets.xcassets";
+			"sourceTree" = "<group>";
+		};
+		"77F97A74A0E9B8F7B1C89424" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "B6227AE02DDF7314DD668914";
+		};
+		"32243ABFC9F9AB7F8FDC3C08" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text.json.xcstrings";
+			"path" = "Localizable.xcstrings";
+			"sourceTree" = "<group>";
+		};
+		"3AFEED845BBB0A268833F6EE" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "32243ABFC9F9AB7F8FDC3C08";
+		};
+		"258C363821FE6D3ED3884990" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text.plist.xml";
+			"path" = "Info.plist";
+			"sourceTree" = "<group>";
+		};
+		"4499284B6CC03B1A63624417" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "text.plist.entitlements";
+			"path" = "CryptoCardDemo.entitlements";
+			"sourceTree" = "<group>";
+		};
+		"B45255A55F33642929F1A13D" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "folder";
+			"path" = "ThirdPartyNotices";
+			"sourceTree" = "<group>";
+		};
+		"0A62CF4236076F6BCB4BC1CA" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "B45255A55F33642929F1A13D";
+		};
+		"89926689671D037794135CC5" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "folder";
+			"path" = "Fonts";
+			"sourceTree" = "<group>";
+		};
+		"C5968C2B454B8491B19782D6" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "89926689671D037794135CC5";
+		};
+		"33087DE165DC24AB3E10B9FA" = {
+			"isa" = "PBXGroup";
+			"path" = "CryptoCardDemo";
+			"sourceTree" = "<group>";
+			"children" = (
+				"63A05D38A79A0C105337BABC",
+				"5AE304791430BC41194509F9",
+				"3A5BFBC81AE84B0EF20F8CED",
+				"7BFE52FC045A39CEEC720108",
+				"A06437DDDC1DA748D8D3E73C",
+				"153909EDE69ADAB6217422B9",
+				"298011ADAC8E73E1225A17CD",
+				"8A173E60CC8449FA9F7E8E6D",
+				"B7DB29807C981587E479347D",
+				"C2F48CB5234B14B12CC68101",
+				"2140ADFC03F3B24D94E96E76",
+				"2FFB1C951E0B6C464095A77C",
+				"E0A122589FA96D3E1AA9516C",
+				"A6C3B1523F5CE3E2B545594B",
+				"033CD3803E69FABD5663D7A2",
+				"21DE6859D91C10FFF78517CB",
+				"2AD3D3995D0EF00E4822085D",
+				"BE41AEFD97466E0CEB13E6EA",
+				"37926453F46DE7009B66C3D7",
+				"51F94761EFFFA94256DA678E",
+				"A82F2C931EED1ADCC8E8E80B",
+				"F25E935293DAC368290BAF3E",
+				"CEA6F5859D75707BB87DC8B9",
+				"B6227AE02DDF7314DD668914",
+				"32243ABFC9F9AB7F8FDC3C08",
+				"258C363821FE6D3ED3884990",
+				"4499284B6CC03B1A63624417",
+				"B45255A55F33642929F1A13D",
+				"89926689671D037794135CC5",
+			);
+		};
+		"98A8BB49B4FDB93EDB612366" = {
+			"isa" = "PBXFileReference";
+			"explicitFileType" = "wrapper.application";
+			"includeInIndex" = "0";
+			"path" = "CryptoCardDemo.app";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"9A2270FDEA7B1B36B6585CAA" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "2622214EE0F003A63AC18DFC";
+			"productName" = "ReownAppKit";
+		};
+		"F45448BF5789071D8AC15020" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "9A2270FDEA7B1B36B6585CAA";
+		};
+		"55C7C3E345D0A231E1133C0C" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "2622214EE0F003A63AC18DFC";
+			"productName" = "WalletConnectNetworking";
+		};
+		"8FCF4908D40A09BB089F0518" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "55C7C3E345D0A231E1133C0C";
+		};
+		"68DC2C88DD5E3E180386C171" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "669353FF6BADD199F04BDBA2";
+			"productName" = "Web3";
+		};
+		"E1433CD9FE0D3ADF5168C935" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "68DC2C88DD5E3E180386C171";
+		};
+		"00B033C72F70C6636F5AA0FF" = {
+			"isa" = "XCSwiftPackageProductDependency";
+			"package" = "AF0A2E100A20EFBCE9522ED1";
+			"productName" = "CryptoSwift";
+		};
+		"7A0811D272A995DD14155DBB" = {
+			"isa" = "PBXBuildFile";
+			"productRef" = "00B033C72F70C6636F5AA0FF";
+		};
+		"34D4734D1B01D7397E8122D1" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+				"7116FFDCDC247B2A7F82C880",
+				"72DF91039940F214F64B22A8",
+				"9608FF842E8EFA1F5B8E937B",
+				"BA55584F5A4B75426F79E4F0",
+				"52D413F62422599B1AE2E764",
+				"5A8FB2E1779708B441110C8D",
+				"B665D2C047120A203F5AE8CA",
+				"F23E14B026E5A324D2B83709",
+				"29A42B6214364E3604B515BF",
+				"B90EB5DB4485C0E9FE3D81F6",
+				"D394C040B95310DE4133E518",
+				"3B7F6A27861364A660A2D806",
+				"A0B9C9213651B585059ADED6",
+				"7926CE83EB338451AB63FFE4",
+				"F0A0AF577BBEA66702175743",
+				"6E6971081938E53431F76220",
+				"7E8BD0702C953A73F428E300",
+				"E35D068F7D8BBA0F4CBE7859",
+				"8FEB212E76C832FAAE29BAE6",
+				"BCCFCAB25D9ACC6B18D5613F",
+				"216583F1D8FD7A3FA0CBC7C0",
+				"C5286FE7D27DF8C4EE43C4B5",
+				"9E45F5EBBDFDD18A3CBF1304",
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"DD14708A45CEEC1951C989EA" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+				"F45448BF5789071D8AC15020",
+				"8FCF4908D40A09BB089F0518",
+				"E1433CD9FE0D3ADF5168C935",
+				"7A0811D272A995DD14155DBB",
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"D0A2EC23203C9FCF56F538CF" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+				"77F97A74A0E9B8F7B1C89424",
+				"3AFEED845BBB0A268833F6EE",
+				"0A62CF4236076F6BCB4BC1CA",
+				"C5968C2B454B8491B19782D6",
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"18F5E82DCCFB787A2C17A96C" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "$(APP_CODE_SIGN_STYLE:default=Automatic)";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"INFOPLIST_FILE" = "CryptoCardDemo/Info.plist";
+				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME" = "AccentColor";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+				"CODE_SIGN_ENTITLEMENTS" = "CryptoCardDemo/CryptoCardDemo.entitlements";
+				"CODE_SIGN_IDENTITY" = "$(APP_CODE_SIGN_IDENTITY:default=Apple Development)";
+				"PROVISIONING_PROFILE_SPECIFIER" = "$(APP_PROVISIONING_PROFILE)";
+				"LD_RUNPATH_SEARCH_PATHS" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"ENABLE_PREVIEWS" = "YES";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf";
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG";
+			};
+		};
+		"290B15BB4A25AA88B7990BDE" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "$(APP_CODE_SIGN_STYLE:default=Automatic)";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"INFOPLIST_FILE" = "CryptoCardDemo/Info.plist";
+				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME" = "AccentColor";
+				"ASSETCATALOG_COMPILER_APPICON_NAME" = "AppIcon";
+				"CODE_SIGN_ENTITLEMENTS" = "CryptoCardDemo/CryptoCardDemo.entitlements";
+				"CODE_SIGN_IDENTITY" = "$(APP_CODE_SIGN_IDENTITY:default=Apple Development)";
+				"PROVISIONING_PROFILE_SPECIFIER" = "$(APP_PROVISIONING_PROFILE)";
+				"LD_RUNPATH_SEARCH_PATHS" = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				"ENABLE_PREVIEWS" = "YES";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+			};
+		};
+		"EE1B06A74E8A925929270996" = {
+			"isa" = "XCConfigurationList";
+			"buildConfigurations" = (
+				"18F5E82DCCFB787A2C17A96C",
+				"290B15BB4A25AA88B7990BDE",
+			);
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+		};
+		"B0F2EFC8FE7075E437CA60C4" = {
+			"isa" = "PBXNativeTarget";
+			"name" = "CryptoCardDemo";
+			"productName" = "CryptoCardDemo";
+			"productReference" = "98A8BB49B4FDB93EDB612366";
+			"productType" = "com.apple.product-type.application";
+			"buildConfigurationList" = "EE1B06A74E8A925929270996";
+			"buildPhases" = (
+				"34D4734D1B01D7397E8122D1",
+				"DD14708A45CEEC1951C989EA",
+				"D0A2EC23203C9FCF56F538CF",
+			);
+			"buildRules" = (
+			);
+			"dependencies" = (
+			);
+			"packageProductDependencies" = (
+				"9A2270FDEA7B1B36B6585CAA",
+				"55C7C3E345D0A231E1133C0C",
+				"68DC2C88DD5E3E180386C171",
+				"00B033C72F70C6636F5AA0FF",
+			);
+		};
+		"9EADE05D360C6F46FB603C12" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "SmokeTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"D2DE2E74071DCAE14D3FE3F0" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "9EADE05D360C6F46FB603C12";
+		};
+		"0DB836EA663D429254ED5DF9" = {
+			"isa" = "PBXGroup";
+			"path" = "CryptoCardDemoUITests";
+			"sourceTree" = "<group>";
+			"children" = (
+				"9EADE05D360C6F46FB603C12",
+			);
+		};
+		"146AA32AABD5D0996C75F9F3" = {
+			"isa" = "PBXFileReference";
+			"explicitFileType" = "wrapper.cfbundle";
+			"includeInIndex" = "0";
+			"path" = "CryptoCardDemoUITests.xctest";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"312174EB746EA267554CE842" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+				"D2DE2E74071DCAE14D3FE3F0",
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"34A9003853EAA7FB7A5D3F81" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"6D056D1D78DE040961297859" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"163BF9A9FB6A97D542A7EA76" = {
+			"isa" = "PBXContainerItemProxy";
+			"containerPortal" = "244210E48437B6556980A702";
+			"proxyType" = "1";
+			"remoteGlobalIDString" = "B0F2EFC8FE7075E437CA60C4";
+			"remoteInfo" = "CryptoCardDemo";
+		};
+		"9B22E2AC71F7BC8D017BE2A3" = {
+			"isa" = "PBXTargetDependency";
+			"target" = "B0F2EFC8FE7075E437CA60C4";
+			"targetProxy" = "163BF9A9FB6A97D542A7EA76";
+		};
+		"DC516DD42E5B64D7DFFB70A1" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app.uitests";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"TEST_TARGET_NAME" = "CryptoCardDemo";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf";
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG";
+			};
+		};
+		"6F0FB22E9C5398860E13433F" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app.uitests";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"TEST_TARGET_NAME" = "CryptoCardDemo";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+			};
+		};
+		"134D20D12BE7E9E8FE1E1C33" = {
+			"isa" = "XCConfigurationList";
+			"buildConfigurations" = (
+				"DC516DD42E5B64D7DFFB70A1",
+				"6F0FB22E9C5398860E13433F",
+			);
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+		};
+		"FCA84DE2EF1BCE8928A4BAEE" = {
+			"isa" = "PBXNativeTarget";
+			"name" = "CryptoCardDemoUITests";
+			"productName" = "CryptoCardDemoUITests";
+			"productReference" = "146AA32AABD5D0996C75F9F3";
+			"productType" = "com.apple.product-type.bundle.ui-testing";
+			"buildConfigurationList" = "134D20D12BE7E9E8FE1E1C33";
+			"buildPhases" = (
+				"312174EB746EA267554CE842",
+				"34A9003853EAA7FB7A5D3F81",
+				"6D056D1D78DE040961297859",
+			);
+			"buildRules" = (
+			);
+			"dependencies" = (
+				"9B22E2AC71F7BC8D017BE2A3",
+			);
+			"packageProductDependencies" = (
+			);
+		};
+		"C0CFEB80C774E65F3EB7B433" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "MoneyTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"9FAB490C045E12DFE11EB1DE" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "C0CFEB80C774E65F3EB7B433";
+		};
+		"06F833C56B28EF0211822AB6" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "ServerModelsTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"47CF55630E092C0EB64431F6" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "06F833C56B28EF0211822AB6";
+		};
+		"7E01C93FB5115EE4A331F608" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "TopUpFlowTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"6897CE0442D8000290638524" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "7E01C93FB5115EE4A331F608";
+		};
+		"5362555748B630579254A2BD" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletAuthenticationTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"83C2416CE8D30BD8DE838B63" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "5362555748B630579254A2BD";
+		};
+		"5786B4A819C46317E59E4498" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletIntegrationConfigurationTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"00960079DF96FAAF3B04EC1A" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "5786B4A819C46317E59E4498";
+		};
+		"F1F1C2082FB1C39A5A1F85B9" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "WalletSignInTests.swift";
+			"sourceTree" = "<group>";
+		};
+		"ABC6C6009F9B7DFABBD08308" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "F1F1C2082FB1C39A5A1F85B9";
+		};
+		"F9B98FB47FC756A89C6A4838" = {
+			"isa" = "PBXGroup";
+			"path" = "CryptoCardDemoTests";
+			"sourceTree" = "<group>";
+			"children" = (
+				"C0CFEB80C774E65F3EB7B433",
+				"06F833C56B28EF0211822AB6",
+				"7E01C93FB5115EE4A331F608",
+				"5362555748B630579254A2BD",
+				"5786B4A819C46317E59E4498",
+				"F1F1C2082FB1C39A5A1F85B9",
+			);
+		};
+		"88ACFE781241393CB5C7BF48" = {
+			"isa" = "PBXFileReference";
+			"explicitFileType" = "wrapper.cfbundle";
+			"includeInIndex" = "0";
+			"path" = "CryptoCardDemoTests.xctest";
+			"sourceTree" = "BUILT_PRODUCTS_DIR";
+		};
+		"7762F98FBACBB5CA056DD4F3" = {
+			"isa" = "PBXSourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+				"9FAB490C045E12DFE11EB1DE",
+				"47CF55630E092C0EB64431F6",
+				"6897CE0442D8000290638524",
+				"83C2416CE8D30BD8DE838B63",
+				"00960079DF96FAAF3B04EC1A",
+				"ABC6C6009F9B7DFABBD08308",
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"920DBF67B9D4CD50D4AD5ECF" = {
+			"isa" = "PBXFrameworksBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"4D3E1B4787A6E8ADF4F0CEA1" = {
+			"isa" = "PBXResourcesBuildPhase";
+			"buildActionMask" = "2147483647";
+			"files" = (
+			);
+			"runOnlyForDeploymentPostprocessing" = "0";
+		};
+		"92AC4F6FE557881A9EE81262" = {
+			"isa" = "PBXContainerItemProxy";
+			"containerPortal" = "244210E48437B6556980A702";
+			"proxyType" = "1";
+			"remoteGlobalIDString" = "B0F2EFC8FE7075E437CA60C4";
+			"remoteInfo" = "CryptoCardDemo";
+		};
+		"25CD67677879843969DC008C" = {
+			"isa" = "PBXTargetDependency";
+			"target" = "B0F2EFC8FE7075E437CA60C4";
+			"targetProxy" = "92AC4F6FE557881A9EE81262";
+		};
+		"69CD43BE8629252E0CAC5DE3" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app.tests";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"TEST_HOST" = "$(BUILT_PRODUCTS_DIR)/CryptoCardDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CryptoCardDemo";
+				"BUNDLE_LOADER" = "$(TEST_HOST)";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf";
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG";
+			};
+		};
+		"BBAA5D8C1C158634E6410776" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"SWIFT_VERSION" = "5.0";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"SDKROOT" = "iphoneos";
+				"TARGETED_DEVICE_FAMILY" = "1";
+				"CODE_SIGN_STYLE" = "Automatic";
+				"SUPPORTED_PLATFORMS" = "iphoneos iphonesimulator";
+				"CLANG_ENABLE_MODULES" = "YES";
+				"ENABLE_USER_SCRIPT_SANDBOXING" = "YES";
+				"SWIFT_EMIT_LOC_STRINGS" = "YES";
+				"MARKETING_VERSION" = "1.0";
+				"CURRENT_PROJECT_VERSION" = "1";
+				"PRODUCT_BUNDLE_IDENTIFIER" = "com.noklith.app.tests";
+				"PRODUCT_NAME" = "$(TARGET_NAME)";
+				"GENERATE_INFOPLIST_FILE" = "YES";
+				"TEST_HOST" = "$(BUILT_PRODUCTS_DIR)/CryptoCardDemo.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CryptoCardDemo";
+				"BUNDLE_LOADER" = "$(TEST_HOST)";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+			};
+		};
+		"603E5827A9AD881B8A8445DA" = {
+			"isa" = "XCConfigurationList";
+			"buildConfigurations" = (
+				"69CD43BE8629252E0CAC5DE3",
+				"BBAA5D8C1C158634E6410776",
+			);
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+		};
+		"BA118B9094289E9B69DDC75D" = {
+			"isa" = "PBXNativeTarget";
+			"name" = "CryptoCardDemoTests";
+			"productName" = "CryptoCardDemoTests";
+			"productReference" = "88ACFE781241393CB5C7BF48";
+			"productType" = "com.apple.product-type.bundle.unit-test";
+			"buildConfigurationList" = "603E5827A9AD881B8A8445DA";
+			"buildPhases" = (
+				"7762F98FBACBB5CA056DD4F3",
+				"920DBF67B9D4CD50D4AD5ECF",
+				"4D3E1B4787A6E8ADF4F0CEA1",
+			);
+			"buildRules" = (
+			);
+			"dependencies" = (
+				"25CD67677879843969DC008C",
+			);
+			"packageProductDependencies" = (
+			);
+		};
+		"54689237503EF14D5935E537" = {
+			"isa" = "PBXGroup";
+			"name" = "Products";
+			"sourceTree" = "<group>";
+			"children" = (
+				"98A8BB49B4FDB93EDB612366",
+				"146AA32AABD5D0996C75F9F3",
+				"88ACFE781241393CB5C7BF48",
+			);
+		};
+		"17A83B051323C439848D500A" = {
+			"isa" = "PBXGroup";
+			"sourceTree" = "<group>";
+			"children" = (
+				"33087DE165DC24AB3E10B9FA",
+				"0DB836EA663D429254ED5DF9",
+				"F9B98FB47FC756A89C6A4838",
+				"54689237503EF14D5935E537",
+			);
+		};
+		"2622214EE0F003A63AC18DFC" = {
+			"isa" = "XCRemoteSwiftPackageReference";
+			"repositoryURL" = "https://github.com/reown-com/reown-swift";
+			"requirement" = {
+				"kind" = "revision";
+				"revision" = "1286a56685266804f3ceae93e394f45eb4473dfb";
+			};
+		};
+		"669353FF6BADD199F04BDBA2" = {
+			"isa" = "XCRemoteSwiftPackageReference";
+			"repositoryURL" = "https://github.com/Boilertalk/Web3.swift";
+			"requirement" = {
+				"kind" = "revision";
+				"revision" = "b85187ddf230a10b04fa8574c44980f3369ddff5";
+			};
+		};
+		"AF0A2E100A20EFBCE9522ED1" = {
+			"isa" = "XCRemoteSwiftPackageReference";
+			"repositoryURL" = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			"requirement" = {
+				"kind" = "revision";
+				"revision" = "678d442c6f7828def400a70ae15968aef67ef52d";
+			};
+		};
+		"3D5D06619AD2FD8BA0F34D57" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Debug";
+			"buildSettings" = {
+				"CLANG_ENABLE_MODULES" = "YES";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"ENABLE_TESTABILITY" = "YES";
+				"SWIFT_VERSION" = "5.0";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-Onone";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf";
+				"SWIFT_ACTIVE_COMPILATION_CONDITIONS" = "DEBUG";
+			};
+		};
+		"61EE91C00F7653342CB155AF" = {
+			"isa" = "XCBuildConfiguration";
+			"name" = "Release";
+			"buildSettings" = {
+				"CLANG_ENABLE_MODULES" = "YES";
+				"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
+				"ENABLE_TESTABILITY" = "YES";
+				"SWIFT_VERSION" = "5.0";
+				"SWIFT_OPTIMIZATION_LEVEL" = "-O";
+				"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
+			};
+		};
+		"325A8360FA4E996EACF70E53" = {
+			"isa" = "XCConfigurationList";
+			"buildConfigurations" = (
+				"3D5D06619AD2FD8BA0F34D57",
+				"61EE91C00F7653342CB155AF",
+			);
+			"defaultConfigurationIsVisible" = "0";
+			"defaultConfigurationName" = "Release";
+		};
+		"244210E48437B6556980A702" = {
+			"isa" = "PBXProject";
+			"attributes" = {
+				"LastUpgradeCheck" = "1640";
+				"BuildIndependentTargetsInParallel" = "YES";
+				"TargetAttributes" = {
+					"B0F2EFC8FE7075E437CA60C4" = {
+						"CreatedOnToolsVersion" = "16.4";
+					};
+					"FCA84DE2EF1BCE8928A4BAEE" = {
+						"CreatedOnToolsVersion" = "16.4";
+						"TestTargetID" = "B0F2EFC8FE7075E437CA60C4";
+					};
+					"BA118B9094289E9B69DDC75D" = {
+						"CreatedOnToolsVersion" = "16.4";
+						"TestTargetID" = "B0F2EFC8FE7075E437CA60C4";
+					};
+				};
+			};
+			"buildConfigurationList" = "325A8360FA4E996EACF70E53";
+			"compatibilityVersion" = "Xcode 14.0";
+			"developmentRegion" = "en";
+			"hasScannedForEncodings" = "0";
+			"knownRegions" = (
+				"en",
+				"Base",
+			);
+			"mainGroup" = "17A83B051323C439848D500A";
+			"productRefGroup" = "54689237503EF14D5935E537";
+			"projectDirPath" = "";
+			"projectRoot" = "";
+			"targets" = (
+				"B0F2EFC8FE7075E437CA60C4",
+				"FCA84DE2EF1BCE8928A4BAEE",
+				"BA118B9094289E9B69DDC75D",
+			);
+			"packageReferences" = (
+				"2622214EE0F003A63AC18DFC",
+				"669353FF6BADD199F04BDBA2",
+				"AF0A2E100A20EFBCE9522ED1",
+			);
+		};
+	};
+	"rootObject" = "244210E48437B6556980A702";
+}

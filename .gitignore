@@ -1,0 +1,26 @@
+.DS_Store
+node_modules/
+.npm-cache/
+.env
+.env.*
+!.env.example
+build/
+dist/
+.build/
+DerivedData/
+*.xcuserstate
+xcuserdata/
+artifacts/
+*.log
+*.zip
+*.ipa
+.local/
+__pycache__/
+*.pyc
+apps/ios/CryptoCardDemo/WalletIntegration.plist
+
+# Local-only values (Reown Project ID etc.). Never committed.
+*.local.env
+
+# The website ships its built static files.
+!apps/web/dist/
