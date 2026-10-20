@@ -13,7 +13,7 @@ Cards are issued through `CardIssuerAdapter`, with two implementations:
 
 Details (`POST /v1/cards/:id/credentials`) are fetched on demand, live 60 s, are limited to 10 reveals per card per hour and are never stored. Blocked, closed or replaced cards reveal nothing.
 
-What IZIPAY does not offer, the app does not pretend to do. Its API has no freeze operation, so an IZIPAY card cannot be paused from the app (`409 freeze_unavailable`), and the post-refill risk pause skips it. Purchases are made and authorized at IZIPAY, so our spend limits and purchase rules apply to DemoIssuer cards only; for IZIPAY cards the issuer's balance is read back and differences are recorded as purchases or refunds.
+What IZIPAY does not offer, the app does not pretend to do. Pause and resume go to IZIPAY first (`POST /cards/{id}/freeze` and `/unfreeze`, repeat-safe) and only then change the card here; if IZIPAY itself locked the card, resuming returns `409 card_locked_by_issuer` and the user must contact IZIPAY support. The post-refill risk pause still skips IZIPAY cards. Observed 2026-10-20: the IZIPAY sandbox confirms freeze and unfreeze but neither records `is_frozen` nor declines a sandbox purchase on a frozen card, so the effect at IZIPAY is verified only by its answer until it is checked with a live card. Purchases are made and authorized at IZIPAY, so our spend limits and purchase rules apply to DemoIssuer cards only; for IZIPAY cards the issuer's balance is read back and differences are recorded as purchases or refunds.
 
 ## Top-up flow
 

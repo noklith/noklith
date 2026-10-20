@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import type { CardCredentials, CardIssuerAdapter, FundingRequest, ProvisionResult } from './issuer.ts';
-import { IssuerUnavailableError } from './issuer.ts';
+import { CardLockedByIssuerError, IssuerUnavailableError } from './issuer.ts';
+import { IzipayError } from './izipay.ts';
 import type { IzipayCard, IzipayClient } from './izipay.ts';
 
 export interface IzipayIssuerOptions {
@@ -91,6 +92,15 @@ export class IzipayIssuer implements CardIssuerAdapter {
     const balance = (await this.client.getCard(issuerCardId, true)).balanceCents;
     if (balance === undefined) throw new IssuerUnavailableError('The card issuer did not report the card balance.');
     return balance;
+  }
+
+  /** IZIPAY answers 403 CARD_LOCKED_BY_SUPPORT on unfreeze when it froze the card itself. */
+  async setFrozen(issuerCardId: string, frozen: boolean): Promise<void> {
+    try { await this.client.setFrozen(issuerCardId, frozen); }
+    catch (error) {
+      if (error instanceof IzipayError && error.code === 'CARD_LOCKED_BY_SUPPORT') throw new CardLockedByIssuerError();
+      throw error;
+    }
   }
 
   topUpFeeCents(amountCents: bigint): bigint {

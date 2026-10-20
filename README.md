@@ -75,8 +75,8 @@ A virtual Visa issued through IZIPAY Business. The issuer's balance is the truth
 Real networks are off by default. The server accepts them only with `NETWORK_MODE=mainnet`,
 `MAINNET_ENABLED=true` and a live IZIPAY key; otherwise it runs on Base Sepolia test USDC.
 
-IZIPAY has no freeze operation, so IZIPAY cards are not paused from the app, and purchases are authorized at
-IZIPAY rather than by our spend limits. See [funding](docs/funding.md#card-ownership).
+Pause and resume an IZIPAY card from the app: the server pauses it at IZIPAY first. Purchases are authorized at
+IZIPAY, so our spend limits apply to demo cards only. See [funding](docs/funding.md#card-ownership).
 
 ## Principles
 

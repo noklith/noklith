@@ -10,6 +10,10 @@ export interface TestCredentials {
 export class IssuerUnavailableError extends Error {
   constructor(message = 'The card issuer did not accept the funding request.') { super(message); this.name = 'IssuerUnavailableError'; }
 }
+/** The issuer itself locked the card (for example for risk reasons); only its support can lift it. */
+export class CardLockedByIssuerError extends Error {
+  constructor(message = 'The card issuer has locked this card.') { super(message); this.name = 'CardLockedByIssuerError'; }
+}
 
 /** Card details for the owner's eyes only. Fetched on demand; never persisted or logged. */
 export interface CardCredentials extends TestCredentials {
@@ -53,6 +57,11 @@ export interface CardIssuerAdapter {
    * (IZIPAY). Undefined when purchases are reported to this API instead (DemoIssuer).
    */
   cardBalanceCents?(issuerCardId: string): Promise<bigint>;
+  /**
+   * Pauses or resumes purchases at the issuer, for issuers that authorize purchases themselves (IZIPAY).
+   * Must be safe to repeat. Throws CardLockedByIssuerError when the issuer holds its own lock.
+   */
+  setFrozen?(issuerCardId: string, frozen: boolean): Promise<void>;
   /** Issuer fee the card should expect for a top-up of this size, for the quote. The issuer's answer is authoritative. */
   topUpFeeCents(amountCents: bigint): bigint;
   /** Notification signature for the DemoIssuer webhook endpoint. */

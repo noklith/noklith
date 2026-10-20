@@ -6,7 +6,7 @@ import type {
 import type { Database, SQLConnection } from './database.ts';
 import { APIProblem } from './errors.ts';
 import type { CardIssuerAdapter, ProvisionResult } from './issuer/issuer.ts';
-import { DemoIssuer } from './issuer/issuer.ts';
+import { CardLockedByIssuerError, DemoIssuer } from './issuer/issuer.ts';
 import { LimitsService } from './limits.ts';
 
 const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
@@ -240,8 +240,9 @@ export class CardService {
   async changeFreeze(userID: string, cardID: string, key: string, freeze: boolean): Promise<CardResponse> {
     return this.mutation(userID, key, `POST:/v1/cards/${cardID}/${freeze ? 'freeze' : 'unfreeze'}`, async tx => {
       const row = await this.lockOwnCard(tx, userID, cardID);
-      // IZIPAY has no freeze operation: a pause stored only here would show "paused" while the card still pays.
-      if (row.issuer_mode === 'izipay') {
+      // An IZIPAY card pays at IZIPAY, so a pause must happen there; one stored only here would mislead.
+      const atIssuer = row.issuer_mode === 'izipay';
+      if (atIssuer && (this.issuer.mode !== 'izipay' || !this.issuer.setFrozen || !row.issuer_card_id)) {
         throw new APIProblem(409, 'freeze_unavailable', 'This card cannot be paused from the app yet.');
       }
       // A user freeze and an automatic rule pause can be lifted here; a risk block, closure or replacement cannot.
@@ -250,6 +251,17 @@ export class CardService {
       }
       const nextStatus = freeze ? (row.status === 'active' ? 'frozen_by_user' : row.status) : 'active';
       if (row.status !== nextStatus) {
+        // The issuer goes first, under the user's lock: if it refuses, nothing changes here. Repeating the
+        // call is safe, so a crash before our commit is fixed by the user's next try.
+        if (atIssuer) {
+          try { await this.issuer.setFrozen!(row.issuer_card_id!, freeze); }
+          catch (error) {
+            if (error instanceof CardLockedByIssuerError) {
+              throw new APIProblem(409, 'card_locked_by_issuer', 'IZIPAY has locked this card. Contact IZIPAY support to unlock it.');
+            }
+            throw new APIProblem(503, 'issuer_unavailable', 'The card issuer is temporarily unavailable. Try again later.');
+          }
+        }
         const reason = row.status === 'frozen_by_risk_rule' ? 'user_resumed_after_rule' : null;
         await tx.query('UPDATE cards SET status = $1 WHERE id = $2', [nextStatus, cardID]);
         await tx.query(`INSERT INTO card_state_events (id, card_id, previous_status, next_status, actor_user_id, reason, occurred_at)

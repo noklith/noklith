@@ -14,13 +14,13 @@ import { testDatabase } from './database.ts';
 const configuration: AuthConfiguration = { origin: 'https://demo.example', uri: 'https://demo.example/sign-in', allowedChainIds: [84532] };
 const headers = (token: string, key?: string) => ({ authorization: `Bearer ${token}`, ...(key ? { 'idempotency-key': key } : {}) });
 
-type FakeCard = { card_id: string; client_card_ref: string; cardholder_email: string; issue_status: string };
+type FakeCard = { card_id: string; client_card_ref: string; cardholder_email: string; issue_status: string; frozen?: boolean; locked?: boolean };
 function fakeIzipay(options: { issueStatus?: string; down?: boolean } = {}) {
   const cards: FakeCard[] = [];
   const calls: string[] = [];
   const reply = (status: number, data: unknown) => new Response(JSON.stringify(status < 300 ? { success: true, data } : { success: false, error: data }), { status });
   const view = (card: FakeCard) => card.issue_status === 'issued'
-    ? { ...card, card: { number: '4004 1234 5678 0646', last4: '0646', exp: '05/28', cvv: '321', balance: 0, pending_topup: 0, is_frozen: false } }
+    ? { ...card, card: { number: '4004 1234 5678 0646', last4: '0646', exp: '05/28', cvv: '321', balance: 0, pending_topup: 0, is_frozen: !!card.frozen } }
     : { ...card, card: { number: '4004 12** **** 0646', last4: '0646' } };
   const http = (async (input: URL, init: RequestInit) => {
     const url = new URL(input);
@@ -34,6 +34,17 @@ function fakeIzipay(options: { issueStatus?: string; down?: boolean } = {}) {
       const card = { card_id: `card_test_${cards.length + 1}`, client_card_ref: body.client_card_ref, cardholder_email: body.cardholder_email, issue_status: options.issueStatus ?? 'issued' };
       cards.push(card);
       return reply(201, card);
+    }
+    const freezing = url.pathname.match(/^\/api\/v1\/cards\/([^/]+)\/(freeze|unfreeze)$/);
+    const target = freezing && cards.find(item => item.card_id === freezing[1]);
+    if (init.method === 'POST' && target) {
+      // As documented by IZIPAY support: no body, repeat-safe, and a support lock refuses unfreeze with 403.
+      if (init.body !== undefined) return reply(400, { code: 'UNEXPECTED_BODY' });
+      if (freezing![2] === 'unfreeze' && target.locked) return reply(403, { code: 'CARD_LOCKED_BY_SUPPORT', message: 'Contact support.' });
+      const already = target.frozen === (freezing![2] === 'freeze');
+      target.frozen = freezing![2] === 'freeze';
+      return reply(200, { card_id: target.card_id, status: target.frozen ? 'frozen' : 'active', is_frozen: target.frozen,
+        ...(already ? { message: `Card is already ${target.frozen ? 'frozen' : 'active'}` } : {}) });
     }
     const match = url.pathname.match(/^\/api\/v1\/cards\/([^/]+)$/);
     const card = match && cards.find(item => item.card_id === match[1]);
@@ -87,10 +98,24 @@ test('an IZIPAY card is issued once, shows real details and is not labelled as a
   const simulated = await app.inject({ method: 'POST', url: '/v1/demo/card-events', payload: { type: 'authorization', amount_cents: '100' }, headers: headers(token) });
   assert.equal(simulated.statusCode, 404);
 
-  // IZIPAY has no freeze operation: the app must not show a pause the issuer would ignore.
+  // A pause happens at IZIPAY first, then here; the same key replays without calling IZIPAY again.
+  const freezeCalls = () => fake.calls.filter(call => /\/(freeze|unfreeze)$/.test(call)).length;
   const paused = await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/freeze`, payload: {}, headers: headers(token, 'freeze-1') });
-  assert.deepEqual([paused.statusCode, paused.json().error.code], [409, 'freeze_unavailable']);
-  assert.equal((await app.inject({ url: '/v1/card', headers: headers(token) })).json<CardResponse>().card?.status, 'active');
+  assert.equal(paused.statusCode, 200, paused.body);
+  assert.equal(paused.json<CardResponse>().card?.status, 'frozen_by_user');
+  assert.equal(fake.cards[0]!.frozen, true);
+  await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/freeze`, payload: {}, headers: headers(token, 'freeze-1') });
+  assert.equal(freezeCalls(), 1);
+  const resumed = await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/unfreeze`, payload: {}, headers: headers(token, 'unfreeze-1') });
+  assert.equal(resumed.json<CardResponse>().card?.status, 'active');
+  assert.equal(fake.cards[0]!.frozen, false);
+  // IZIPAY froze it for risk reasons: unfreezing is refused and the card stays paused, with a pointer to support.
+  await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/freeze`, payload: {}, headers: headers(token, 'freeze-2') });
+  fake.cards[0]!.locked = true;
+  const refused = await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/unfreeze`, payload: {}, headers: headers(token, 'unfreeze-2') });
+  assert.deepEqual([refused.statusCode, refused.json().error.code], [409, 'card_locked_by_issuer']);
+  assert.equal((await app.inject({ url: '/v1/card', headers: headers(token) })).json<CardResponse>().card?.status, 'frozen_by_user');
+  assert.equal(fake.cards[0]!.frozen, true);
   // IZIPAY authorizes purchases itself, so our spend limits are reported as not applying.
   assert.equal((await app.inject({ url: '/v1/config' })).json<APIConfig>().spend_limits_enforced, false);
   assert.equal((await app.inject({ url: '/v1/limits', headers: headers(token) })).json<LimitsResponse>().spend_limits_enforced, false);

@@ -8,16 +8,15 @@ import { migrate } from '../migrate.ts';
 import { pgliteDatabase } from './pglite-database.ts';
 
 // Our API in-process (in-memory database) with the real IZIPAY sandbox as issuer:
-// wallet sign-in → POST /v1/cards → card details → top-up from the balance (twice, one reference).
+// wallet sign-in → POST /v1/cards → card details → pause and resume at IZIPAY → top-up from the balance
+// (twice, one reference) → a sandbox purchase reflected in our balance and history.
 // Refuses live keys; prints no card numbers.
 // Usage: node --env-file=.local/izipay.env src/dev/izipay-card-sandbox.ts
 
 const apiKey = process.env.IZIPAY_API_KEY ?? '';
 if (!apiKey.startsWith('izpk_test_')) throw new Error('This check runs only with a sandbox key (izpk_test_…).');
-const issuer = new IzipayIssuer({
-  client: new IzipayClient({ apiKey, signingSecret: process.env.IZIPAY_SIGNING_SECRET || undefined }),
-  cardholderEmailDomain: 'cards.example.com',
-});
+const client = new IzipayClient({ apiKey, signingSecret: process.env.IZIPAY_SIGNING_SECRET || undefined });
+const issuer = new IzipayIssuer({ client, cardholderEmailDomain: 'cards.example.com' });
 const db = pgliteDatabase();
 const now = () => new Date();
 const app = buildApp({ db, networkMode: 'testnet', issuer, now, auth: {
@@ -49,8 +48,20 @@ try {
   const details = reveal.json<CredentialsResponse>();
   assert.equal(details.pan.slice(-4), card.last_four);
   log(`Details: number ending ${details.pan.slice(-4)} (${details.pan.length} digits), expiry present ${details.expiry_month > 0}, demonstration ${details.demonstration}`);
-  // Top-up from the sandbox balance, sent twice with one reference: IZIPAY must load the card once.
   const issuerCardId = (await db.query<{ issuer_card_id: string }>('SELECT issuer_card_id FROM cards WHERE id = $1', [card.id])).rows[0]!.issuer_card_id;
+  // Pause and resume go to IZIPAY, which confirms each with is_frozen in its answer (checked by the client).
+  // Observed 2026-10-20: the sandbox confirms both but its card record keeps is_frozen false, so that is
+  // only logged here, not asserted.
+  const paused = await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/freeze`, payload: {}, headers: { ...auth, 'idempotency-key': 'sandbox-freeze-1' } });
+  assert.equal(paused.statusCode, 200, paused.body);
+  assert.equal(paused.json<CardResponse>().card!.status, 'frozen_by_user');
+  log(`Paused at IZIPAY; its card record now says is_frozen ${(await client.getCard(issuerCardId, true)).isFrozen}`);
+  await new Promise(r => setTimeout(r, 1_500));
+  const resumed = await app.inject({ method: 'POST', url: `/v1/cards/${card.id}/unfreeze`, payload: {}, headers: { ...auth, 'idempotency-key': 'sandbox-unfreeze-1' } });
+  assert.equal(resumed.statusCode, 200, resumed.body);
+  assert.equal(resumed.json<CardResponse>().card!.status, 'active');
+  log('Resumed at IZIPAY');
+  // Top-up from the sandbox balance, sent twice with one reference: IZIPAY must load the card once.
   const request = { cardId: card.id, issuerCardId, reference: `top_up:sandbox-${card.id}`, amountCents: 500n };
   const before = await issuer.fundingCapacityCents();
   const first = await issuer.fund(request);

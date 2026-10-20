@@ -139,6 +139,12 @@ export class IzipayClient {
     return { returnedCents: returned, cardBalanceCents: cents(data.card_balance) };
   }
 
+  /** Pauses or resumes purchases. Repeating it is safe: an already frozen card answers success again. */
+  async setFrozen(cardId: string, frozen: boolean): Promise<void> {
+    const data = await this.request('POST', `/cards/${encodeURIComponent(cardId)}/${frozen ? 'freeze' : 'unfreeze'}`);
+    if (data.is_frozen !== frozen) throw new IzipayError(502, 'invalid_response', 'The card issuer did not confirm the freeze state.');
+  }
+
   private card(data: Record<string, unknown>): IzipayCard {
     const nested = (data.card && typeof data.card === 'object' ? data.card : {}) as Record<string, unknown>;
     const cardId = str(data.card_id);

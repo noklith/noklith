@@ -100,8 +100,8 @@ struct CardScreen: View {
     private func actions(_ card: Card) -> some View {
         let topUp = canTopUp(card)
         let detailsAvailable = !store.serverFixture && (card.status == .active || card.status.isUserReversibleFreeze)
-        // IZIPAY has no freeze operation; a pause kept only in the app would not stop the card.
-        let freezeChangeable = card.issuerMode != "izipay" && (card.status == .active || card.status.isUserReversibleFreeze)
+        // For an IZIPAY card the server pauses it at IZIPAY first, so the state shown here is the issuer's.
+        let freezeChangeable = card.status == .active || card.status.isUserReversibleFreeze
         let frozen = card.status.isUserReversibleFreeze
         return HStack(alignment: .top, spacing: Design.large) {
             CircleActionButton(title: "Refill", symbol: "plus", glyph: "GlyphReceive", mode: topUp ? .normal : .unavailable,
@@ -115,8 +115,7 @@ struct CardScreen: View {
             CircleActionButton(title: card.status == .frozenByRiskRule ? "Resume" : frozen ? "Resume" : "Pause",
                                symbol: frozen ? "play.fill" : "pause.fill", glyph: frozen ? "GlyphSun" : "GlyphHourglass",
                                mode: !freezeChangeable ? .unavailable : frozen ? .toggled : .normal,
-                               hint: frozen ? "New purchases are paused. Double-tap to allow them again."
-                                   : card.issuerMode == "izipay" ? "Pausing this card is not available yet" : nil) {
+                               hint: frozen ? "New purchases are paused. Double-tap to allow them again." : nil) {
                 Task { await store.toggleFreeze() }
             }
             .disabled(!freezeChangeable || store.isMutating)

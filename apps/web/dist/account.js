@@ -119,7 +119,6 @@
  async function freeze(){
   if(needCard())return;
   const card=state.card,on=card.status==='active';
-  if(card.issuer_mode==='izipay'){toast('Pausing this card isn’t available yet.');return}
   if(!on&&card.status!=='frozen_by_user'){toast('This card can’t be changed here: '+(statusText[card.status]||card.status)+'.');return}
   try{const r=await api('/cards/'+card.id+'/'+(on?'freeze':'unfreeze'),{method:'POST',body:{},idempotent:true});state.card=r.card;ui.render();toast(on?'Your card is paused.':'Your card is active again.')}
   catch(error){toast(message(error,'The card did not change.'))}
@@ -193,7 +192,7 @@
   $$('[data-card-balance]').forEach(e=>e.textContent=hidden?'••••••':card?cents(card.available_cents):'No card yet');
   const chip=$('#card-state');if(chip)chip.textContent=card?statusText[card.status]||card.status:'No card yet';
   $$('.payment-bottom').forEach(e=>e.innerHTML='<span>'+(card?'•••• '+escape(card.last_four||'····'):'NO CARD YET')+'</span><span>'+escape(short(state.me?.wallet_address))+'</span>');
-  const freezeButton=$('#freeze-card');if(freezeButton){freezeButton.lastChild.textContent=card?.status==='frozen_by_user'?'Resume card':'Pause card';freezeButton.hidden=card?.issuer_mode==='izipay'}
+  const freezeButton=$('#freeze-card');if(freezeButton){freezeButton.lastChild.textContent=card?.status==='frozen_by_user'?'Resume card':'Pause card'}
   const usdc=state.wallet?.networks?.[0]?.assets?.[0];
   const total=usdc?.units!=null?units(usdc.units,usdc.decimals):'0.00',[whole,decimal]=total.split('.');
   $$('[data-total-account]').forEach(e=>e.innerHTML=hidden?'••••••':'<span class="currency">$</span>'+escape(whole)+'<span class="decimal">.'+escape(decimal)+'</span>');
