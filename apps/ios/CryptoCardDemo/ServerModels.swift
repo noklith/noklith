@@ -95,6 +95,12 @@ struct WalletBalances: Decodable {
     struct Asset: Decodable { let symbol: String; let decimals: Int; let units: String? }
 }
 
+/// One-time payment code (3-D Secure) that IZIPAY e-mailed to the card's cardholder address.
+struct PaymentCodeInfo: Decodable, Equatable {
+    let paymentCode: Code?
+    struct Code: Decodable, Equatable { let code: String; let receivedAt: String; let expiresAt: String }
+}
+
 struct LimitsInfo: Decodable, Equatable {
     let limits: Values
     /// False for an IZIPAY card, whose purchases IZIPAY authorizes; absent in older server answers.

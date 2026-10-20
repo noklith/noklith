@@ -18,6 +18,7 @@
     "@fastify/websocket": "11.3.1",
     "fastify": "5.12.5",
     "pg": "8.23.1",
+    "postal-mime": "4.0.4",
     "viem": "2.57.3"
   },
   "devDependencies": {

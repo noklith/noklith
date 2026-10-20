@@ -17,3 +17,7 @@
 .nk-wallet-links a{text-align:center;text-decoration:none}
 .nk-form select{font:inherit;font-size:1rem;letter-spacing:0;text-transform:none;padding:.6rem .8rem;border:1px solid currentColor;border-radius:.5rem;background:transparent;color:inherit}
 #freeze-card[hidden]{display:none}
+.payment-code{margin-top:1rem;padding:.9rem 1rem;border:1px solid currentColor;border-radius:.75rem}
+.payment-code[hidden]{display:none}
+.payment-code strong{display:block;font-size:2rem;letter-spacing:.3em;font-variant-numeric:tabular-nums;margin:.3rem 0}
+.payment-code p{margin:0 0 .4rem;opacity:.8}

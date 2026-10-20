@@ -4,7 +4,7 @@ import {
   cardParamsSchema, cardResponseSchema, configSchema, emptyBodySchema, errorSchema, historyQuerySchema,
   historyResponseSchema, idempotencyHeadersSchema, profileRequestSchema, sessionResponseSchema, userSchema,
   authChallengeRequestSchema, authChallengeResponseSchema, authVerifyRequestSchema, walletSessionResponseSchema, walletUserSchema,
-  credentialsResponseSchema, eventsQuerySchema, eventsResponseSchema, limitsResponseSchema,
+  credentialsResponseSchema, paymentCodeResponseSchema, eventsQuerySchema, eventsResponseSchema, limitsResponseSchema,
   cardEventResultSchema, demoCardEventRequestSchema, walletBalancesResponseSchema,
   topUpAcceptResponseSchema, topUpCreateRequestSchema, topUpHashRequestSchema, topUpListResponseSchema, topUpParamsSchema, topUpResponseSchema,
 } from '../../../packages/api-contracts/src/index.ts';
@@ -19,6 +19,7 @@ import { AuthRateLimiter } from './auth/rate-limit.ts';
 import type { CardIssuerAdapter } from './issuer/issuer.ts';
 import { DemoIssuer } from './issuer/issuer.ts';
 import { CardEventProcessor } from './issuer/events.ts';
+import type { CardMailService } from './issuer/card-mail.ts';
 import { LimitsService } from './limits.ts';
 import { RiskService } from './risk.ts';
 import { registerEventStream } from './event-stream.ts';
@@ -38,6 +39,8 @@ export interface AppOptions {
   eventStream?: EventStreamOptions;
   /** Reverse proxy address or CIDR allowed to report the client IP in X-Forwarded-For. */
   trustedProxy?: string;
+  /** Receives IZIPAY cardholder mail and keeps one-time payment codes; absent means the routes are not served. */
+  cardMail?: CardMailService;
 }
 export function buildApp(options: AppOptions) {
   if (options.auth && options.networkMode === 'fixture') throw new Error('Wallet authentication cannot be enabled in fixture mode.');
@@ -141,6 +144,18 @@ export function buildApp(options: AppOptions) {
   app.post<{ Params: { id: string } }>('/v1/cards/:id/credentials', {
     schema: { body: emptyBodySchema, params: cardParamsSchema, response: success(credentialsResponseSchema) },
   }, async request => service.revealCredentials(await cardUser(request), request.params.id));
+  if (options.cardMail) {
+    const cardMail = options.cardMail;
+    app.get<{ Params: { id: string } }>('/v1/cards/:id/payment-code', {
+      schema: { params: cardParamsSchema, response: success(paymentCodeResponseSchema) },
+    }, async request => cardMail.latest(await cardUser(request), request.params.id));
+    // Raw cardholder mail from the Cloudflare Email Routing worker; the signature covers the exact bytes.
+    app.register(async scope => {
+      scope.addContentTypeParser('message/rfc822', { parseAs: 'buffer', bodyLimit: 512 * 1024 }, (_request, body, done) => done(null, body));
+      scope.post('/v1/issuer/card-mail', async (request, reply) => reply.code(202).send(await cardMail.receive(request.body as Buffer,
+        request.headers['x-card-mail-to'], request.headers['x-card-mail-timestamp'], request.headers['x-card-mail-signature'])));
+    });
+  }
   app.get('/v1/limits', { schema: { response: success(limitsResponseSchema) } }, async request => service.limitsFor(await cardUser(request)));
   // WebSocket change signals; clients recover through GET /v1/events?after=.
   app.register(async scope => registerEventStream(scope, options.db, cardUser,

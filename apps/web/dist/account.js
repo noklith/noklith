@@ -97,9 +97,25 @@
   const [me,card,history]=await Promise.all([api('/me'),api('/card'),api('/history?limit=50')]);
   state.me=me.user||me;state.card=card.card;state.history=history.items;
   if(state.config.top_up_enabled)state.wallet=await api('/wallet/balances').catch(()=>null);
+  await loadPaymentCode();
   ui.render();
  }
+ // One-time payment code IZIPAY e-mailed for a payment in progress; checked every 15 s while an IZIPAY card exists.
+ async function loadPaymentCode(){
+  const card=state.card;
+  state.paymentCode=card?.issuer_mode==='izipay'?(await api('/cards/'+card.id+'/payment-code').catch(()=>null))?.payment_code||null:null;
+ }
+ setInterval(async()=>{if(!state.token||state.card?.issuer_mode!=='izipay'||document.hidden)return;const before=state.paymentCode?.code;await loadPaymentCode();if(state.paymentCode?.code!==before)ui.render()},15000);
 
+ function renderPaymentCode(){
+  const host=$('.card-preview .stone-inner');if(!host)return;
+  let box=$('#payment-code');if(!box){box=document.createElement('div');box.id='payment-code';box.className='payment-code';box.setAttribute('aria-live','polite');host.append(box)}
+  const code=state.paymentCode,until=code?new Date(code.expires_at):null;
+  if(!code||until<=new Date()){box.hidden=true;box.innerHTML='';return}
+  box.hidden=false;
+  box.innerHTML='<span class="eyebrow">PAYMENT CODE</span><strong>'+escape(code.code)+'</strong><p>Enter it on the payment page. Valid until '+escape(until.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}))+'.</p><button class="text-link" data-nk="copy-code">Copy code</button>';
+  box.querySelector('[data-nk="copy-code"]').onclick=async e=>{try{await navigator.clipboard.writeText(code.code);e.target.textContent='Copied'}catch{toast('Select the code and copy it.')}};
+ }
  // Card.
  const statusText={provisioning:'Being issued',active:'Active',frozen_by_user:'Paused',frozen_by_risk_rule:'Paused for review',blocked_by_risk:'Blocked',closed:'Closed',replaced:'Replaced'};
  function needCard(){
@@ -193,6 +209,7 @@
   const chip=$('#card-state');if(chip)chip.textContent=card?statusText[card.status]||card.status:'No card yet';
   $$('.payment-bottom').forEach(e=>e.innerHTML='<span>'+(card?'•••• '+escape(card.last_four||'····'):'NO CARD YET')+'</span><span>'+escape(short(state.me?.wallet_address))+'</span>');
   const freezeButton=$('#freeze-card');if(freezeButton){freezeButton.lastChild.textContent=card?.status==='frozen_by_user'?'Resume card':'Pause card'}
+  renderPaymentCode();
   const usdc=state.wallet?.networks?.[0]?.assets?.[0];
   const total=usdc?.units!=null?units(usdc.units,usdc.decimals):'0.00',[whole,decimal]=total.split('.');
   $$('[data-total-account]').forEach(e=>e.innerHTML=hidden?'••••••':'<span class="currency">$</span>'+escape(whole)+'<span class="decimal">.'+escape(decimal)+'</span>');

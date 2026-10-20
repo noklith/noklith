@@ -1,13 +1,16 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts';
-import type { APIConfig, AuthChallengeResponse, CardResponse, CredentialsResponse, HistoryResponse, LimitsResponse, WalletSessionResponse } from '../../../packages/api-contracts/src/index.ts';
+import type { APIConfig, AuthChallengeResponse, CardResponse, CredentialsResponse, HistoryResponse, LimitsResponse, PaymentCodeResponse, WalletSessionResponse } from '../../../packages/api-contracts/src/index.ts';
 import { buildApp } from '../src/app.ts';
 import type { AuthConfiguration } from '../src/auth/service.ts';
 import { readConfig } from '../src/config.ts';
 import { IzipayClient } from '../src/issuer/izipay.ts';
 import { IzipayIssuer } from '../src/issuer/izipay-issuer.ts';
 import { migrate } from '../src/migrate.ts';
+import type { Database } from '../src/database.ts';
+import { CardMailService, extractPaymentCode } from '../src/issuer/card-mail.ts';
+import { createHmac } from 'node:crypto';
 import { testDatabase } from './database.ts';
 
 // An in-memory stand-in for the IZIPAY API; no external service is contacted.
@@ -55,9 +58,9 @@ function fakeIzipay(options: { issueStatus?: string; down?: boolean } = {}) {
   return { issuer, cards, calls };
 }
 
-async function izipayApp(issuer: IzipayIssuer, now: () => Date = () => new Date()) {
+async function izipayApp(issuer: IzipayIssuer, now: () => Date = () => new Date(), extra: { cardMail?: (db: Database) => CardMailService } = {}) {
   const db = testDatabase();
-  const app = buildApp({ db, networkMode: 'testnet', issuer, now,
+  const app = buildApp({ db, networkMode: 'testnet', issuer, now, cardMail: extra.cardMail?.(db),
     auth: { configuration, dependencies: { inspectAccount: async chainId => ({ chainId, code: '0x' }), now } } });
   await migrate(db);
   const account = privateKeyToAccount(generatePrivateKey());
@@ -177,4 +180,115 @@ test('IZIPAY configuration refuses live keys without opt-in and top-ups for now'
   assert.throws(() => readConfig({ ...base, IZIPAY_API_KEY: 'izpk_test_abc', IZIPAY_CARDHOLDER_EMAIL_DOMAIN: 'not a domain' }), /DOMAIN/);
   assert.throws(() => readConfig({ ...base, IZIPAY_API_KEY: 'izpk_test_abc', IZIPAY_CARD_TYPE: 'amex' }), /IZIPAY_CARD_TYPE/);
   assert.throws(() => readConfig({ ...base, ISSUER_MODE: 'other' }), /ISSUER_MODE/);
+});
+
+test('payment codes are found in issuer mail, in English or Russian, plain or HTML, and nothing else is taken for one', () => {
+  assert.equal(extractPaymentCode('Your verification code', 'Use 482913 to confirm the payment of $12.40 at Shop.'), '482913');
+  assert.equal(extractPaymentCode('3-D Secure', 'Your OTP is: 7731'), '7731');
+  assert.equal(extractPaymentCode('Подтверждение оплаты', 'Ваш код подтверждения: 551920. Никому его не сообщайте.'), '551920');
+  assert.equal(extractPaymentCode('Payment', undefined, '<html><style>p{}</style><p>Code&nbsp;<b>009912</b></p></html>'), '009912');
+  assert.equal(extractPaymentCode('Your card statement', 'Balance 100.00, card ending 0646, order 123456 and 654321.'), undefined);
+  assert.equal(extractPaymentCode('Payment of 25.50', 'Confirm with 314159 in your app.'), '314159');
+});
+
+test('signed cardholder mail stores the code for the card owner only, for ten minutes', async t => {
+  const fake = fakeIzipay();
+  let now = new Date('2026-10-21T10:00:00.000Z');
+  const secret = 'card-mail-secret-for-tests-0123456789';
+  const { db, app, token } = await izipayApp(fake.issuer, () => now,
+    { cardMail: database => new CardMailService({ db: database, secret, domain: 'cards.example.test', now: () => now }) });
+  t.after(async () => { await app.close(); await db.close(); });
+  const card = (await app.inject({ method: 'POST', url: '/v1/cards', payload: {}, headers: headers(token, 'mail-card') })).json<CardResponse>().card!;
+  const address = `card-${card.id}@cards.example.test`;
+  const raw = (subject: string, body: string) => Buffer.from(`From: IZIPAY <no-reply@izipay.me>
+To: ${address}
+Subject: ${subject}
+` +
+    `Content-Type: text/plain; charset=utf-8
+
+${body}
+`);
+  const send = (message: Buffer, options: { to?: string; at?: number; key?: string } = {}) => {
+    const timestamp = String(Math.floor((options.at ?? now.getTime()) / 1000));
+    const signature = createHmac('sha256', options.key ?? secret).update(`${timestamp}.`).update(message).digest('hex');
+    return app.inject({ method: 'POST', url: '/v1/issuer/card-mail', payload: message,
+      headers: { 'content-type': 'message/rfc822', 'x-card-mail-to': options.to ?? address, 'x-card-mail-timestamp': timestamp, 'x-card-mail-signature': signature } });
+  };
+  const code = async () => (await app.inject({ url: `/v1/cards/${card.id}/payment-code`, headers: headers(token) })).json<PaymentCodeResponse>().payment_code;
+  assert.equal(await code(), null);
+
+  // Forged, replayed and misaddressed mail changes nothing.
+  assert.equal((await send(raw('Code', 'Your code is 111111'), { key: 'another-secret-that-is-long-enough-000' })).statusCode, 401);
+  assert.equal((await send(raw('Code', 'Your code is 222222'), { at: now.getTime() - 6 * 60_000 })).statusCode, 401);
+  assert.deepEqual((await send(raw('Code', 'Your code is 333333'), { to: 'card-00000000-0000-4000-8000-000000000000@cards.example.test' })).json(), { stored: false });
+  assert.deepEqual((await send(raw('Code', 'Your code is 444444'), { to: `card-${card.id}@elsewhere.example` })).json(), { stored: false });
+  assert.deepEqual((await send(raw('Welcome', 'Your card is ready.'))).json(), { stored: false });
+  assert.equal(await code(), null);
+
+  const accepted = await send(raw('Verification code', 'Use 482913 to confirm your payment.'));
+  assert.equal(accepted.statusCode, 202, accepted.body);
+  assert.deepEqual(accepted.json(), { stored: true });
+  const shown = await code();
+  assert.equal(shown?.code, '482913');
+  assert.equal(shown?.expires_at, '2026-10-21T10:10:00.000Z');
+  // The message itself is not kept, and the owner's app is told that the card changed.
+  assert.deepEqual((await db.query('SELECT code FROM card_payment_codes')).rows, [{ code: '482913' }]);
+  assert.ok((await db.query("SELECT 1 FROM user_events WHERE type = 'card'")).rows.length > 0);
+
+  // Someone else's session cannot read it.
+  const other = await izipayApp(fake.issuer);
+  t.after(async () => { await other.app.close(); await other.db.close(); });
+  const stranger = buildApp({ db, networkMode: 'testnet', issuer: fake.issuer, now: () => now,
+    cardMail: new CardMailService({ db, secret, domain: 'cards.example.test', now: () => now }),
+    auth: { configuration, dependencies: { inspectAccount: async chainId => ({ chainId, code: '0x' }), now: () => now } } });
+  t.after(async () => { await stranger.close(); });
+  const account = privateKeyToAccount(generatePrivateKey());
+  const challenge = (await stranger.inject({ method: 'POST', url: '/v1/auth/challenge', payload: { address: account.address, chain_id: 84532 } })).json<AuthChallengeResponse>();
+  const session = (await stranger.inject({ method: 'POST', url: '/v1/auth/verify', payload: {
+    challenge_id: challenge.id, message: challenge.message, signature: await account.signMessage({ message: challenge.message }) } })).json<WalletSessionResponse>();
+  assert.equal((await stranger.inject({ url: `/v1/cards/${card.id}/payment-code`, headers: headers(session.access_token) })).statusCode, 404);
+
+  // A newer code replaces it on screen; ten minutes later nothing is shown.
+  now = new Date(now.getTime() + 60_000);
+  await send(raw('Verification code', 'Use 551920 to confirm your payment.'));
+  assert.equal((await code())?.code, '551920');
+  now = new Date(now.getTime() + 10 * 60_000);
+  assert.equal(await code(), null);
+});
+
+test('the Cloudflare mail worker signs exactly what the API verifies, and rejects other mail', async t => {
+  const fake = fakeIzipay();
+  const secret = 'card-mail-secret-for-tests-0123456789';
+  const { db, app, token } = await izipayApp(fake.issuer, () => new Date(),
+    { cardMail: database => new CardMailService({ db: database, secret, domain: 'cards.example.test' }) });
+  t.after(async () => { await app.close(); await db.close(); });
+  const card = (await app.inject({ method: 'POST', url: '/v1/cards', payload: {}, headers: headers(token, 'worker-card') })).json<CardResponse>().card!;
+  // Plain JavaScript for the Cloudflare editor, so it is loaded by path rather than type-checked here.
+  const workerPath = '../../../deploy/cloudflare/card-mail-worker.js';
+  const worker = (await import(workerPath)).default as { email: (message: unknown, env: unknown) => Promise<void> };
+  const realFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = realFetch; });
+  globalThis.fetch = (async (url: string, init: RequestInit) => {
+    const response = await app.inject({ method: 'POST', url: new URL(url).pathname, payload: Buffer.from(init.body as Uint8Array),
+      headers: init.headers as Record<string, string> });
+    return new Response(response.body, { status: response.statusCode });
+  }) as typeof fetch;
+  const env = { CARD_MAIL_URL: 'https://api.example.test/v1/issuer/card-mail', CARD_MAIL_SECRET: secret, ALLOWED_SENDERS: 'izipay.me' };
+  const message = (to: string, from: string) => {
+    const raw = Buffer.from(`From: ${from}\r\nTo: ${to}\r\nSubject: Verification code\r\n\r\nYour code is 734120\r\n`);
+    const result = { rejected: '' };
+    return { result, value: { to, from, rawSize: raw.length, raw: new Blob([raw]).stream(), setReject: (reason: string) => { result.rejected = reason; } } };
+  };
+  const code = async () => (await app.inject({ url: `/v1/cards/${card.id}/payment-code`, headers: headers(token) })).json<PaymentCodeResponse>().payment_code?.code;
+  const stranger = message('hello@cards.example.test', 'someone@izipay.me');
+  await worker.email(stranger.value, env);
+  assert.equal(stranger.result.rejected, 'Unknown address');
+  const spoofed = message(`card-${card.id}@cards.example.test`, 'phish@evil.example');
+  await worker.email(spoofed.value, env);
+  assert.equal(spoofed.result.rejected, 'Sender not accepted');
+  assert.equal(await code(), undefined);
+  const real = message(`Card-${card.id}@cards.example.test`, 'no-reply@mail.izipay.me');
+  await worker.email(real.value, env);
+  assert.equal(real.result.rejected, '');
+  assert.equal(await code(), '734120');
 });

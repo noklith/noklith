@@ -17,6 +17,7 @@ struct CardScreen: View {
                     actions(card)
                     InteractiveCard(card: card, previewAngle: store.options.fixture && store.options.scenario == "tilted" ? 24 : nil)
                     statusNotice(card)
+                    if let code = store.paymentCode { PaymentCodeNotice(code: code) }
                     if store.isWallet, store.networks.isEmpty {
                         Text("Refills are not enabled on this server yet.").font(.footnote).foregroundStyle(Design.textSecondary)
                     }
@@ -315,5 +316,45 @@ struct MonthlySpendBar: View {
         .surfaceCard()
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("monthly-spend")
+    }
+}
+
+/// The one-time code IZIPAY e-mailed for a payment in progress (3-D Secure). Shown until it expires.
+struct PaymentCodeNotice: View {
+    let code: PaymentCodeInfo.Code
+    @State private var copied = false
+
+    private var expiry: Date? {
+        let parser = ISO8601DateFormatter()
+        parser.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return parser.date(from: code.expiresAt)
+    }
+
+    var body: some View {
+        TimelineView(.periodic(from: .now, by: 15)) { context in
+            if let expiry, expiry > context.date {
+                HStack(alignment: .top, spacing: Design.medium) {
+                    IconBadge(symbol: "lock.shield.fill", color: Design.accent, size: 32)
+                    VStack(alignment: .leading, spacing: Design.xs) {
+                        Text("Payment code").font(.headline)
+                        Text(code.code)
+                            .font(Design.display(30, relativeTo: .title)).monospacedDigit().tracking(4)
+                            .textSelection(.enabled)
+                            .accessibilityLabel(String(localized: "Payment code \(code.code.map(String.init).joined(separator: " "))"))
+                        Text("Enter it on the payment page. Valid until \(expiry.formatted(date: .omitted, time: .shortened)).")
+                            .font(.subheadline).foregroundStyle(Design.textSecondary).fixedSize(horizontal: false, vertical: true)
+                        Button(copied ? "Copied" : "Copy code") {
+                            UIPasteboard.general.setItems([[UIPasteboard.typeAutomatic: code.code]],
+                                                          options: [.expirationDate: expiry, .localOnly: true])
+                            copied = true
+                        }
+                        .font(.subheadline.weight(.semibold)).foregroundStyle(Design.accent)
+                        .frame(minHeight: Design.minTouch)
+                    }
+                }
+                .surfaceCard()
+                .accessibilityIdentifier("payment-code-notice")
+            }
+        }
     }
 }

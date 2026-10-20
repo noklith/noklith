@@ -92,6 +92,8 @@ export interface CardEventResult {
   event_id: string; type: CardEventType; decision: 'approved' | 'declined'; reason: string | null;
   card_id: string; ledger_entry_id: string | null; duplicate: boolean;
 }
+/** One-time payment code (3-D Secure) IZIPAY e-mailed to the card's cardholder address; shown for a few minutes. */
+export interface PaymentCodeResponse { payment_code: { code: string; received_at: string; expires_at: string } | null }
 export interface CredentialsResponse {
   pan: string; expiry_month: number; expiry_year: number; cvv: string; expires_at: string; demonstration: boolean;
 }
@@ -218,6 +220,10 @@ export const configSchema = object({
   networks: { type: 'array', maxItems: 4, items: networkConfigSchema },
   spend_limits_enforced: { type: 'boolean' },
   limits: limitValuesSchema,
+});
+export const paymentCodeResponseSchema = object({
+  payment_code: { anyOf: [object({ code: { type: 'string', pattern: '^[0-9]{4,8}$' }, received_at: { type: 'string', format: 'date-time' },
+    expires_at: { type: 'string', format: 'date-time' } }), { type: 'null' }] },
 });
 export const credentialsResponseSchema = object({
   pan: { type: 'string', pattern: '^9999[0-9]{12}$' }, expiry_month: { type: 'integer', minimum: 1, maximum: 12 },

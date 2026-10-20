@@ -10,6 +10,8 @@ final class AppStore {
     private(set) var card: Card?
     private(set) var activities: [Activity] = []
     private(set) var limits: LimitsInfo?
+    /// The latest unexpired payment code for an IZIPAY card, if the server receives cardholder mail.
+    private(set) var paymentCode: PaymentCodeInfo.Code?
     private(set) var networks: [NetworkConfig] = []
     private(set) var isLoading = false
     private(set) var isMutating = false
@@ -59,6 +61,7 @@ final class AppStore {
         card = Fixtures.card(scenario: options.scenario)
         activities = Fixtures.history(scenario: options.scenario)
         limits = nil
+        paymentCode = nil
         errorMessage = options.scenario == "offline" ? String(localized: "You're offline. These are preview data. Try again when connected.") : nil
     }
 
@@ -154,10 +157,16 @@ final class AppStore {
             let results = try await (cardResult, historyResult)
             var limitResult: LimitsInfo?
             if isWallet { limitResult = try? await api("v1/limits") as LimitsInfo }
+            var codeResult: PaymentCodeInfo.Code?
+            if isWallet, let issued = results.0.card, issued.issuerMode == "izipay" {
+                // Absent on servers without cardholder mail (404): no code is shown then.
+                codeResult = (try? await api("v1/cards/\(issued.id)/payment-code") as PaymentCodeInfo)?.paymentCode
+            }
             guard generation == sessionGeneration, requestOwner == ownerID, revision == stateRevision else { return }
             card = results.0.card
             activities = results.1.items
             limits = limitResult
+            paymentCode = codeResult
             // Pagination is implemented in API; the interface displays the latest page.
             try cache?.replace(activities, ownerID: requestOwner)
             errorMessage = nil
@@ -332,6 +341,7 @@ final class AppStore {
         card = nil
         activities = []
         limits = nil
+        paymentCode = nil
         networks = []
         walletAddress = nil
         walletChainID = nil

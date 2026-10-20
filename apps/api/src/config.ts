@@ -19,6 +19,8 @@ export interface RuntimeConfig {
   walletAuth?: WalletAuthRuntimeConfiguration;
   funding?: FundingConfiguration;
   demoIssuerWebhookSecret?: string;
+  /** HMAC secret shared with the Cloudflare Email Routing worker that forwards IZIPAY cardholder mail. */
+  cardMailSecret?: string;
   issuer: IssuerConfig;
   /** Reverse proxy address or CIDR whose X-Forwarded-For is trusted; absent means the socket address is the client. */
   trustedProxy?: string;
@@ -228,8 +230,12 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): RuntimeConfig 
   const webhookSecret = env.DEMO_ISSUER_WEBHOOK_SECRET || undefined;
   if (webhookSecret !== undefined && webhookSecret.length < 32) throw new Error('DEMO_ISSUER_WEBHOOK_SECRET must contain at least 32 characters.');
   const funding = readFundingConfig(env, walletAuth, networkMode);
+  const cardMailSecret = env.CARD_MAIL_SECRET || undefined;
+  if (cardMailSecret !== undefined && (cardMailSecret.length < 32 || issuer.mode !== 'izipay')) {
+    throw new Error('CARD_MAIL_SECRET needs at least 32 characters and ISSUER_MODE=izipay.');
+  }
   return { host, port: Number(rawPort), databaseURL: env.DATABASE_URL, networkMode, walletAuth, issuer,
-    funding, demoIssuerWebhookSecret: webhookSecret,
+    funding, demoIssuerWebhookSecret: webhookSecret, cardMailSecret,
     trustedProxy: readTrustedProxy(env), ...readRiskConfig(env) };
 }
 export function publicConfig(networkMode: NetworkMode, limits: LimitValues, issuerMode: IssuerMode = 'demo'): APIConfig {
