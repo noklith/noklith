@@ -81,7 +81,14 @@
    await new Promise((resolve,reject)=>{
     const stop=[];const done=f=>{stop.forEach(u=>{try{u()}catch{}});f()};
     stop.push(appKit.subscribeAccount(a=>{if(a?.isConnected&&appKit.getWalletProvider())done(resolve)},'eip155'));
-    stop.push(appKit.subscribeState(st=>{if(!st.open&&!connected())done(()=>reject({code:4001}))}));
+    // On a phone the window can close while the visitor is still in the wallet app and the connection
+    // arrives a moment later, so a closed window only gives up after a grace period.
+    let grace=null;
+    stop.push(()=>clearTimeout(grace));
+    stop.push(appKit.subscribeState(st=>{
+     if(st.open){clearTimeout(grace);grace=null;return}
+     if(!connected()&&!grace)grace=setTimeout(()=>{if(!connected())done(()=>reject(new APIError(0,'not_connected','The wallet did not connect. Open the wallet list again and pick your wallet.')))},45000);
+    }));
    });
   }
   appKit.close();

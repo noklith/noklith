@@ -38,3 +38,11 @@ user ──USDC──► 0x… personal address ──(watcher: Transfer logs, c
 Deposited USDC stays on the personal addresses until the operator moves it with the seed, for example to the
 treasury or the issuer. Each address needs a little ETH on Base for the transfer's network fee. Sweeping is not
 automated on the server on purpose: the server never has the keys.
+
+`apps/api/src/dev/sweep-deposits.ts` does this on the operator's computer (testnet only): it lists the USDC on
+the first N addresses and, with `--send`, transfers each balance to one destination.
+
+```
+node src/dev/sweep-deposits.ts <destination> --count 50          # dry run: balances only
+node src/dev/sweep-deposits.ts <destination> --count 50 --send   # move the USDC
+```
