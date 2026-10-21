@@ -26,3 +26,19 @@
 .dashboard-body .breadcrumbs>span:first-of-type{color:#a58b6a}
 .dashboard-body .account-pill{margin-left:auto}
 @media(max-width:800px){.dashboard-body .dash-topbar{gap:12px;padding:0 15px}.dashboard-body .dash-topbar .breadcrumbs{gap:7px;font-size:11px}.dashboard-body .breadcrumb-brand{width:25px;height:25px}.dashboard-body .account-pill{padding:7px;gap:5px}.dashboard-body .account-pill>span{display:none}.dashboard-body .account-pill>i{margin-left:0}.dashboard-body .sidebar-toggle{margin-left:0}.dashboard-body .breadcrumbs>a{gap:7px}}
+/* Readability: WCAG AA text contrast on paper and stone textures (4.5:1 body text, 3:1 large text and controls). */
+.dashboard-body{--nk-text-2:#5a4127;--nk-text-3:#634a2c;--nk-accent-text:#6e5028}
+.dashboard-body .camp-coordinate,.dashboard-body .card-heading .eyebrow,.dashboard-body .card-detail-copy>.eyebrow,.dashboard-body .card-appearance>.micro{color:var(--nk-accent-text)}
+.dashboard-body .dash-heading-note,.dashboard-body .account-connection,.dashboard-body .view-toolbar>p,.dashboard-body .slabs-footnote,.dashboard-body .card-detail-copy>p,.dashboard-body .card-detail-copy .fine-print,.dashboard-body .preference-ledger p,.dashboard-body .dash-footer,.dashboard-body .empty-trail,.dashboard-body .form-description,.dashboard-body .stone-inner .fine-print,.dashboard-body .float-summary p,.dashboard-body .float-amount small,.dashboard-body .float-limits,.dashboard-body .add-slab-inline,.dashboard-body .subtle-link,.dashboard-body .detail-fact>span,.dashboard-body .split-total,.dashboard-body .payday-split>span,.dashboard-body .amount-input>span{color:var(--nk-text-3)}
+.dashboard-body .input-label,.dashboard-body .button.ghost,.dashboard-body .detail-fact>b,.dashboard-body .float-limits b,.dashboard-body .split-total b,.dashboard-body .card-balance-row,.dashboard-body .payday-split input,.dashboard-body .amount-input input,.dashboard-body .search-field input{color:var(--nk-text-2)}
+.dashboard-body .breadcrumbs>span:first-of-type{color:#6f5638}
+.dashboard-body .search-field>span{color:#7a6142}
+.dashboard-body .slab-mini>span,.dashboard-body .slab-mini small{color:#3f2c19}
+.dashboard-body .card-preview .subtle-link,.dashboard-body .card-preview .eyebrow,.dashboard-body .card-preview .card-controls button,.dashboard-body .card-preview .card-balance-row{color:#3a2816}
+.dashboard-body .card-preview .card-collection{color:#2c1f13}
+.dashboard-body .status-chip{color:#44502a;background:#f1ead9d9;border-color:#6f7a4a66}
+.dashboard-body .account-card .network-pills button,.dashboard-body .account-card .network-pills button.active{color:#f3e7d0}
+.dashboard-body .account-card .account-balance .currency{color:#d9c6a6;opacity:.85}
+.dashboard-body .payment-bottom>span:last-child{opacity:.9}
+@media(max-width:800px){.dashboard-body .nav-item{color:#4e3720}}
+.dashboard-body .account-card .eyebrow{color:#dcc9a8}

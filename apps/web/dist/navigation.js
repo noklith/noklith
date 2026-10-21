@@ -14,13 +14,19 @@
   // The persistent header and isolated route documents reproduce overlapping Framer page transitions.
   const template=document.querySelector('#nk-marketing-chrome')?.content;
   const header=document.querySelector('.site-header')||template?.querySelector('.site-header')?.cloneNode(true),menu=document.querySelector('#site-menu')||template?.querySelector('#site-menu')?.cloneNode(true),icons=document.querySelector('.icon-library');
-  const firstURL=cleanURL(location.href);if(header&&['/','/index'].includes(route(firstURL.pathname))&&!reduce)header.style.opacity='0';document.body.replaceChildren(...[icons,header,menu].filter(Boolean));document.body.className='nk-shell';root.classList.remove('nk-boot');if(['/', '/index'].includes(route(firstURL.pathname)))document.body.style.background='#0c0a08';
+  const firstURL=cleanURL(location.href);if(header&&['/','/index'].includes(route(firstURL.pathname))&&!reduce)header.style.opacity='0';document.body.replaceChildren(...[icons,header,menu].filter(Boolean));document.body.className='nk-shell';root.classList.remove('nk-boot','nk-shell-boot');if(['/', '/index'].includes(route(firstURL.pathname)))document.body.style.background='#0c0a08';
   let current,pending,busy=false,first=true;
   const modal=document.createElement('dialog');modal.className='brand-dialog';modal.setAttribute('aria-labelledby','nk-shell-dialog-title');modal.innerHTML='<div class=dialog-stone><button class=dialog-close aria-label="Close dialog">×</button><span class=eyebrow>THE NEXT CHAPTER</span><h2 id=nk-shell-dialog-title></h2><p>We’re carving out our place. Noklith’s official channel will appear here when it is ready.</p><button class="button dark" data-shell-close>BACK TO NOKLITH ↗</button></div>';document.body.append(modal);let socialFocus;document.querySelectorAll('[data-social] svg').forEach(svg=>{const use=svg.querySelector('use'),b=use?.getBBox();if(b?.width&&b.height)use.setAttribute('transform','translate(12 12) scale('+(20/Math.max(b.width,b.height))+') translate('+(-b.x-b.width/2)+' '+(-b.y-b.height/2)+')')});modal.querySelectorAll('button').forEach(b=>b.onclick=()=>modal.close());modal.addEventListener('close',()=>socialFocus?.focus());
   function menuState(open){document.body.classList.toggle('menu-open',open);if(menu)menu.inert=!open;const toggle=header?.querySelector('.menu-toggle');toggle?.setAttribute('aria-expanded',String(open));toggle?.setAttribute('aria-label',open?'Close menu':'Open menu');if(open)menu?.querySelector('a')?.focus()}
   header?.querySelector('.menu-toggle')?.addEventListener('click',()=>menuState(!document.body.classList.contains('menu-open')));
   document.addEventListener('keydown',e=>{if(e.key==='Escape')menuState(false);if(e.key==='Tab'&&document.body.classList.contains('menu-open')){const n=[header.querySelector('.menu-toggle'),...menu.querySelectorAll('a,button')],a=n[0],b=n.at(-1);if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus()}else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus()}}});
-  function frameFor(url){const f=document.createElement('iframe');f.className='nk-route-frame';f.title='Noklith';f.setAttribute('allow','autoplay; fullscreen');f.style.opacity='0';const u=new URL(url);u.searchParams.set('nk_frame','1');f.src=u.href;document.body.append(f);setTimeout(()=>{if(pending===f&&busy){const fallback=new URL(url);fallback.searchParams.set('nk_direct','1');location.replace(fallback.href)}},8000);return f}
+  function frameFor(url){const f=document.createElement('iframe');f.className='nk-route-frame';f.title='Noklith';f.setAttribute('allow','autoplay; fullscreen');f.style.opacity='0';const u=new URL(url);u.searchParams.set('nk_frame','1');f.src=u.href;
+   const fallback=()=>{if(pending===f&&busy){const d=new URL(url);d.searchParams.set('nk_direct','1');location.replace(d.href)}};
+   const live=()=>{try{return new URL(f.contentWindow.location.href).searchParams.has('nk_frame')}catch{return false}};
+   // A frame refused by X-Frame-Options/CSP still fires load but never reports nk-ready. Go direct at once
+   // instead of waiting; a live route that loaded but stays silent gets a short grace period.
+   let armed=false;f.addEventListener('load',()=>{if(!armed||pending!==f||!busy)return;if(live())setTimeout(fallback,1500);else fallback()});
+   document.body.append(f);armed=true;setTimeout(()=>{if(!live())fallback()},15000);return f}
   function navigate(value,push=true){const url=cleanURL(value);if(url.origin!==location.origin||!allowed.includes(route(url.pathname)))return false;if(busy)return true;menuState(false);if(current&&route(url.pathname)===route(cleanURL(current.src).pathname)){current.contentWindow.postMessage({type:'nk-hash',hash:url.hash},location.origin);history.replaceState(null,'',url.href);return true}busy=true;pending=frameFor(url);pending.dataset.push=String(push);return true}
   window.addEventListener('message',async e=>{
    if(e.origin!==location.origin)return;const data=e.data||{};
@@ -54,8 +60,10 @@
  root.dataset.nkRouteDocument=direct?'direct':'frame';
  if(!direct)document.body.classList.add('is-route-frame');else{const clean=cleanURL(location.href);clean.searchParams.delete('nk_direct');history.replaceState(null,'',clean.href)}root.classList.remove('nk-boot');
  const home=['/','/index'].includes(route(location.pathname))&&(!location.hash||location.hash==='#home');let activated=false;
- const visibleImages=[...document.images].filter(i=>{i.loading='eager';const r=i.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0});
- const ready=Promise.all([document.fonts.ready,Promise.race([Promise.allSettled(visibleImages.map(i=>i.decode())),new Promise(r=>setTimeout(r,600))])]);
+ // Only on-screen artwork is promoted to eager; the rest keeps its lazy hint so a cold visit is not bandwidth-starved.
+ const visibleImages=[...document.images].filter(i=>{const r=i.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0});visibleImages.forEach(i=>{i.loading='eager'});
+ // Fonts are preloaded and normally arrive first; the cap keeps a stalled font from holding the reveal.
+ const ready=Promise.all([Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,3000))]),Promise.race([Promise.allSettled(visibleImages.map(i=>i.decode())),new Promise(r=>setTimeout(r,600))])]);
  let cover,word,hero=document.querySelector('.hero-word'),slices=[],relocation,visuals=[],prepared;
  if(home&&hero&&!reduce){
   cover=document.createElement('div');cover.className='reference-loader';cover.setAttribute('aria-hidden','true');cover.innerHTML='<div class="reference-loader-ground"></div><div class="reference-loader-word"></div>';document.body.append(cover);word=cover.querySelector('.reference-loader-word');hero.style.opacity='0';

@@ -41,7 +41,9 @@ for k,v in Counter(photos).items():
  if v>1:issues.append(['repeated photo',k,v])
 for p in list(root.glob('*.html'))+list(root.glob('*.js'))+list(root.glob('*.css')):
  if '\u2014' in p.read_text() or '&mdash;' in p.read_text():issues.append([p.name,'em dash remains'])
- if p.suffix=='.html' and 'loading="lazy"' in p.read_text():issues.append([p.name,'lazy image remains'])
+ # Below-the-fold images load lazily; the priority (hero) image must never be lazy.
+ if p.suffix=='.html' and re.search(r'<img\b(?=[^>]*fetchpriority="high")(?=[^>]*loading="lazy")[^>]*>',p.read_text()):issues.append([p.name,'lazy priority image'])
+ if p.suffix=='.html' and len(re.findall(r'rel="preload" as="image"',p.read_text()))>1:issues.append([p.name,'more than one image preload'])
 # The original placeholder mark must not remain in served markup or editable films.
 for p in list(root.glob('*.html'))+[root/'favicon.svg']:
  if 'M7 6 15 5 26 25' in p.read_text() or 'M10 8 24 6 42 39' in p.read_text():issues.append([p.name,'placeholder N remains'])

@@ -45,9 +45,11 @@ noklith.com {
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		Referrer-Policy strict-origin-when-cross-origin
-		# The dashboard shows card details: it must never be framed by another site.
-		Content-Security-Policy "frame-ancestors 'none'"
-		X-Frame-Options DENY
+		# The dashboard shows card details: it must never be framed by another site. The site itself frames its
+		# own pages (navigation.js loads each route in a same-origin iframe), so only this origin may frame them;
+		# 'none'/DENY blocked that frame and every page fell back to a full reload after 8 seconds.
+		Content-Security-Policy "frame-ancestors 'self'"
+		X-Frame-Options SAMEORIGIN
 	}
 	# Reown domain verification for wallet connections from noklith.com (same operator-placed file).
 	handle /.well-known/walletconnect.txt {

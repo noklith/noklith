@@ -56,7 +56,7 @@
  }
  // WalletConnect (Reown AppKit, served from this site): one list with installed extensions, phone wallets and a
  // QR code. Used whenever the server publishes a project ID; the app link buttons below stay as the fallback.
- let appKit=null;
+ let appKit=null,appKitNets=[];
  // MetaMask, Trust Wallet, Base (Coinbase Wallet) and Rainbow in the WalletConnect explorer.
  const WALLETS=['c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96','4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0',
   'fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa','1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369'];
@@ -68,6 +68,7 @@
    // Ethereum Sepolia as a second testnet: some phone wallets (Trust Wallet) refuse a session that offers only
    // Base Sepolia. Sign-in does not depend on the network; refills still switch to the configured one.
    if(networks.sepolia&&!nets.includes(networks.sepolia))nets.push(networks.sepolia);
+   appKitNets=nets;
    appKit=createAppKit({adapters:[new WagmiAdapter({projectId,networks:nets})],networks:nets,defaultNetwork:nets[0],projectId,
     metadata:{name:'Noklith',description:'Sign in to Noklith with your own wallet.',url:location.origin,icons:[location.origin+'/assets/noklith-icon-256.png']},
     features:{analytics:false,email:false,socials:false,swaps:false,onramp:false,send:false,history:false},themeMode:'light',
@@ -84,6 +85,15 @@
    });
   }
   appKit.close();
+  // A wallet may approve only some of the offered networks (Trust Wallet: Ethereum Sepolia, not Base Sepolia).
+  // Requests must go to an approved one, otherwise WalletConnect refuses them before the wallet sees them.
+  const provider=appKit.getWalletProvider();
+  const approved=(provider?.session?.namespaces?.eip155?.accounts||[]).map(a=>a.split(':').slice(0,2).join(':'));
+  const active=appKit.getCaipNetwork?.()?.id;
+  if(approved.length&&!approved.includes('eip155:'+active)){
+   const target=appKitNets.find(n=>approved.includes('eip155:'+n.id));
+   if(target)await appKit.switchNetwork(target);
+  }
   return appKit.getWalletProvider();
  }
  // A phone wallet connected through WalletConnect is a separate app: offer a button that opens it, so the
