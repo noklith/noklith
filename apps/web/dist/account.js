@@ -36,8 +36,25 @@
  }
  const message=(error,fallback)=>error instanceof APIError?error.message:(error?.code===4001?'You declined the request in your wallet.':fallback);
 
- // Wallet (EIP-1193).
- const wallet=()=>window.ethereum;
+ // Wallet (EIP-1193). Installed wallets announce themselves (EIP-6963), so the visitor picks one instead of
+ // whichever extension took window.ethereum; the choice is remembered for this tab.
+ const walletKey='noklith-wallet';
+ const wallets=new Map();
+ window.addEventListener('eip6963:announceProvider',e=>{const d=e.detail;if(d?.info?.uuid&&d.provider)wallets.set(d.info.uuid,d)});
+ window.dispatchEvent(new Event('eip6963:requestProvider'));
+ let chosen=null;
+ const wallet=()=>{
+  if(chosen)return chosen;
+  let rdns=null;try{rdns=sessionStorage.getItem(walletKey)}catch{}
+  const remembered=rdns&&[...wallets.values()].find(w=>w.info.rdns===rdns);
+  return remembered?remembered.provider:window.ethereum;
+ };
+ function choose(entry){
+  chosen=entry?entry.provider:window.ethereum;
+  try{entry?sessionStorage.setItem(walletKey,entry.info.rdns||''):sessionStorage.removeItem(walletKey)}catch{}
+  watchAccounts(chosen);
+ }
+ const icon=src=>/^data:image\/(svg\+xml|png|webp|jpeg|gif)[;,]/.test(src||'')?'<img src="'+escape(src)+'" alt="" width="28" height="28">':'';
  async function ensureChain(chainId){
   const eth=wallet(),hex='0x'+chainId.toString(16);
   if(await eth.request({method:'eth_chainId'})===hex)return;
@@ -53,10 +70,18 @@
 
  async function connect(){
   if(state.busy)return;
+  // Discovery is asynchronous; give late announcements a moment before deciding.
+  if(!wallets.size){window.dispatchEvent(new Event('eip6963:requestProvider'));await new Promise(r=>setTimeout(r,250))}
+  if(!chosen&&wallets.size>1){
+   const list=[...wallets.values()];
+   open('YOUR KEYS. YOUR ACCOUNT.','Choose a wallet.','<div class="connection-rune" aria-hidden="true">'+glyph('passkey')+'</div><div class="nk-wallet-links">'+list.map(w=>'<button class="button dark nk-wallet-choice" data-nk="pick-wallet" data-id="'+escape(w.info.uuid)+'">'+icon(w.info.icon)+'<span>'+escape(w.info.name)+'</span></button>').join('')+'</div><p class="fine-print">Noklith never asks for your seed phrase or private key.</p>');
+   return;
+  }
+  if(!chosen)choose(wallets.size===1?[...wallets.values()][0]:null);
   if(!wallet()){
    // No injected wallet (typical on phones): open this page inside a wallet app's own browser.
    const page=location.origin+'/dashboard.html',bare=page.replace(/^https?:\/\//,''),enc=encodeURIComponent(page);
-   const links=[['MetaMask','https://metamask.app.link/dapp/'+bare],['Trust Wallet','https://link.trustwallet.com/open_url?coin_id=60&url='+enc],['Coinbase Wallet','https://go.cb-w.com/dapp?cb_url='+enc]];
+   const links=[['MetaMask','https://link.metamask.io/dapp/'+bare],['Trust Wallet','https://link.trustwallet.com/open_url?coin_id=60&url='+enc],['Coinbase Wallet','https://go.cb-w.com/dapp?cb_url='+enc]];
    open('YOUR KEYS. YOUR ACCOUNT.','Connect a wallet.','<div class="connection-rune" aria-hidden="true">'+glyph('passkey')+'</div><p>Noklith signs you in with your own wallet. On a computer, use a browser with a wallet extension such as MetaMask. On a phone, open this page in your wallet app:</p><div class="nk-wallet-links">'+links.map(([name,href])=>'<a class="button dark" href="'+escape(href)+'" target="_top" rel="noopener">OPEN IN '+escape(name.toUpperCase())+' ↗</a>').join('')+'</div><p class="fine-print">Noklith never asks for your seed phrase or private key.</p>');
    return;
   }
@@ -80,6 +105,8 @@
    await refresh();
    close();toast('Your account is connected.');
   }catch(error){
+   // Trying again offers the wallet list again, so another wallet can be picked.
+   chosen=null;try{sessionStorage.removeItem(walletKey)}catch{}
    open('YOUR KEYS. YOUR ACCOUNT.','Not connected.','<p>'+escape(message(error,'The wallet did not complete the sign-in.'))+'</p><button class="button dark" data-nk="connect">TRY AGAIN ↗</button>');
   }finally{state.busy=false}
  }
@@ -87,7 +114,7 @@
  async function signOut(remote=true){
   if(remote&&state.token)await api('/auth/logout',{method:'POST',body:{}}).catch(()=>{});
   state.token=null;state.me=null;state.card=null;state.history=[];state.wallet=null;
-  try{sessionStorage.removeItem(tokenKey)}catch{}
+  try{sessionStorage.removeItem(tokenKey);sessionStorage.removeItem(walletKey)}catch{}
   location.reload(); // Restores every static not-connected label.
  }
 
@@ -229,10 +256,18 @@
   actions:{connect,refill,receive:refill,freeze,'card-details':details,send:()=>soon('Sending money'),move:()=>soon('Moving money between Slabs'),'new-slab':()=>soon('Slabs')},
   connection:action=>state.token?soon(action.charAt(0).toUpperCase()+action.slice(1)):connect(),
  });
- document.addEventListener('click',e=>{const b=e.target.closest('[data-nk]');if(!b)return;e.preventDefault();({connect,issue,'sign-out':()=>signOut(),'send-refill':()=>sendRefill(b.dataset.id)})[b.dataset.nk]?.()});
- wallet()?.on?.('accountsChanged',accounts=>{
-  const current=(accounts?.[0]||'').toLowerCase();
-  if(state.token&&state.me?.wallet_address&&current!==state.me.wallet_address.toLowerCase()){toast('Wallet account changed. Connect again.');signOut()}
- });
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-nk]');if(!b)return;e.preventDefault();({connect,issue,'sign-out':()=>signOut(),'send-refill':()=>sendRefill(b.dataset.id),'pick-wallet':()=>{const w=wallets.get(b.dataset.id);if(w){choose(w);connect()}}})[b.dataset.nk]?.()});
+ const watched=new WeakSet();
+ function watchAccounts(eth){
+  if(!eth?.on||watched.has(eth))return;
+  watched.add(eth);
+  eth.on('accountsChanged',accounts=>{
+   if(eth!==wallet())return;
+   const current=(accounts?.[0]||'').toLowerCase();
+   if(state.token&&state.me?.wallet_address&&current!==state.me.wallet_address.toLowerCase()){toast('Wallet account changed. Connect again.');signOut()}
+  });
+ }
+ // After a reload the remembered wallet may announce a little later than this script runs.
+ setTimeout(()=>watchAccounts(wallet()),300);
  if(state.token)refresh().then(()=>{if(state.card?.status==='provisioning')watchCard()}).catch(()=>{});
 })();
