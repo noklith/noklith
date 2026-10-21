@@ -55,8 +55,15 @@ export interface APIConfig {
   limits: LimitValues;
   /** Reown (WalletConnect) project ID for the website's wallet list; public by design, null when not configured. */
   walletconnect_project_id: string | null;
+  /** True when each user can top up by sending a stablecoin to a personal deposit address (GET /v1/deposit-address). */
+  deposits_enabled: boolean;
 }
 export interface NetworkAsset { symbol: string; name: string; token_address: string; decimals: number }
+/** The caller's personal deposit address: send a listed token on a listed network to top up the card. */
+export interface DepositAddressResponse {
+  address: string;
+  networks: { chain_id: number; name: string; confirmations: number; assets: NetworkAsset[] }[];
+}
 export interface NetworkConfig {
   chain_id: number; caip2: string; name: string; confirmations: number; recipient_address: string; explorer_tx_url: string; assets: NetworkAsset[];
 }
@@ -201,6 +208,11 @@ export const topUpCreateRequestSchema = object({
 });
 export const topUpHashRequestSchema = object({ transaction_hash: { type: 'string', pattern: '^0x[0-9a-fA-F]{64}$' } });
 export const topUpParamsSchema = object({ id: uuid });
+export const depositAddressResponseSchema = object({
+  address: addressSchema,
+  networks: { type: 'array', maxItems: 4, items: object({ chain_id: chainIDSchema, name: text, confirmations: { type: 'integer', minimum: 1 },
+    assets: { type: 'array', items: object({ symbol: text, name: text, token_address: addressSchema, decimals: { type: 'integer', minimum: 2, maximum: 36 } }) } }) },
+});
 const unitsOrNull = { anyOf: [{ type: 'string', pattern: '^(0|[1-9][0-9]{0,77})$' }, { type: 'null' }] } as const;
 export const walletBalancesResponseSchema = object({
   address: addressSchema,
@@ -223,6 +235,7 @@ export const configSchema = object({
   spend_limits_enforced: { type: 'boolean' },
   limits: limitValuesSchema,
   walletconnect_project_id: { anyOf: [{ type: 'string', pattern: '^[0-9a-f]{32}$' }, { type: 'null' }] },
+  deposits_enabled: { type: 'boolean' },
 });
 export const paymentCodeResponseSchema = object({
   payment_code: { anyOf: [object({ code: { type: 'string', pattern: '^[0-9]{4,8}$' }, received_at: { type: 'string', format: 'date-time' },

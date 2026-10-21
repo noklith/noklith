@@ -5,7 +5,7 @@ import {
   historyResponseSchema, idempotencyHeadersSchema, profileRequestSchema, sessionResponseSchema, userSchema,
   authChallengeRequestSchema, authChallengeResponseSchema, authVerifyRequestSchema, walletSessionResponseSchema, walletUserSchema,
   credentialsResponseSchema, paymentCodeResponseSchema, eventsQuerySchema, eventsResponseSchema, limitsResponseSchema,
-  cardEventResultSchema, demoCardEventRequestSchema, walletBalancesResponseSchema,
+  cardEventResultSchema, demoCardEventRequestSchema, walletBalancesResponseSchema, depositAddressResponseSchema,
   topUpAcceptResponseSchema, topUpCreateRequestSchema, topUpHashRequestSchema, topUpListResponseSchema, topUpParamsSchema, topUpResponseSchema,
 } from '../../../packages/api-contracts/src/index.ts';
 import type { AuthChallengeRequest, AuthVerifyRequest, DemoCardEventRequest, FixtureProfile, NetworkMode, TopUpCreateRequest, TopUpHashRequest } from '../../../packages/api-contracts/src/index.ts';
@@ -25,6 +25,7 @@ import { RiskService } from './risk.ts';
 import { registerEventStream } from './event-stream.ts';
 import type { EventStreamOptions } from './event-stream.ts';
 import type { FundingService } from './funding/service.ts';
+import type { DepositService } from './funding/deposits.ts';
 
 export interface AppOptions {
   db: Database; networkMode: NetworkMode; now?: () => Date; logger?: boolean;
@@ -42,6 +43,7 @@ export interface AppOptions {
   /** Receives IZIPAY cardholder mail and keeps one-time payment codes; absent means the routes are not served. */
   cardMail?: CardMailService;
   walletconnectProjectId?: string;
+  deposits?: DepositService;
 }
 export function buildApp(options: AppOptions) {
   if (options.auth && options.networkMode === 'fixture') throw new Error('Wallet authentication cannot be enabled in fixture mode.');
@@ -105,7 +107,7 @@ export function buildApp(options: AppOptions) {
   app.get('/v1/config', { schema: { response: success(configSchema) } }, async () => ({
     ...publicConfig(options.networkMode, limits.publicValues(), issuer.mode), wallet_auth_enabled: !!auth, wallet_auth: authMetadata,
     top_up_enabled: !!options.funding, networks: options.funding?.networks ?? [],
-    walletconnect_project_id: options.walletconnectProjectId ?? null,
+    walletconnect_project_id: options.walletconnectProjectId ?? null, deposits_enabled: !!(options.deposits && options.funding),
   }));
   if (options.networkMode === 'fixture') {
     app.post<{ Body: { profile: FixtureProfile } }>('/v1/fixture/sessions', {
@@ -180,6 +182,11 @@ export function buildApp(options: AppOptions) {
       return service.mutation(userID, key(request), `POST:/v1/top-ups:${body.chain_id}:${body.asset}:${body.amount_cents}`,
         async tx => ({ top_up: await funding.create(tx, { userID, walletAddress: address, chainID: body.chain_id, asset: body.asset, amountCents: body.amount_cents }) }));
     });
+    if (options.deposits) {
+      const deposits = options.deposits;
+      app.get('/v1/deposit-address', { schema: { response: success(depositAddressResponseSchema) } },
+        async request => deposits.addressFor((await wallet(request)).userID));
+    }
     app.get('/v1/wallet/balances', { schema: { response: success(walletBalancesResponseSchema) } },
       async request => funding.walletBalances((await wallet(request)).address));
     app.get('/v1/top-ups', { schema: { response: success(topUpListResponseSchema) } },

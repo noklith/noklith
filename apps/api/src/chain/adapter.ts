@@ -28,11 +28,16 @@ export type TransferCheck =
  * logs and confirmations decide. Implementations must not trust any client-provided field.
  */
 export interface WalletBalances { nativeUnits: bigint; tokens: { token: string; units: bigint }[] }
+/** A token transfer found by scanning logs; the deposit watcher only asks for blocks it considers final. */
+export interface IncomingTransfer { transactionHash: Hex; logIndex: number; blockNumber: bigint; from: string; to: string; units: bigint }
 export interface ChainAdapter {
   readonly chainIds: readonly number[];
   checkTransfer(expected: ExpectedTransfer, requiredConfirmations: number): Promise<TransferCheck>;
   /** Native (gas) and ERC-20 balances at the latest block. Display only; never used for crediting. */
   balances?(chainId: number, address: string, tokens: readonly string[]): Promise<WalletBalances>;
+  latestBlock?(chainId: number): Promise<bigint>;
+  /** Transfer logs of one token to any of the recipients (at most 100) in [fromBlock, toBlock]. */
+  incomingTransfers?(chainId: number, token: string, recipients: readonly string[], fromBlock: bigint, toBlock: bigint): Promise<IncomingTransfer[]>;
 }
 
 export interface ReceiptLog { address: string; topics: Hex[]; data: Hex; logIndex: number; removed: boolean }
@@ -129,6 +134,49 @@ export function createEvmChainAdapter(endpoints: readonly RpcEndpointConfigurati
           results.push({ token: getAddress(token), units: decodeFunctionResult({ abi: erc20Abi, functionName: 'balanceOf', data: raw as Hex }) });
         }
         return { nativeUnits, tokens: results };
+      });
+    },
+    async latestBlock(chainId) {
+      const url = urls.get(chainId);
+      if (!url) throw new RpcInspectionError('unsupported_chain');
+      return rpcSession(url, limits, async request => {
+        if (rpcQuantity(await request('eth_chainId', [])) !== BigInt(chainId)) throw new RpcInspectionError('chain_mismatch');
+        return rpcQuantity(await request('eth_blockNumber', []));
+      });
+    },
+    async incomingTransfers(chainId, token, recipients, fromBlock, toBlock) {
+      const url = urls.get(chainId);
+      if (!url) throw new RpcInspectionError('unsupported_chain');
+      if (!isAddress(token, { strict: false }) || !recipients.length || recipients.length > 100
+          || recipients.some(item => !isAddress(item, { strict: false })) || fromBlock < 0n || toBlock < fromBlock || toBlock - fromBlock > 10_000n) {
+        throw new RpcInspectionError('invalid_configuration');
+      }
+      const wanted = new Set(recipients.map(item => item.toLowerCase()));
+      const topicFor = (address: string) => ('0x' + address.slice(2).toLowerCase().padStart(64, '0')) as Hex;
+      return rpcSession(url, limits, async request => {
+        if (rpcQuantity(await request('eth_chainId', [])) !== BigInt(chainId)) throw new RpcInspectionError('chain_mismatch');
+        const raw = await request('eth_getLogs', [{ address: token, fromBlock: '0x' + fromBlock.toString(16), toBlock: '0x' + toBlock.toString(16),
+          topics: [TRANSFER_TOPIC, null, recipients.map(topicFor)] }]);
+        if (!Array.isArray(raw) || raw.length > 5000) throw new RpcInspectionError('invalid_response');
+        const found: IncomingTransfer[] = [];
+        for (const entry of raw) {
+          if (!entry || typeof entry !== 'object') throw new RpcInspectionError('invalid_response');
+          const log = entry as Record<string, unknown>;
+          if (typeof log.address !== 'string' || log.address.toLowerCase() !== token.toLowerCase() || !Array.isArray(log.topics) || log.topics.length !== 3
+              || log.topics.some(topic => typeof topic !== 'string' || !HASH.test(topic)) || typeof log.data !== 'string' || !HEX_DATA.test(log.data)
+              || typeof log.transactionHash !== 'string' || !HASH.test(log.transactionHash)) throw new RpcInspectionError('invalid_response');
+          if (log.removed === true) continue;
+          const blockNumber = rpcQuantity(log.blockNumber), logIndex = rpcQuantity(log.logIndex);
+          if (blockNumber < fromBlock || blockNumber > toBlock || logIndex > 1_000_000n) throw new RpcInspectionError('invalid_response');
+          let decoded;
+          try { decoded = decodeEventLog({ abi: erc20Abi, eventName: 'Transfer', topics: log.topics as [Hex, ...Hex[]], data: log.data as Hex }); }
+          catch { throw new RpcInspectionError('invalid_response'); }
+          const to = decoded.args.to.toLowerCase();
+          if (!wanted.has(to) || decoded.args.value <= 0n) continue;
+          found.push({ transactionHash: log.transactionHash.toLowerCase() as Hex, logIndex: Number(logIndex), blockNumber,
+            from: decoded.args.from.toLowerCase(), to, units: decoded.args.value });
+        }
+        return found;
       });
     },
   };

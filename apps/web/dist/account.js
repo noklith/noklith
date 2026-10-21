@@ -237,8 +237,25 @@
   }catch(error){toast(message(error,'Card details are not available right now.'))}
  }
 
- // Refill: quote → accept → wallet transfer → hash → server verification and card credit.
- function refill(){
+ // Refill by personal address: the user sends a stablecoin from any wallet or exchange; the server sees the
+ // transfer and credits the card. Paying from the connected wallet stays available below it.
+ async function refill(){
+  if(needCard())return;
+  if(!state.config?.deposits_enabled){refillFromWallet();return}
+  if(state.card.status!=='active'){toast('Refills need an active card.');return}
+  let d;
+  try{d=await api('/deposit-address')}catch(error){toast(message(error,'Your top-up address is not available right now.'));return}
+  const what=d.networks.flatMap(n=>n.assets.map(a=>escape(a.symbol)+' on '+escape(n.name))).join(' or ');
+  const wait=Math.max(...d.networks.map(n=>n.confirmations));
+  const walletOption=state.config?.top_up_enabled&&(state.config?.networks||[]).length?'<button class="button" data-nk="refill-wallet">OR PAY FROM MY CONNECTED WALLET ↗</button>':'';
+  open('REFILL YOUR CARD','Your top-up address.','<p>Send '+what+' to your personal address from any wallet or exchange. It arrives on your card after '+wait+' network confirmations and shows in your activity.</p><p class="nk-deposit-address" id="nk-deposit-address">'+escape(d.address)+'</p><button class="button dark" data-nk="copy-deposit">COPY ADDRESS ↗</button><p class="fine-print">Send only '+what+'. Other tokens or networks cannot be credited. Up to '+cents(state.config.limits?.single_top_up_cents||'50000')+' per transfer; a larger transfer is checked by hand before it reaches your card.</p>'+walletOption);
+ }
+ async function copyDeposit(){
+  const text=$('#nk-deposit-address')?.textContent||'';
+  try{await navigator.clipboard.writeText(text);toast('Address copied.')}catch{toast('Select the address and copy it.')}
+ }
+ // Refill from the connected wallet: quote → accept → wallet transfer → hash → server verification and card credit.
+ function refillFromWallet(){
   if(needCard())return;
   // Every network and stablecoin the server accepts; the user picks one when there is a choice.
   const options=(state.config?.networks||[]).flatMap(n=>n.assets.map(a=>({network:n,asset:a})));
@@ -319,7 +336,7 @@
   actions:{connect,refill,receive:refill,freeze,'card-details':details,send:()=>soon('Sending money'),move:()=>soon('Moving money between Slabs'),'new-slab':()=>soon('Slabs')},
   connection:action=>state.token?soon(action.charAt(0).toUpperCase()+action.slice(1)):connect(),
  });
- document.addEventListener('click',e=>{const b=e.target.closest('[data-nk]');if(!b)return;e.preventDefault();({connect,issue,'sign-out':()=>signOut(),'send-refill':()=>sendRefill(b.dataset.id),'pick-wallet':()=>{const w=wallets.get(b.dataset.id);if(w){choose(w);connect()}}})[b.dataset.nk]?.()});
+ document.addEventListener('click',e=>{const b=e.target.closest('[data-nk]');if(!b)return;e.preventDefault();({connect,issue,'sign-out':()=>signOut(),'send-refill':()=>sendRefill(b.dataset.id),'refill-wallet':()=>refillFromWallet(),'copy-deposit':()=>copyDeposit(),'pick-wallet':()=>{const w=wallets.get(b.dataset.id);if(w){choose(w);connect()}}})[b.dataset.nk]?.()});
  const watched=new WeakSet();
  function watchAccounts(eth){
   if(!eth?.on||watched.has(eth))return;

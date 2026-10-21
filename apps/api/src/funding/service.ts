@@ -299,6 +299,59 @@ export class FundingService {
     return { address: getAddress(address), networks };
   }
 
+  /**
+   * A confirmed transfer to a user's personal deposit address becomes a top-up that is already
+   * funding_pending, so the usual card credit, retries and history apply. A deposit outside the limits,
+   * below the fees, beyond the issuer capacity or for a card that cannot be topped up is still recorded,
+   * but waits for the operator: the money has arrived and must never be ignored. Returns null for a
+   * transfer that was already recorded, an unknown token, or dust below one cent.
+   */
+  async recordDeposit(tx: SQLConnection, deposit: { userID: string; chainId: number; tokenAddress: string; from: string; to: string;
+    transactionHash: string; logIndex: number; blockNumber: bigint; units: bigint; confirmations: number }): Promise<string | null> {
+    const network = this.config.networks.find(item => item.chainId === deposit.chainId);
+    const asset = network?.assets.find(item => item.tokenAddress.toLowerCase() === deposit.tokenAddress.toLowerCase());
+    if (!network || !asset) return null;
+    const known = await tx.query('SELECT 1 FROM chain_transfers WHERE chain_id = $1 AND transaction_hash = $2 AND log_index = $3',
+      [deposit.chainId, deposit.transactionHash.toLowerCase(), deposit.logIndex]);
+    if (known.rows.length) return null;
+    const cents = deposit.units / 10n ** BigInt(asset.decimals - 2);
+    if (cents <= 0n) return null;
+    const card = (await tx.query<{ id: string; status: string }>('SELECT id, status FROM cards WHERE user_id = $1 FOR UPDATE', [deposit.userID])).rows[0];
+    if (!card) { this.onAlert?.(`Deposit ${deposit.transactionHash}:${deposit.logIndex} arrived for a user without a card; not recorded.`); return null; }
+    const now = this.now();
+    const serviceFee = this.serviceFee(cents);
+    let problem: string | null = null;
+    if (card.status === 'blocked_by_risk' || card.status === 'closed' || card.status === 'replaced') problem = `arrived for a card in state ${card.status}`;
+    else if (this.expectedCredit({ amount_cents: String(cents), service_fee_cents: String(serviceFee) }) <= 0n) problem = 'does not cover the top-up fees';
+    else {
+      try {
+        await this.limits.checkTopUp(tx, card.id, cents, now);
+        await this.limits.checkTopUpVelocity(tx, card.id, now);
+        await this.checkCapacity(tx, cents - serviceFee);
+      } catch (error) {
+        if (!(error instanceof APIProblem)) throw error;
+        problem = `is outside the top-up limits or issuer capacity (${error.code})`;
+      }
+    }
+    const id = randomUUID();
+    const quoteExpires = new Date(now.getTime() + 1000).toISOString();
+    await tx.query(`INSERT INTO top_up_intents
+      (id, card_id, user_id, status, chain_id, asset, token_address, token_decimals, sender_address, recipient_address, amount_cents, token_units,
+       transaction_hash, confirmations, created_at, quote_expires_at, submit_deadline, updated_at, submitted_at, next_check_at, needs_review_at,
+       service_fee_cents, source)
+      VALUES ($1,$2,$3,'funding_pending',$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$15,$14,$14,$16,$17,$18,'deposit')`,
+    [id, card.id, deposit.userID, network.chainId, asset.symbol, asset.tokenAddress.toLowerCase(), asset.decimals, deposit.from.toLowerCase(),
+      deposit.to.toLowerCase(), cents.toString(), deposit.units.toString(), deposit.transactionHash.toLowerCase(), deposit.confirmations,
+      now.toISOString(), quoteExpires, problem ? null : now.toISOString(), problem ? now.toISOString() : null, serviceFee.toString()]);
+    await tx.query(`INSERT INTO chain_transfers (chain_id, transaction_hash, log_index, intent_id, block_number, token_address,
+      sender_address, recipient_address, token_units, verified_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+    [network.chainId, deposit.transactionHash.toLowerCase(), deposit.logIndex, id, deposit.blockNumber.toString(), asset.tokenAddress.toLowerCase(),
+      deposit.from.toLowerCase(), deposit.to.toLowerCase(), deposit.units.toString(), now.toISOString()]);
+    await recordUserEvent(tx, deposit.userID, 'top_up', id, now);
+    if (problem) this.onAlert?.(`Deposit top-up ${id} ${problem}; it waits for the operator (needs_review_at).`);
+    return id;
+  }
+
   /** Client-triggered refresh. Runs a verification step only when one is due, so polling cannot flood the RPC provider. */
   async check(userID: string, intentID: string): Promise<TopUp> {
     const row = await this.own(this.db, userID, intentID);

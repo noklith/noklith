@@ -23,6 +23,8 @@ export interface RuntimeConfig {
   cardMailSecret?: string;
   /** Reown (WalletConnect) project ID the website uses to list mobile wallets. */
   walletconnectProjectId?: string;
+  /** Account-level extended public key for personal deposit addresses (<xpub>/0/<index>); needs funding. */
+  depositXpub?: string;
   issuer: IssuerConfig;
   /** Reverse proxy address or CIDR whose X-Forwarded-For is trusted; absent means the socket address is the client. */
   trustedProxy?: string;
@@ -240,14 +242,18 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): RuntimeConfig 
   if (walletconnectProjectId !== undefined && !/^[0-9a-f]{32}$/.test(walletconnectProjectId)) {
     throw new Error('REOWN_PROJECT_ID must be the 32 lowercase hex characters of a Reown project ID.');
   }
+  const depositXpub = env.DEPOSIT_XPUB || undefined;
+  if (depositXpub !== undefined && (!funding || !/^[xt]pub[1-9A-HJ-NP-Za-km-z]{100,120}$/.test(depositXpub))) {
+    throw new Error('DEPOSIT_XPUB must be an extended public key (xpub...) and needs top-ups (funding) to be configured.');
+  }
   return { host, port: Number(rawPort), databaseURL: env.DATABASE_URL, networkMode, walletAuth, issuer,
-    funding, demoIssuerWebhookSecret: webhookSecret, cardMailSecret, walletconnectProjectId,
+    funding, demoIssuerWebhookSecret: webhookSecret, cardMailSecret, walletconnectProjectId, depositXpub,
     trustedProxy: readTrustedProxy(env), ...readRiskConfig(env) };
 }
 export function publicConfig(networkMode: NetworkMode, limits: LimitValues, issuerMode: IssuerMode = 'demo'): APIConfig {
   return {
     schema_version: 1, issuer_mode: issuerMode, network_mode: networkMode,
     wallet_auth_enabled: false, wallet_auth: null, top_up_enabled: false, networks: [],
-    spend_limits_enforced: issuerMode !== 'izipay', limits, walletconnect_project_id: null,
+    spend_limits_enforced: issuerMode !== 'izipay', limits, walletconnect_project_id: null, deposits_enabled: false,
   };
 }
