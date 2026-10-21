@@ -78,6 +78,15 @@
   appKit.close();
   return appKit.getWalletProvider();
  }
+ // A phone wallet connected through WalletConnect is a separate app: offer a button that opens it, so the
+ // signature request waiting there is found (opening an app needs a tap; browsers block it otherwise).
+ function walletLink(){
+  const link=chosen?.session?.peer?.metadata?.redirect?.native||chosen?.session?.peer?.metadata?.redirect?.universal;
+  const name=chosen?.session?.peer?.metadata?.name||'your wallet';
+  const box=$('#nk-connect-status');
+  if(!link||!box||!/^[a-z][a-z0-9+.-]*:/i.test(link)||/^(javascript|data):/i.test(link)||!matchMedia('(pointer: coarse)').matches)return;
+  box.insertAdjacentHTML('afterend','<a class="button dark" href="'+escape(link)+'" rel="noopener">OPEN '+escape(name.toUpperCase())+' ↗</a>');
+ }
  const icon=src=>/^data:image\/(svg\+xml|png|webp|jpeg|gif)[;,]/.test(src||'')?'<img src="'+escape(src)+'" alt="" width="28" height="28">':'';
  async function ensureChain(chainId){
   const eth=wallet(),hex='0x'+chainId.toString(16);
@@ -122,11 +131,12 @@
    state.config=state.config||await api('/config');
    if(!state.config.wallet_auth_enabled||!state.config.wallet_auth)throw new APIError(503,'unavailable','Account sign-in is not available right now.');
    const [address]=await wallet().request({method:'eth_requestAccounts'});
+   // The signature does not depend on the wallet's active network, so sign-in never asks to switch or add one
+   // (a new phone wallet often lacks the testnet, which cost an extra trip to the app). Refills switch later.
    const chainId=state.config.wallet_auth.chain_ids[0];
-   status('Switching your wallet to the right network.');
-   await ensureChain(chainId);
    const challenge=await api('/auth/challenge',{method:'POST',body:{address,chain_id:chainId}});
-   status('Sign the message in your wallet (open the wallet app if it does not appear). Signing is free and moves no money.');
+   status('Sign the message in your wallet. Signing is free and moves no money.');
+   walletLink();
    const hexMessage='0x'+[...new TextEncoder().encode(challenge.message)].map(b=>b.toString(16).padStart(2,'0')).join('');
    const signature=await wallet().request({method:'personal_sign',params:[hexMessage,address]});
    const session=await api('/auth/verify',{method:'POST',body:{challenge_id:challenge.id,message:challenge.message,signature}});
