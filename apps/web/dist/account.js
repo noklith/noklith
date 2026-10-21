@@ -54,6 +54,30 @@
   try{entry?sessionStorage.setItem(walletKey,entry.info.rdns||''):sessionStorage.removeItem(walletKey)}catch{}
   watchAccounts(chosen);
  }
+ // WalletConnect (Reown AppKit, served from this site): one list with installed extensions, phone wallets and a
+ // QR code. Used whenever the server publishes a project ID; the app link buttons below stay as the fallback.
+ let appKit=null;
+ async function walletConnectProvider(projectId,chainIds){
+  if(!appKit){
+   const {createAppKit,WagmiAdapter,networks}=await import('/vendor/reown-appkit-1.8.24/appkit.js');
+   const nets=Object.values(networks).filter(n=>chainIds.includes(n?.id));
+   if(!nets.length)throw new APIError(503,'unavailable','This network is not available for wallet sign-in.');
+   appKit=createAppKit({adapters:[new WagmiAdapter({projectId,networks:nets})],networks:nets,defaultNetwork:nets[0],projectId,
+    metadata:{name:'Noklith',description:'Sign in to Noklith with your own wallet.',url:location.origin,icons:[location.origin+'/assets/noklith-icon-256.png']},
+    features:{analytics:false,email:false,socials:false,swaps:false,onramp:false,send:false,history:false},themeMode:'light',allWallets:'SHOW'});
+  }
+  const connected=()=>appKit.getAccount('eip155')?.isConnected&&appKit.getWalletProvider();
+  if(!connected()){
+   await appKit.open({view:'Connect'});
+   await new Promise((resolve,reject)=>{
+    const stop=[];const done=f=>{stop.forEach(u=>{try{u()}catch{}});f()};
+    stop.push(appKit.subscribeAccount(a=>{if(a?.isConnected&&appKit.getWalletProvider())done(resolve)},'eip155'));
+    stop.push(appKit.subscribeState(st=>{if(!st.open&&!connected())done(()=>reject({code:4001}))}));
+   });
+  }
+  appKit.close();
+  return appKit.getWalletProvider();
+ }
  const icon=src=>/^data:image\/(svg\+xml|png|webp|jpeg|gif)[;,]/.test(src||'')?'<img src="'+escape(src)+'" alt="" width="28" height="28">':'';
  async function ensureChain(chainId){
   const eth=wallet(),hex='0x'+chainId.toString(16);
@@ -70,6 +94,12 @@
 
  async function connect(){
   if(state.busy)return;
+  state.config=state.config||await api('/config').catch(()=>null);
+  const projectId=state.config?.walletconnect_project_id,chainIds=state.config?.wallet_auth?.chain_ids||[];
+  if(!chosen&&projectId&&chainIds.length){
+   try{chosen=await walletConnectProvider(projectId,chainIds);watchAccounts(chosen)}
+   catch(error){open('YOUR KEYS. YOUR ACCOUNT.','Not connected.','<p>'+escape(message(error,'The wallet did not connect.'))+'</p><button class="button dark" data-nk="connect">TRY AGAIN ↗</button>');return}
+  }
   // Discovery is asynchronous; give late announcements a moment before deciding.
   if(!wallets.size){window.dispatchEvent(new Event('eip6963:requestProvider'));await new Promise(r=>setTimeout(r,250))}
   if(!chosen&&wallets.size>1){
@@ -96,7 +126,7 @@
    status('Switching your wallet to the right network.');
    await ensureChain(chainId);
    const challenge=await api('/auth/challenge',{method:'POST',body:{address,chain_id:chainId}});
-   status('Sign the message in your wallet. Signing is free and moves no money.');
+   status('Sign the message in your wallet (open the wallet app if it does not appear). Signing is free and moves no money.');
    const hexMessage='0x'+[...new TextEncoder().encode(challenge.message)].map(b=>b.toString(16).padStart(2,'0')).join('');
    const signature=await wallet().request({method:'personal_sign',params:[hexMessage,address]});
    const session=await api('/auth/verify',{method:'POST',body:{challenge_id:challenge.id,message:challenge.message,signature}});
@@ -107,12 +137,14 @@
   }catch(error){
    // Trying again offers the wallet list again, so another wallet can be picked.
    chosen=null;try{sessionStorage.removeItem(walletKey)}catch{}
+   appKit?.disconnect?.().catch?.(()=>{});
    open('YOUR KEYS. YOUR ACCOUNT.','Not connected.','<p>'+escape(message(error,'The wallet did not complete the sign-in.'))+'</p><button class="button dark" data-nk="connect">TRY AGAIN ↗</button>');
   }finally{state.busy=false}
  }
 
  async function signOut(remote=true){
   if(remote&&state.token)await api('/auth/logout',{method:'POST',body:{}}).catch(()=>{});
+  await appKit?.disconnect?.().catch?.(()=>{});
   state.token=null;state.me=null;state.card=null;state.history=[];state.wallet=null;
   try{sessionStorage.removeItem(tokenKey);sessionStorage.removeItem(walletKey)}catch{}
   location.reload(); // Restores every static not-connected label.
@@ -202,6 +234,9 @@
   const error=t=>{const e=$('#nk-refill-error');if(e)e.textContent=t};
   try{
    const {top_up:t,transaction:tx}=await api('/top-ups/'+id+'/accept',{method:'POST',body:{}});
+   // After a reload a WalletConnect session is picked up again (or the list opens) before the transfer.
+   const projectId=state.config?.walletconnect_project_id,chainIds=state.config?.wallet_auth?.chain_ids||[];
+   if(!chosen&&projectId&&chainIds.length){chosen=await walletConnectProvider(projectId,chainIds);watchAccounts(chosen)}
    await ensureChain(tx.chain_id);
    error('Approve the transfer in your wallet.');
    const hash=await wallet().request({method:'eth_sendTransaction',params:[{from:tx.from,to:tx.to,value:tx.value,data:tx.data}]});

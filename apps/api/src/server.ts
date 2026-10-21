@@ -32,6 +32,7 @@ const cardMail = config.cardMailSecret && config.issuer.mode === 'izipay'
   : undefined;
 const release = /^[0-9a-f]{40}$/.test(process.env.RELEASE_COMMIT ?? '') ? process.env.RELEASE_COMMIT : undefined;
 const app = buildApp({ db, networkMode: config.networkMode, logger: true, release, issuer, limits, funding, risk, trustedProxy: config.trustedProxy, cardMail,
+  walletconnectProjectId: config.walletconnectProjectId,
   auth: config.walletAuth ? {
     configuration: config.walletAuth.configuration,
     dependencies: { inspectAccount: createRpcAccountInspector(config.walletAuth.endpoints) },

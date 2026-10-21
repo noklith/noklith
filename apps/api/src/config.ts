@@ -21,6 +21,8 @@ export interface RuntimeConfig {
   demoIssuerWebhookSecret?: string;
   /** HMAC secret shared with the Cloudflare Email Routing worker that forwards IZIPAY cardholder mail. */
   cardMailSecret?: string;
+  /** Reown (WalletConnect) project ID the website uses to list mobile wallets. */
+  walletconnectProjectId?: string;
   issuer: IssuerConfig;
   /** Reverse proxy address or CIDR whose X-Forwarded-For is trusted; absent means the socket address is the client. */
   trustedProxy?: string;
@@ -234,14 +236,18 @@ export function readConfig(env: NodeJS.ProcessEnv = process.env): RuntimeConfig 
   if (cardMailSecret !== undefined && (cardMailSecret.length < 32 || issuer.mode !== 'izipay')) {
     throw new Error('CARD_MAIL_SECRET needs at least 32 characters and ISSUER_MODE=izipay.');
   }
+  const walletconnectProjectId = env.REOWN_PROJECT_ID || undefined;
+  if (walletconnectProjectId !== undefined && !/^[0-9a-f]{32}$/.test(walletconnectProjectId)) {
+    throw new Error('REOWN_PROJECT_ID must be the 32 lowercase hex characters of a Reown project ID.');
+  }
   return { host, port: Number(rawPort), databaseURL: env.DATABASE_URL, networkMode, walletAuth, issuer,
-    funding, demoIssuerWebhookSecret: webhookSecret, cardMailSecret,
+    funding, demoIssuerWebhookSecret: webhookSecret, cardMailSecret, walletconnectProjectId,
     trustedProxy: readTrustedProxy(env), ...readRiskConfig(env) };
 }
 export function publicConfig(networkMode: NetworkMode, limits: LimitValues, issuerMode: IssuerMode = 'demo'): APIConfig {
   return {
     schema_version: 1, issuer_mode: issuerMode, network_mode: networkMode,
     wallet_auth_enabled: false, wallet_auth: null, top_up_enabled: false, networks: [],
-    spend_limits_enforced: issuerMode !== 'izipay', limits,
+    spend_limits_enforced: issuerMode !== 'izipay', limits, walletconnect_project_id: null,
   };
 }

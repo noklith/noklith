@@ -41,6 +41,7 @@ export interface AppOptions {
   trustedProxy?: string;
   /** Receives IZIPAY cardholder mail and keeps one-time payment codes; absent means the routes are not served. */
   cardMail?: CardMailService;
+  walletconnectProjectId?: string;
 }
 export function buildApp(options: AppOptions) {
   if (options.auth && options.networkMode === 'fixture') throw new Error('Wallet authentication cannot be enabled in fixture mode.');
@@ -104,6 +105,7 @@ export function buildApp(options: AppOptions) {
   app.get('/v1/config', { schema: { response: success(configSchema) } }, async () => ({
     ...publicConfig(options.networkMode, limits.publicValues(), issuer.mode), wallet_auth_enabled: !!auth, wallet_auth: authMetadata,
     top_up_enabled: !!options.funding, networks: options.funding?.networks ?? [],
+    walletconnect_project_id: options.walletconnectProjectId ?? null,
   }));
   if (options.networkMode === 'fixture') {
     app.post<{ Body: { profile: FixtureProfile } }>('/v1/fixture/sessions', {

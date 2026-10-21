@@ -53,6 +53,8 @@ export interface APIConfig {
   /** False when cards come from an issuer that authorizes purchases itself (IZIPAY): spend limits do not apply. */
   spend_limits_enforced: boolean;
   limits: LimitValues;
+  /** Reown (WalletConnect) project ID for the website's wallet list; public by design, null when not configured. */
+  walletconnect_project_id: string | null;
 }
 export interface NetworkAsset { symbol: string; name: string; token_address: string; decimals: number }
 export interface NetworkConfig {
@@ -220,6 +222,7 @@ export const configSchema = object({
   networks: { type: 'array', maxItems: 4, items: networkConfigSchema },
   spend_limits_enforced: { type: 'boolean' },
   limits: limitValuesSchema,
+  walletconnect_project_id: { anyOf: [{ type: 'string', pattern: '^[0-9a-f]{32}$' }, { type: 'null' }] },
 });
 export const paymentCodeResponseSchema = object({
   payment_code: { anyOf: [object({ code: { type: 'string', pattern: '^[0-9]{4,8}$' }, received_at: { type: 'string', format: 'date-time' },
