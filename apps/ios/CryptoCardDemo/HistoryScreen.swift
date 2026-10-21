@@ -108,7 +108,7 @@ struct ActivityRow: View {
     var body: some View {
         HStack(alignment: textSize.isAccessibilitySize ? .top : .center, spacing: Design.medium) {
             if !textSize.isAccessibilitySize {
-                IconBadge(symbol: activity.badge.symbol, color: activity.badge.color)
+                IconBadge(symbol: activity.badge.symbol)
             }
             VStack(alignment: .leading, spacing: 2) {
                 Text(activity.displayTitle).font(.body.weight(.semibold)).fixedSize(horizontal: false, vertical: true)
@@ -152,7 +152,7 @@ struct ActivityDetail: View {
         Form {
             Section {
                 VStack(spacing: Design.small) {
-                    IconBadge(symbol: activity.badge.symbol, color: activity.badge.color, size: 56)
+                    IconBadge(symbol: activity.badge.symbol, size: 56)
                     if !activity.signedAmount.isEmpty {
                         Text(activity.signedAmount)
                             .font(.system(.largeTitle, design: .rounded, weight: .bold)).monospacedDigit()

@@ -1,0 +1,9 @@
+# Cardholder mail worker (see docs/card-mail.md). CARD_MAIL_SECRET is set separately as a secret.
+name = "card-mail"
+main = "card-mail-worker.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+
+[vars]
+CARD_MAIL_URL = "https://api.noklith.com/v1/issuer/card-mail"
+ALLOWED_SENDERS = "izipay.me"

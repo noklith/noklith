@@ -208,9 +208,10 @@ private struct WelcomeButtonsBottom: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = min(value, nextValue()) }
 }
 
-/// The two welcome actions: a filled accent capsule and an outlined one, 56 pt tall, sentence case.
+/// Large actions of the new design: a filled accent capsule or an outlined one, 56 pt tall by default, sentence case.
 struct WelcomeButtonStyle: ButtonStyle {
     let prominent: Bool
+    var height: CGFloat = 56
     @Environment(\.isEnabled) private var isEnabled
     func makeBody(configuration: Configuration) -> some View {
         let shape = RoundedRectangle(cornerRadius: 24, style: .continuous)
@@ -218,7 +219,7 @@ struct WelcomeButtonStyle: ButtonStyle {
             .font(Design.display(18, relativeTo: .headline))
             .foregroundStyle(prominent ? Design.onAccent : Design.accent)
             .padding(.horizontal, Design.large)
-            .frame(maxWidth: .infinity, minHeight: 56)
+            .frame(maxWidth: .infinity, minHeight: height)
             .background { if prominent { shape.fill(Design.accent) } }
             .overlay { if !prominent { shape.strokeBorder(Design.accent, lineWidth: 1.5) } }
             .contentShape(shape)
@@ -269,7 +270,7 @@ struct ErrorNotice: View {
     let retry: () -> Void
     var body: some View {
         HStack(alignment: .top, spacing: Design.medium) {
-            IconBadge(symbol: "wifi.exclamationmark", color: Design.warning, size: 32)
+            IconBadge(symbol: "wifi.exclamationmark", size: 32)
             VStack(alignment: .leading, spacing: Design.xs) {
                 Text("Couldn't refresh").font(.headline)
                 Text(message).font(.subheadline).foregroundStyle(Design.textSecondary).fixedSize(horizontal: false, vertical: true)

@@ -153,6 +153,8 @@ struct WalletTopUpView: View {
 
     var body: some View {
         NavigationStack {
+            Group {
+            if case .amount = model.stage, model.selected(store) != nil, model.errorMessage == nil { amountStage } else {
             Form {
                 Group {
                 switch model.stage {
@@ -172,11 +174,15 @@ struct WalletTopUpView: View {
                 .listRowBackground(Design.surface)
             }
             .themedList()
+            }
+            }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
+            // A container keeps the children's own identifiers (the bottom button sits outside the scroll view).
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier("screen-topup")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { RefillCloseButton { dismiss() } }
                 ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("Done") { amountFocused = false } }
             }
             .task { await model.loadBalances(store) }
@@ -194,6 +200,50 @@ struct WalletTopUpView: View {
     }
 
     private var trackingID: String? { if case .tracking(let topUp) = model.stage { topUp.id } else { nil } }
+
+    /// The amount step in the refill design; errors and the other steps use the form below.
+    @ViewBuilder private var amountStage: some View {
+        if let pick = model.selected(store) {
+            let network = pick.network, asset = pick.asset, limit = Money.formatted(String(model.limitCents(store)))
+            ScrollView {
+                VStack(spacing: Design.large) {
+                    RefillAmountHeader(amount: $model.amount, unit: asset.symbol,
+                                       limitText: String(localized: "Maximum per refill: \(limit)"),
+                                       invalidText: model.amountValid(store) ? nil
+                                           : String(localized: "Enter more than $0 and no more than \(limit), with up to two decimal places."),
+                                       focus: $amountFocused)
+                        .onChange(of: model.amount) { model.amountChanged() }
+                        .padding(.top, Design.large)
+                    let options = model.options(store)
+                    if options.count > 1 {
+                        Picker("Pay with", selection: $model.choice) {
+                            ForEach(options.indices, id: \.self) { index in
+                                Text("\(options[index].asset.symbol) on \(options[index].network.name)").tag(index)
+                            }
+                        }
+                        .pickerStyle(.menu).tint(Design.accent)
+                        .accessibilityIdentifier("refill-asset-picker")
+                    }
+                    RefillDetailsCard {
+                        RefillDetailRow(title: "Token", value: asset.name)
+                        RefillDetailRow(title: "Network", value: network.name)
+                        RefillDetailRow(title: "Wallet balance", value: balanceText(asset: asset))
+                        RefillDetailRow(title: "For network fees", value: gasText, last: true)
+                    }
+                }
+                .padding(.horizontal, Design.large)
+            }
+            .scrollDismissesKeyboard(.interactively)
+            .safeAreaInset(edge: .bottom) {
+                RefillReviewButton(working: model.working) { amountFocused = false; Task { await model.review(store) } }
+                    .disabled(!model.amountValid(store) || model.working || store.card?.status == .blockedByRisk)
+                    .padding(.horizontal, Design.large)
+                    .padding(.bottom, Design.small)
+                    .background(Design.background)
+            }
+            .themedScreen()
+        }
+    }
 
     @ViewBuilder private var amountSection: some View {
         if let pick = model.selected(store) {
@@ -333,7 +383,13 @@ struct TopUpStatusSection: View {
     var body: some View {
         Section {
             VStack(spacing: Design.medium) {
-                IconBadge(symbol: symbol, color: statusColor, size: 64)
+                if let clip = statusClip {
+                    // Terracotta status icon: turns right, left and back once (2.4 s), then rests.
+                    FrameSequence(clip: clip, size: 112, loop: false, still: clip.order.count - 1, animated: animateIcon)
+                        .id(topUp.status)
+                } else {
+                    IconBadge(symbol: symbol, size: 64)
+                }
                 Text(topUp.status.label)
                     .font(.title3.weight(.bold)).multilineTextAlignment(.center)
                     .foregroundStyle(topUp.status == .failed ? Design.negative : Color.primary)
@@ -359,6 +415,19 @@ struct TopUpStatusSection: View {
         }
         if !topUp.status.isFinal, let onRefresh {
             Section { Button("Refresh status", action: onRefresh).frame(minHeight: 44).accessibilityIdentifier("button-refresh-topup") }
+        }
+    }
+
+    /// Played on screen; review screenshots show the resting frame.
+    var animateIcon = true
+
+    private var statusClip: FrameClip? {
+        switch topUp.status {
+        case .credited: AnimationClips.statusSuccess
+        case .failed: AnimationClips.statusError
+        case .cancelled, .expired: AnimationClips.statusExpired
+        case .fundingPending: AnimationClips.statusCrediting
+        default: nil
         }
     }
 
@@ -444,7 +513,7 @@ struct TopUpStatusPreview: View {
                         }
                         Section { PrimaryButton(title: "Confirm in wallet", symbol: "arrow.up.forward.app") {}.disabled(true) }
                     } else {
-                        TopUpStatusSection(topUp: topUp, onRefresh: topUp.status.isFinal ? nil : {})
+                        TopUpStatusSection(topUp: topUp, onRefresh: topUp.status.isFinal ? nil : {}, animateIcon: false)
                     }
                 }
                 }

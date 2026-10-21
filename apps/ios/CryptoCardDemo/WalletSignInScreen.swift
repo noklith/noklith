@@ -60,18 +60,15 @@ struct WalletSignInScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Design.large) {
-                // The website's passkey petroglyph on a round stone, as on its "Connect your account" dialog.
-                Image("GlyphPasskey")
-                    .renderingMode(.template).resizable().scaledToFit()
-                    .frame(width: 34, height: 34)
-                    .foregroundStyle(Design.onAccent)
-                    .frame(width: 64, height: 64)
-                    .background(Design.accent, in: Circle())
-                    .accessibilityHidden(true)
-                Eyebrow("Your keys. Your account.")
-                Text("Your wallet stays yours.")
-                    .font(Design.display(34))
-                    .accessibilityIdentifier("screen-wallet")
+                VStack(spacing: Design.medium) {
+                    // The terracotta key turning slowly: 240 frames, one turn in 4 s, looped seamlessly.
+                    FrameSequence(clip: AnimationClips.keySpin, size: 192, animated: !fixture)
+                    Text("Your wallet\nstays yours.")
+                        .font(Design.display(40))
+                        .multilineTextAlignment(.center)
+                        .accessibilityIdentifier("screen-wallet")
+                }
+                .frame(maxWidth: .infinity)
                 if flow.isAvailable {
                     if let store = flow.store, let account = store.account {
                         WalletAccountDetails(account: account)
@@ -92,27 +89,40 @@ struct WalletSignInScreen: View {
                         .font(.footnote).foregroundStyle(Design.textSecondary)
                 } else {
                     VStack(alignment: .leading, spacing: Design.small) {
-                        Text("Wallet sign-in is not available in this build.")
-                            .font(.headline)
+                        Text("Wallet sign-in is\ncoming soon.")
+                            .font(Design.display(24, relativeTo: .title2))
                             .accessibilityIdentifier("wallet-unavailable")
-                        Text("You can explore your card, activity and settings while wallet sign-in is being prepared.")
-                            .font(.subheadline).foregroundStyle(Design.textSecondary)
+                        Text("Explore your card, activity and settings in the meantime.")
+                            .font(.title3).foregroundStyle(Design.textSecondary)
                     }
-                    .surfaceCard()
+                    .surfaceCard(padding: Design.large)
                 }
+            }
+            .padding(.horizontal, Design.large)
+            .padding(.top, Design.small)
+        }
+        .safeAreaInset(edge: .bottom) {
+            VStack(spacing: Design.small) {
                 Button {
                     Task {
                         await flow.leaveForPreview()
                         explorePreview()
                     }
                 } label: {
-                    Label("Explore the app", systemImage: "arrow.right").font(.headline).frame(maxWidth: .infinity, minHeight: 50)
+                    Text("Explore the app")
+                        .frame(maxWidth: .infinity)
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "arrow.right").font(.system(size: 20, weight: .regular)).accessibilityHidden(true)
+                        }
                 }
-                .secondaryActionStyle()
-                .controlSize(.large)
+                .buttonStyle(WelcomeButtonStyle(prominent: true))
                 .accessibilityIdentifier("button-wallet-preview")
+                Text("No wallet connection needed")
+                    .font(.footnote).foregroundStyle(Design.textSecondary)
             }
-            .padding(Design.large)
+            .padding(.horizontal, Design.large)
+            .padding(.bottom, Design.small)
+            .background(Design.background)
         }
         .themedScreen()
         .navigationTitle("Wallet sign-in")

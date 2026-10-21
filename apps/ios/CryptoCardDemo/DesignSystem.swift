@@ -167,18 +167,19 @@ struct AppLogo: View {
 }
 
 /// A colored circular or rounded-square well with a white SF Symbol (history rows, settings cells).
+/// Round (or rounded-square) icon on the brand accent. Every icon uses the same brown, whatever it marks;
+/// the meaning comes from the symbol and the text beside it.
 struct IconBadge: View {
     enum Shape { case circle, roundedSquare }
     let symbol: String
-    let color: Color
     var size: CGFloat = Design.rowIcon
     var shape: Shape = .circle
     var body: some View {
         Image(systemName: symbol)
             .font(.system(size: size * 0.42, weight: Design.symbolWeight))
-            .foregroundStyle(.white)
+            .foregroundStyle(Design.onAccent)
             .frame(width: size, height: size)
-            .background(color, in: shape == .circle ? AnyShape(Circle()) : AnyShape(RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)))
+            .background(Design.accent, in: shape == .circle ? AnyShape(Circle()) : AnyShape(RoundedRectangle(cornerRadius: size * 0.24, style: .continuous)))
             .accessibilityHidden(true)
     }
 }
@@ -272,5 +273,63 @@ struct AdaptiveDetailRow: View {
             }
             .accessibilityElement(children: .combine) // One element reads "Card credit, $25.50", not a bare amount.
         }
+    }
+}
+
+/// A packed frame animation in the asset catalog: distinct frames `<prefix>000…`, the order they play in
+/// (duplicates share one image) and the cropped canvas, centred on the original one.
+struct FrameClip {
+    let prefix: String
+    let order: [Int]
+    let pixelSize: CGSize
+    let originalPixels: Int
+    let scale: Int
+    /// Point size of the cropped canvas when the original canvas is shown at `originalPoints`.
+    func size(forOriginal originalPoints: CGFloat) -> CGSize {
+        let factor = originalPoints / CGFloat(originalPixels)
+        return CGSize(width: pixelSize.width * factor, height: pixelSize.height * factor)
+    }
+}
+
+/// Plays a FrameClip at 60 fps: looped, or once holding its last frame. Decorative; shows `still`
+/// under Reduce Motion and in fixture screenshots. Sized so the original canvas fills `size` points.
+struct FrameSequence: View {
+    let clip: FrameClip
+    var size: CGFloat
+    var fps: Double = 60
+    var loop = true
+    /// Frame shown when not animating (an index into the play order).
+    var still = 0
+    var animated = true
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var start = Date()
+    @State private var finished = false
+
+    private var playing: Bool { animated && !reduceMotion && !finished }
+
+    var body: some View {
+        let canvas = clip.size(forOriginal: size)
+        TimelineView(.animation(paused: !playing)) { context in
+            Image(String(format: "\(clip.prefix)%03d", clip.order[position(at: context.date)]))
+                .resizable()
+                .frame(width: canvas.width, height: canvas.height)
+        }
+        .frame(width: size, height: size)
+        .accessibilityHidden(true)
+        .task {
+            start = .now
+            finished = false
+            guard !loop, animated, !reduceMotion else { return }
+            try? await Task.sleep(for: .seconds(Double(clip.order.count) / fps))
+            finished = true
+        }
+    }
+
+    private func position(at date: Date) -> Int {
+        let count = clip.order.count
+        guard animated, !reduceMotion else { return min(max(still, 0), count - 1) }
+        if finished { return count - 1 }
+        let elapsed = Int(max(0, date.timeIntervalSince(start)) * fps)
+        return loop ? elapsed % count : min(elapsed, count - 1)
     }
 }

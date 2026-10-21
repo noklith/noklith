@@ -146,7 +146,7 @@ struct CardScreen: View {
 
     private func notice(symbol: String, color: Color, text: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: Design.medium) {
-            IconBadge(symbol: symbol, color: color, size: 32)
+            IconBadge(symbol: symbol, size: 32)
             Text(text).font(.subheadline).fixedSize(horizontal: false, vertical: true)
         }
         .surfaceCard()
@@ -334,7 +334,7 @@ struct PaymentCodeNotice: View {
         TimelineView(.periodic(from: .now, by: 15)) { context in
             if let expiry, expiry > context.date {
                 HStack(alignment: .top, spacing: Design.medium) {
-                    IconBadge(symbol: "lock.shield.fill", color: Design.accent, size: 32)
+                    IconBadge(symbol: "lock.shield.fill", size: 32)
                     VStack(alignment: .leading, spacing: Design.xs) {
                         Text("Payment code").font(.headline)
                         Text(code.code)

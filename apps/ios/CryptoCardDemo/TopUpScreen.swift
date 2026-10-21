@@ -22,55 +22,64 @@ struct PreviewTopUpView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Group {
-                Section {
-                    Label("No funds will move", systemImage: "flask")
-                        .font(.subheadline).foregroundStyle(Design.textSecondary)
-                        .accessibilityIdentifier("app-ready")
+            Group {
+                if stage == .amount { amountStage } else {
+                    Form {
+                        Group {
+                        Section {
+                            Label("No funds will move", systemImage: "flask")
+                                .font(.subheadline).foregroundStyle(Design.textSecondary)
+                                .accessibilityIdentifier("app-ready")
+                        }
+                        switch stage {
+                        case .amount: EmptyView()
+                        case .terms: termsSection
+                        case .status: statusSection
+                        }
+                        }
+                        .listRowBackground(Design.surface)
+                    }
+                    .themedList()
                 }
-                switch stage {
-                case .amount: amountSection
-                case .terms: termsSection
-                case .status: statusSection
-                }
-                }
-                .listRowBackground(Design.surface)
             }
-            .themedList()
             .navigationTitle(stage == .amount ? "Refill" : stage == .terms ? "Review refill" : "Refill result")
             .navigationBarTitleDisplayMode(.inline)
+            // A container keeps the children's own identifiers (the bottom button sits outside the scroll view).
+            .accessibilityElement(children: .contain)
             .accessibilityIdentifier("screen-topup")
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { RefillCloseButton { dismiss() } }
                 ToolbarItemGroup(placement: .keyboard) { Spacer(); Button("Done") { amountFocused = false } }
             }
         }
     }
 
-    private var amountSection: some View {
-        Group {
-            Section(header: Eyebrow("Asset")) {
-                AdaptiveDetailRow(title: "Token", value: String(localized: "USDC"))
-                AdaptiveDetailRow(title: "Network", value: String(localized: "Not connected"))
-            }
-            Section {
-                TextField("Amount in USD", text: $amount)
-                    .keyboardType(.decimalPad).font(.largeTitle.weight(.semibold)).monospacedDigit()
-                    .focused($amountFocused).accessibilityIdentifier("amount-input")
-                Text("Maximum per refill: \(Money.formatted("50000"))").font(.footnote).foregroundStyle(Design.textSecondary)
-                if !valid {
-                    Label("Enter more than $0 and no more than $500, with up to two decimal places.", systemImage: "exclamationmark.circle")
-                        .font(.footnote).foregroundStyle(Design.negative)
+    private var amountStage: some View {
+        ScrollView {
+            VStack(spacing: Design.large) {
+                RefillAmountHeader(amount: $amount, unit: String(localized: "USDC"),
+                                   limitText: String(localized: "Maximum per refill: \(Money.formatted("50000"))"),
+                                   invalidText: valid ? nil : String(localized: "Enter more than $0 and no more than $500, with up to two decimal places."),
+                                   focus: $amountFocused)
+                    .padding(.top, Design.large)
+                RefillDetailsCard {
+                    RefillDetailRow(title: "Token", value: String(localized: "USDC"))
+                    RefillDetailRow(title: "Network", value: String(localized: "Not connected"), last: true)
                 }
-            } header: { Text("Amount") }
-            Section {
-                Button("Review refill") { amountFocused = false; stage = .terms }
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .disabled(!valid || store.serverFixture || store.card?.status != .active)
-                    .accessibilityIdentifier("button-preview")
+                StoneNotice(symbol: "flask", text: "No funds will move")
+                    .accessibilityIdentifier("app-ready")
             }
+            .padding(.horizontal, Design.large)
         }
+        .scrollDismissesKeyboard(.interactively)
+        .safeAreaInset(edge: .bottom) {
+            RefillReviewButton(working: false) { amountFocused = false; stage = .terms }
+                .disabled(!valid || store.serverFixture || store.card?.status != .active)
+                .padding(.horizontal, Design.large)
+                .padding(.bottom, Design.small)
+                .background(Design.background)
+        }
+        .themedScreen()
     }
 
     private var termsSection: some View {
@@ -99,7 +108,12 @@ struct PreviewTopUpView: View {
     private var statusSection: some View {
         Group {
             Section {
-                Label("Balance updated", systemImage: "checkmark.circle.fill").font(.title2).foregroundStyle(Design.accent)
+                VStack(spacing: Design.small) {
+                    FrameSequence(clip: AnimationClips.statusSuccess, size: 112, loop: false,
+                                  still: AnimationClips.statusSuccess.order.count - 1, animated: !store.options.fixture)
+                    Text("Balance updated").font(.title2.weight(.bold))
+                }
+                .frame(maxWidth: .infinity)
                 Text("Added \(Money.formatted(String(cents ?? 0))) to the balance.")
                 Text("Updated locally. No funds were transferred.")
                     .foregroundStyle(Design.textSecondary)

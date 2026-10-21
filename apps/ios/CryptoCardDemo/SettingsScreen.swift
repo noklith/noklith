@@ -11,29 +11,42 @@ struct SettingsScreen: View {
             Group {
                 Section {
                     // The website's cave-painting collection; appearance only, kept on this device.
-                    HStack(spacing: Design.small) {
+                    HStack(spacing: 12) {
                         ForEach(CardFinish.allCases) { finish in
+                            let selected = finishName == finish.rawValue
+                            let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
                             Button { finishName = finish.rawValue } label: {
-                                VStack(spacing: Design.xs) {
+                                VStack(spacing: Design.small) {
                                     Color.clear.aspectRatio(Design.cardAspect, contentMode: .fit)
                                         .overlay { Image(finish.imageName).resizable().scaledToFill() }
-                                        .clipShape(RoundedRectangle(cornerRadius: Design.radiusSmall, style: .continuous))
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: Design.radiusSmall, style: .continuous)
-                                                .strokeBorder(Design.accent, lineWidth: finishName == finish.rawValue ? 3 : 0)
+                                        .clipShape(shape)
+                                        .overlay { shape.strokeBorder(Design.accent, lineWidth: selected ? 3 : 0) }
+                                        .overlay(alignment: .topTrailing) {
+                                            if selected {
+                                                Image(systemName: "checkmark")
+                                                    .font(.system(size: 13, weight: .bold))
+                                                    .foregroundStyle(Design.onAccent)
+                                                    .frame(width: 28, height: 28)
+                                                    .background(Design.accent, in: Circle())
+                                                    .overlay { Circle().strokeBorder(Design.background, lineWidth: 2) }
+                                                    .offset(x: 6, y: -6)
+                                                    .accessibilityHidden(true)
+                                            }
                                         }
-                                    Text(finish.title).font(.caption).foregroundStyle(Color.primary)
+                                    Text(finish.title).font(Design.displayMedium(17, relativeTo: .subheadline)).foregroundStyle(Color.primary)
                                 }
                                 .frame(maxWidth: .infinity)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .accessibilityLabel(Text(finish.title))
-                            .accessibilityAddTraits(finishName == finish.rawValue ? .isSelected : [])
+                            .accessibilityAddTraits(selected ? .isSelected : [])
                             .accessibilityIdentifier("finish-\(finish.rawValue)")
                         }
                     }
-                    .padding(.vertical, Design.xs)
+                    .padding(.vertical, Design.small)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: Design.small, leading: 0, bottom: Design.small, trailing: 0))
                 } header: {
                     Eyebrow("Your cave painting")
                 }
@@ -100,7 +113,7 @@ struct SettingsScreen: View {
                         }
                     } label: {
                         HStack(spacing: Design.medium) {
-                            IconBadge(symbol: "rectangle.portrait.and.arrow.right", color: Design.negative,
+                            IconBadge(symbol: "rectangle.portrait.and.arrow.right",
                                       size: Design.settingsIcon, shape: .roundedSquare)
                             Text(store.isWallet ? "Sign out and disconnect wallet" : "Sign out")
                                 .foregroundStyle(Design.negative)
@@ -144,7 +157,7 @@ struct SettingsRow<Trailing: View>: View {
             : AnyLayout(HStackLayout(spacing: Design.medium))
         layout {
             HStack(spacing: Design.medium) {
-                IconBadge(symbol: symbol, color: color, size: Design.settingsIcon, shape: .roundedSquare)
+                IconBadge(symbol: symbol, size: Design.settingsIcon, shape: .roundedSquare)
                 Text(title).foregroundStyle(Color.primary)
             }
             if !textSize.isAccessibilitySize { Spacer(minLength: Design.small) }

@@ -83,7 +83,7 @@ final class SmokeTests: XCTestCase {
     /// Xcode's built-in audit. Strict checks fail the test: missing elements or descriptions, small hit
     /// regions, wrong traits. Contrast, Dynamic Type and clipping are reported (log lines "AUDIT-REPORT")
     /// for review: on iOS 26 they also fire for content intentionally faded under the floating tab bar and
-    /// for system Form styles.
+    /// for system Form styles. See docs/STATUS.md for the reviewed list.
     @MainActor
     func testAccessibilityAuditOnMainScreens() throws {
         let strict: XCUIAccessibilityAuditType = [.elementDetection, .hitRegion, .sufficientElementDescription, .trait]

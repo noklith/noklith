@@ -5,6 +5,16 @@
 	};
 	"objectVersion" = "56";
 	"objects" = {
+		"1257758D04410F7F0F3F29DD" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "AnimationClips.swift";
+			"sourceTree" = "<group>";
+		};
+		"F4769C8019DF05EA4CA42661" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "1257758D04410F7F0F3F29DD";
+		};
 		"63A05D38A79A0C105337BABC" = {
 			"isa" = "PBXFileReference";
 			"lastKnownFileType" = "sourcecode.swift";
@@ -114,6 +124,16 @@
 		"D394C040B95310DE4133E518" = {
 			"isa" = "PBXBuildFile";
 			"fileRef" = "2140ADFC03F3B24D94E96E76";
+		};
+		"DBDA7C891A9246322100B1DF" = {
+			"isa" = "PBXFileReference";
+			"lastKnownFileType" = "sourcecode.swift";
+			"path" = "RefillAmountViews.swift";
+			"sourceTree" = "<group>";
+		};
+		"6151424CBF2ECD7227909F4D" = {
+			"isa" = "PBXBuildFile";
+			"fileRef" = "DBDA7C891A9246322100B1DF";
 		};
 		"2FFB1C951E0B6C464095A77C" = {
 			"isa" = "PBXFileReference";
@@ -292,6 +312,7 @@
 			"path" = "CryptoCardDemo";
 			"sourceTree" = "<group>";
 			"children" = (
+				"1257758D04410F7F0F3F29DD",
 				"63A05D38A79A0C105337BABC",
 				"5AE304791430BC41194509F9",
 				"3A5BFBC81AE84B0EF20F8CED",
@@ -303,6 +324,7 @@
 				"B7DB29807C981587E479347D",
 				"C2F48CB5234B14B12CC68101",
 				"2140ADFC03F3B24D94E96E76",
+				"DBDA7C891A9246322100B1DF",
 				"2FFB1C951E0B6C464095A77C",
 				"E0A122589FA96D3E1AA9516C",
 				"A6C3B1523F5CE3E2B545594B",
@@ -370,6 +392,7 @@
 			"isa" = "PBXSourcesBuildPhase";
 			"buildActionMask" = "2147483647";
 			"files" = (
+				"F4769C8019DF05EA4CA42661",
 				"7116FFDCDC247B2A7F82C880",
 				"72DF91039940F214F64B22A8",
 				"9608FF842E8EFA1F5B8E937B",
@@ -381,6 +404,7 @@
 				"29A42B6214364E3604B515BF",
 				"B90EB5DB4485C0E9FE3D81F6",
 				"D394C040B95310DE4133E518",
+				"6151424CBF2ECD7227909F4D",
 				"3B7F6A27861364A660A2D806",
 				"A0B9C9213651B585059ADED6",
 				"7926CE83EB338451AB63FFE4",
