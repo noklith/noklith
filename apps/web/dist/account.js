@@ -57,14 +57,22 @@
  // WalletConnect (Reown AppKit, served from this site): one list with installed extensions, phone wallets and a
  // QR code. Used whenever the server publishes a project ID; the app link buttons below stay as the fallback.
  let appKit=null;
+ // MetaMask, Trust Wallet, Base (Coinbase Wallet) and Rainbow in the WalletConnect explorer.
+ const WALLETS=['c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96','4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0',
+  'fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa','1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369'];
  async function walletConnectProvider(projectId,chainIds){
   if(!appKit){
    const {createAppKit,WagmiAdapter,networks}=await import('/vendor/reown-appkit-1.8.24/appkit.js');
    const nets=Object.values(networks).filter(n=>chainIds.includes(n?.id));
    if(!nets.length)throw new APIError(503,'unavailable','This network is not available for wallet sign-in.');
+   // Ethereum Sepolia as a second testnet: some phone wallets (Trust Wallet) refuse a session that offers only
+   // Base Sepolia. Sign-in does not depend on the network; refills still switch to the configured one.
+   if(networks.sepolia&&!nets.includes(networks.sepolia))nets.push(networks.sepolia);
    appKit=createAppKit({adapters:[new WagmiAdapter({projectId,networks:nets})],networks:nets,defaultNetwork:nets[0],projectId,
     metadata:{name:'Noklith',description:'Sign in to Noklith with your own wallet.',url:location.origin,icons:[location.origin+'/assets/noklith-icon-256.png']},
-    features:{analytics:false,email:false,socials:false,swaps:false,onramp:false,send:false,history:false},themeMode:'light',allWallets:'SHOW'});
+    features:{analytics:false,email:false,socials:false,swaps:false,onramp:false,send:false,history:false},themeMode:'light',
+    // A short list instead of the full catalogue; wallets installed in the browser are still offered.
+    featuredWalletIds:WALLETS,includeWalletIds:WALLETS,allWallets:'HIDE'});
   }
   const connected=()=>appKit.getAccount('eip155')?.isConnected&&appKit.getWalletProvider();
   if(!connected()){
