@@ -89,6 +89,11 @@ test('real networks need NETWORK_MODE=mainnet with MAINNET_ENABLED and accept on
   assert.throws(() => readFundingConfig({ ...funding, TOP_UP_ASSETS: '137:USDT,137:USDT' }, auth, 'mainnet'), /twice/);
   assert.throws(() => readFundingConfig({ ...funding, TOP_UP_RECIPIENT_ADDRESS: undefined }, auth, 'mainnet'), /RECIPIENT/);
   assert.equal(readFundingConfig({ ...funding, TOP_UP_CONFIRMATIONS: '64' }, auth, 'mainnet')!.networks[0]!.confirmations, 64);
+  // Base mainnet: native Circle USDC from the fixed list, 20 confirmations by default.
+  const baseAuth = readWalletAuthConfig({ ...configured, AUTH_CHAIN_IDS: '8453', BASE_RPC_URL: 'https://base.example/' }, 'mainnet');
+  const base = readFundingConfig({ ...funding, TOP_UP_ASSETS: '8453:USDC' }, baseAuth, 'mainnet')!.networks;
+  assert.deepEqual(base.map(n => [n.chainId, n.name, n.confirmations, n.assets.map(a => `${a.symbol}:${a.decimals}:${a.tokenAddress}`)]),
+    [[8453, 'Base', 20, ['USDC:6:0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913']]]);
   // The whole mode needs a second, explicit switch.
   const env = { ...real, ...funding, NETWORK_MODE: 'mainnet', DATABASE_URL: 'postgres://x', WALLET_AUTH_ENABLED: 'true' };
   assert.throws(() => readConfig(env), /MAINNET_ENABLED=true/);

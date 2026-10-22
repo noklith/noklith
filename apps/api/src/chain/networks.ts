@@ -26,6 +26,12 @@ export const NETWORKS: Readonly<Record<number, NetworkDefinition>> = {
   46630: { name: 'Robinhood Chain Testnet', rpcVariable: 'ROBINHOOD_TESTNET_RPC_URL', explorerTxURL: 'https://explorer.testnet.chain.robinhood.com/tx/',
     mainnet: false, nativeSymbol: 'ETH', confirmations: 5, tokens: [] },
   // Real networks for card refills. Verify each contract on the explorer before enabling a network.
+  // Base: native USDC by Circle, read from the chain on 2026-10-21 (symbol USDC, 6 decimals, chain 0x2105).
+  // About 2 s blocks; 20 confirmations is roughly 40 s.
+  8453: { name: 'Base', rpcVariable: 'BASE_RPC_URL', explorerTxURL: 'https://basescan.org/tx/',
+    mainnet: true, nativeSymbol: 'ETH', confirmations: 20, tokens: [
+      { symbol: 'USDC', name: 'USD Coin (Base)', address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913', decimals: 6 },
+    ] },
   137: { name: 'Polygon', rpcVariable: 'POLYGON_RPC_URL', explorerTxURL: 'https://polygonscan.com/tx/',
     mainnet: true, nativeSymbol: 'POL', confirmations: 32, tokens: [
       { symbol: 'USDT', name: 'Tether USD (Polygon)', address: '0xc2132D05D31c914a87C6611C10748AEb04B58e8F', decimals: 6 },

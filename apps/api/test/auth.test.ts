@@ -31,7 +31,7 @@ test('SIWE setup fails closed; challenges contain server nonce, audience, addres
     { origin: 'http://demo.example' }, { origin: 'https://demo.example/path' },
     { uri: 'https://other.example/sign-in' }, { uri: 'https://demo.example/sign-in#fragment' },
     { uri: 'https://user:password@demo.example/sign-in' }, { allowedChainIds: [] }, { allowedChainIds: [1] },
-    { allowedChainIds: [8453] }, { allowedChainIds: [NaN] },
+    { allowedChainIds: [10] }, { allowedChainIds: [NaN] },
   ]) assert.throws(() => new AuthService(db, { ...config, ...change }, { inspectAccount: eoa }));
   assert.throws(() => new AuthService(db, config, {} as AuthDependencies));
   const now = initialTime();
@@ -55,7 +55,7 @@ test('SIWE setup fails closed; challenges contain server nonce, audience, addres
   for (const address of [null, '', '0x' + '0'.repeat(40), '0x' + 'g'.repeat(40), account.address + '\n']) {
     await assert.rejects(service.createChallenge(address, 84532), { code: 'invalid_address' });
   }
-  for (const chain of [1, 8453, 11155111, '84532', null, NaN]) {
+  for (const chain of [1, 10, 11155111, '84532', null, NaN]) {
     await assert.rejects(service.createChallenge(account.address, chain), { code: 'unsupported_chain' });
   }
 });

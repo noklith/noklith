@@ -67,7 +67,8 @@
    if(!nets.length)throw new APIError(503,'unavailable','This network is not available for wallet sign-in.');
    // Ethereum Sepolia as a second testnet: some phone wallets (Trust Wallet) refuse a session that offers only
    // Base Sepolia. Sign-in does not depend on the network; refills still switch to the configured one.
-   if(networks.sepolia&&!nets.includes(networks.sepolia))nets.push(networks.sepolia);
+   // Only on a test deployment: a real network never offers a test network.
+   if(nets.every(n=>n.testnet)&&networks.sepolia&&!nets.includes(networks.sepolia))nets.push(networks.sepolia);
    appKitNets=nets;
    appKit=createAppKit({adapters:[new WagmiAdapter({projectId,networks:nets})],networks:nets,defaultNetwork:nets[0],projectId,
     metadata:{name:'Noklith',description:'Sign in to Noklith with your own wallet.',url:location.origin,icons:[location.origin+'/assets/noklith-icon-256.png']},

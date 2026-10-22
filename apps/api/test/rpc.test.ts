@@ -57,7 +57,7 @@ test('RPC inspection uses explicit HTTPS, actual chain ID, and one recorded bloc
 
 test('RPC configuration rejects defaults, mainnets, duplicates, insecure URLs and invalid limits', () => {
   const invalidEndpoints = [
-    [], [endpoint, endpoint], [{ ...endpoint, chainId: 1 }], [{ ...endpoint, chainId: 8453 }],
+    [], [endpoint, endpoint], [{ ...endpoint, chainId: 1 }], [{ ...endpoint, chainId: 10 }],
     [{ ...endpoint, chainId: NaN }], [{ ...endpoint, chainId: '84532' }],
     ...['http://rpc.example', 'file:///rpc', 'wss://rpc.example', 'https://user:password@rpc.example',
       'https://@rpc.example', 'https://rpc.example/#fragment', 'https://rpc.example/#',

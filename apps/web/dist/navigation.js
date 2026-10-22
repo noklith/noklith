@@ -15,6 +15,16 @@
   const template=document.querySelector('#nk-marketing-chrome')?.content;
   const header=document.querySelector('.site-header')||template?.querySelector('.site-header')?.cloneNode(true),menu=document.querySelector('#site-menu')||template?.querySelector('#site-menu')?.cloneNode(true),icons=document.querySelector('.icon-library');
   const firstURL=cleanURL(location.href);if(header&&['/','/index'].includes(route(firstURL.pathname))&&!reduce)header.style.opacity='0';document.body.replaceChildren(...[icons,header,menu].filter(Boolean));document.body.className='nk-shell';root.classList.remove('nk-boot','nk-shell-boot');if(['/', '/index'].includes(route(firstURL.pathname)))document.body.style.background='#0c0a08';
+  // Loading indicator for the first page. The route frame reports how much of its first screen (the page itself,
+  // fonts and the images in view) has arrived; the line and the number follow that and fade once the page shows.
+  const dark=['/','/index'].includes(route(firstURL.pathname));
+  const loader=document.createElement('div');loader.setAttribute('role','progressbar');loader.setAttribute('aria-label','Loading');loader.setAttribute('aria-valuemin','0');loader.setAttribute('aria-valuemax','100');
+  loader.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:20;padding:0 28px 26px;pointer-events:none;color:'+(dark?'#f2e5ce':'#32261c')+';font:500 10px/1 var(--font,sans-serif);letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .4s';
+  loader.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:12px;opacity:.72"><span>Loading</span><span data-load-value style="font-variant-numeric:tabular-nums">0%</span></div><div style="position:relative;height:1px"><div style="position:absolute;inset:0;background:currentColor;opacity:.2"></div><div data-load-bar style="position:absolute;left:0;top:0;height:1px;width:0;background:currentColor;transition:width .3s"></div></div>';
+  document.body.append(loader);setTimeout(()=>{if(loader.isConnected)loader.style.opacity='1'},150);
+  let loaded=0;
+  const progress=value=>{loaded=Math.max(loaded,Math.min(100,Math.round(value*100)));loader.setAttribute('aria-valuenow',String(loaded));loader.querySelector('[data-load-value]').textContent=loaded+'%';loader.querySelector('[data-load-bar]').style.width=loaded+'%'};
+  const finishLoader=()=>{if(!loader.isConnected)return;progress(1);loader.style.opacity='0';setTimeout(()=>loader.remove(),450)};
   let current,pending,busy=false,first=true;
   const modal=document.createElement('dialog');modal.className='brand-dialog';modal.setAttribute('aria-labelledby','nk-shell-dialog-title');modal.innerHTML='<div class=dialog-stone><button class=dialog-close aria-label="Close dialog">×</button><span class=eyebrow>THE NEXT CHAPTER</span><h2 id=nk-shell-dialog-title></h2><p>We’re carving out our place. Noklith’s official channel will appear here when it is ready.</p><button class="button dark" data-shell-close>BACK TO NOKLITH ↗</button></div>';document.body.append(modal);let socialFocus;document.querySelectorAll('[data-social] svg').forEach(svg=>{const use=svg.querySelector('use'),b=use?.getBBox();if(b?.width&&b.height)use.setAttribute('transform','translate(12 12) scale('+(20/Math.max(b.width,b.height))+') translate('+(-b.x-b.width/2)+' '+(-b.y-b.height/2)+')')});modal.querySelectorAll('button').forEach(b=>b.onclick=()=>modal.close());modal.addEventListener('close',()=>socialFocus?.focus());
   function menuState(open){document.body.classList.toggle('menu-open',open);if(menu)menu.inert=!open;const toggle=header?.querySelector('.menu-toggle');toggle?.setAttribute('aria-expanded',String(open));toggle?.setAttribute('aria-label',open?'Close menu':'Open menu');if(open)menu?.querySelector('a')?.focus()}
@@ -35,7 +45,9 @@
    if(data.type==='nk-drawer'&&e.source===current?.contentWindow){if(header)header.inert=data.open===true;return}
    if(data.type==='nk-scroll'&&e.source===current?.contentWindow){if(header)header.style.top=(-Math.min(Math.max(0,data.y),160))+'px';return}
    if(data.type==='nk-hash-sync'&&e.source===current?.contentWindow){const u=cleanURL(location.href);u.hash=data.hash;history.replaceState(null,'',u.href);document.title=data.title||document.title;return}
+   if(data.type==='nk-progress'&&e.source===pending?.contentWindow){if(first)progress(Number(data.value)||0);return}
    if(data.type!=='nk-ready'||e.source!==pending?.contentWindow)return;
+   if(first)finishLoader();
    const incoming=pending,old=current,url=cleanURL(data.href);incoming.title=data.title||'Noklith';
    const bodyClasses=String(data.bodyClass||'').split(/\s+/).filter(c=>c&&!['nk-shell','is-route-frame','page-preparing'].includes(c));document.body.className='nk-shell '+bodyClasses.join(' ');
    if(first&&header&&['/','/index'].includes(route(url.pathname))&&!reduce){header.style.opacity='';header.animate([{opacity:.001,transform:'translateY(-12px)'},{opacity:1,transform:'none'}],{duration:900,delay:matchMedia('(min-width: 1440px)').matches?2550:1750,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'})}
@@ -64,6 +76,8 @@
  const visibleImages=[...document.images].filter(i=>{const r=i.getBoundingClientRect();return r.top<innerHeight&&r.bottom>0});visibleImages.forEach(i=>{i.loading='eager'});
  // Fonts are preloaded and normally arrive first; the cap keeps a stalled font from holding the reveal.
  const ready=Promise.all([Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,3000))]),Promise.race([Promise.allSettled(visibleImages.map(i=>i.decode())),new Promise(r=>setTimeout(r,600))])]);
+ // Tells the shell's loading indicator how much of the first screen has arrived.
+ if(isRouteDocument){const parts=[document.fonts.ready,...visibleImages.map(i=>i.decode())];let done=0;const report=()=>parent.postMessage({type:'nk-progress',value:(1+done)/(parts.length+1)},location.origin);report();parts.forEach(part=>Promise.resolve(part).catch(()=>{}).finally(()=>{done++;report()}))}
  let cover,word,hero=document.querySelector('.hero-word'),slices=[],relocation,visuals=[],prepared;
  if(home&&hero&&!reduce){
   cover=document.createElement('div');cover.className='reference-loader';cover.setAttribute('aria-hidden','true');cover.innerHTML='<div class="reference-loader-ground"></div><div class="reference-loader-word"></div>';document.body.append(cover);word=cover.querySelector('.reference-loader-word');hero.style.opacity='0';
