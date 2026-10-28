@@ -171,7 +171,7 @@ struct ActivityDetail: View {
                 if let date = activity.date { LabeledContent("Date") { Text(date, format: .dateTime.month().day().hour().minute()) } }
                 LabeledContent("Type", value: typeLabel)
                 if let merchant = activity.merchant { LabeledContent("Test merchant", value: merchant) }
-                if let network = activity.network { LabeledContent("Network", value: TestNetwork.name(caip2: network) ?? network) }
+                if let network = activity.network { LabeledContent("Network", value: KnownNetwork.name(caip2: network) ?? network) }
                 if activity.kind == "card_status" {
                     Text(activity.effectiveStatus == "paused"
                          ? "New purchases were paused automatically after unusual activity. No money moved. You can resume the card on the Card tab."

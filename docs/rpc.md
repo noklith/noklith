@@ -2,7 +2,7 @@
 
 `apps/api/src/auth/rpc.ts` implements the required account inspector for SIWE verification. It checks the configured node's actual chain ID and reads the account's bytecode before authentication can succeed. No RPC endpoint is selected by default, and the adapter does not send transactions, read signing keys, or connect a wallet.
 
-The adapter accepts an explicit list of `{ chainId, url }` endpoints. Only Base Sepolia (`84532`) and Ethereum Sepolia (`11155111`) are allowed; an empty list, duplicate chains, mainnets, and malformed configuration fail at construction. This allowlist does not select either network for deployment. Operator configuration and an actual provider remain required.
+The adapter accepts an explicit list of `{ chainId, url }` endpoints, each for a chain in `chain/networks.ts`. An empty list, duplicate or unknown chains and malformed URLs fail at construction. Whether test or real networks may be configured is decided by `NETWORK_MODE` in the server configuration.
 
 ## Transport and account checks
 
@@ -33,5 +33,3 @@ Run from `apps/api`:
 ```powershell
 node --test test/rpc.test.ts
 ```
-
-These tests do not contact a provider or prove real TLS/network availability. Live checks against the explicitly selected testnet/provider, a real external wallet signature, and deployment authentication remain separate acceptance work.

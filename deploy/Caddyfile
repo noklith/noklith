@@ -45,9 +45,8 @@ noklith.com {
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options nosniff
 		Referrer-Policy strict-origin-when-cross-origin
-		# The dashboard shows card details: it must never be framed by another site. The site itself frames its
-		# own pages (navigation.js loads each route in a same-origin iframe), so only this origin may frame them;
-		# 'none'/DENY blocked that frame and every page fell back to a full reload after 8 seconds.
+		# Only this origin may frame the pages: navigation.js shows each route in a same-origin iframe, and
+		# the dashboard with card details must not be framed by another site.
 		Content-Security-Policy "frame-ancestors 'self'"
 		X-Frame-Options SAMEORIGIN
 	}

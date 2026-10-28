@@ -86,7 +86,7 @@ final class WalletIntegrationConfigurationTests: XCTestCase {
     }
 
     func testEmptyDuplicateAndMainnetNetworkListsFailClosed() {
-        for chains in [[], [0], [-1], [1], [8453], [84532, 84532], [84532, 1], [11155111, 8453]] {
+        for chains in [[], [0], [-1], [1], [10], [84532, 84532], [84532, 1], [11155111, 10]] {
             var configured = fields
             configured["chainIDs"] = chains
             XCTAssertThrowsError(try load(configured), "Rejected networks: \(chains)")

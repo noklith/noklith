@@ -8,7 +8,7 @@
  let preferences={hidden:false,finish:'sandstone'},lastFocus,toastTimer;
  const extension={actions:{},paint:null,connection:null};
  try{const p=JSON.parse(localStorage.getItem(preferenceKey)||'null');if(p)preferences={hidden:p.hidden===true,finish:['sandstone','basalt','obsidian'].includes(p.finish)?p.finish:'sandstone'}}catch{}
- // No balance or transaction records are fabricated. Account actions await a backend connection.
+ // Static shell; account.js fills in the live account.
  const spaces=[{id:'everyday',name:'Everyday',icon:'sun',description:'For wherever today takes you.'},{id:'rent',name:'Rent',icon:'shelter',description:'A foundation for the everyday.'},{id:'travel',name:'Travel',icon:'compass',description:'For the next path you take.'},{id:'reserve',name:'Reserve',icon:'cairn',description:'A little room for what comes next.'}];
  function save(){try{localStorage.setItem(preferenceKey,JSON.stringify(preferences))}catch{toast('Appearance changes last for this visit.')}}
  function toast(text){const t=$('#toast');t.textContent=text;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),3500)}

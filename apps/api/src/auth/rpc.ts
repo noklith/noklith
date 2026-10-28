@@ -99,7 +99,7 @@ export function rpcLimits(options: RpcInspectorOptions, defaultMaxBytes = DEFAUL
   return { timeoutMs, maxBytes, fetch: fetchImpl };
 }
 
-export function testnetEndpoints(endpoints: readonly RpcEndpointConfiguration[]): Map<number, string> {
+export function knownEndpoints(endpoints: readonly RpcEndpointConfiguration[]): Map<number, string> {
   if (!Array.isArray(endpoints) || endpoints.length === 0) throw new RpcInspectionError('invalid_configuration');
   const urls = new Map<number, string>();
   for (const endpoint of endpoints) {
@@ -168,7 +168,7 @@ export function createRpcAccountInspector(
   endpoints: readonly RpcEndpointConfiguration[], options: RpcInspectorOptions = {},
 ): AuthDependencies['inspectAccount'] {
   const limits = rpcLimits(options);
-  const urls = testnetEndpoints(endpoints);
+  const urls = knownEndpoints(endpoints);
 
   return async (chainId, address) => {
     const url = urls.get(chainId);

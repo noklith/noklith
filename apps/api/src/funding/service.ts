@@ -498,7 +498,7 @@ export class FundingService {
 }
 
 export interface FundingWorker { stop(): Promise<void> }
-/** In-process background processor. One API process with a loop, not a separate service. */
+/** In-process background processor. */
 export function startFundingWorker(service: FundingService, intervalMs = 5_000, onError: (error: unknown) => void = () => {}): FundingWorker {
   let stopped = false;
   let running: Promise<void> = Promise.resolve();

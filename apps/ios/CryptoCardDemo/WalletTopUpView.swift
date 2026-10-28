@@ -154,27 +154,7 @@ struct WalletTopUpView: View {
     var body: some View {
         NavigationStack {
             Group {
-            if case .amount = model.stage, model.selected(store) != nil, model.errorMessage == nil { amountStage } else {
-            Form {
-                Group {
-                switch model.stage {
-                case .amount: amountSection
-                case .terms(let topUp): termsSection(topUp)
-                case .wallet(let topUp): walletSection(topUp)
-                case .tracking(let topUp): TopUpStatusSection(topUp: topUp, onRefresh: { Task { await model.track(store) } })
-                }
-                if let error = model.errorMessage {
-                    Section {
-                        Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(Design.negative)
-                            .accessibilityIdentifier("topup-error")
-                    }
-                }
-                if case .tracking(let topUp) = model.stage, topUp.status.isFinal { finalActions(topUp) }
-                }
-                .listRowBackground(Design.surface)
-            }
-            .themedList()
-            }
+                if case .amount = model.stage { amountStage } else { stepForm }
             }
             .navigationTitle(title)
             .navigationBarTitleDisplayMode(.inline)
@@ -201,7 +181,29 @@ struct WalletTopUpView: View {
 
     private var trackingID: String? { if case .tracking(let topUp) = model.stage { topUp.id } else { nil } }
 
-    /// The amount step in the refill design; errors and the other steps use the form below.
+    /// Terms, wallet confirmation and tracking.
+    private var stepForm: some View {
+        Form {
+            Group {
+                switch model.stage {
+                case .amount: EmptyView()
+                case .terms(let topUp): termsSection(topUp)
+                case .wallet(let topUp): walletSection(topUp)
+                case .tracking(let topUp): TopUpStatusSection(topUp: topUp, onRefresh: { Task { await model.track(store) } })
+                }
+                if let error = model.errorMessage {
+                    Section {
+                        Label(error, systemImage: "exclamationmark.triangle").foregroundStyle(Design.negative)
+                            .accessibilityIdentifier("topup-error")
+                    }
+                }
+                if case .tracking(let topUp) = model.stage, topUp.status.isFinal { finalActions(topUp) }
+            }
+            .listRowBackground(Design.surface)
+        }
+        .themedList()
+    }
+
     @ViewBuilder private var amountStage: some View {
         if let pick = model.selected(store) {
             let network = pick.network, asset = pick.asset, limit = Money.formatted(String(model.limitCents(store)))
@@ -214,6 +216,11 @@ struct WalletTopUpView: View {
                                        focus: $amountFocused)
                         .onChange(of: model.amount) { model.amountChanged() }
                         .padding(.top, Design.large)
+                    if let error = model.errorMessage {
+                        Label(error, systemImage: "exclamationmark.triangle")
+                            .foregroundStyle(Design.negative).multilineTextAlignment(.center)
+                            .accessibilityIdentifier("topup-error")
+                    }
                     let options = model.options(store)
                     if options.count > 1 {
                         Picker("Pay with", selection: $model.choice) {
@@ -230,6 +237,31 @@ struct WalletTopUpView: View {
                         RefillDetailRow(title: "Wallet balance", value: balanceText(asset: asset))
                         RefillDetailRow(title: "For network fees", value: gasText, last: true)
                     }
+                    if store.depositsEnabled {
+                        // From an exchange or another wallet: a personal address, no signature in this app.
+                        NavigationLink {
+                            DepositAddressView(store: store)
+                        } label: {
+                            HStack(spacing: Design.medium) {
+                                Image(systemName: "qrcode")
+                                    .font(.system(size: 22, weight: .regular))
+                                    .foregroundStyle(Design.onAccent)
+                                    .frame(width: 52, height: 52)
+                                    .background(Design.accent, in: Circle())
+                                    .accessibilityHidden(true)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Send from any wallet or exchange").font(Design.displayMedium(19, relativeTo: .body))
+                                    Text("Your personal top-up address").font(.subheadline).foregroundStyle(Design.textSecondary)
+                                }
+                                Spacer(minLength: 0)
+                                Image(systemName: "chevron.right").foregroundStyle(Design.textSecondary).accessibilityHidden(true)
+                            }
+                            .surfaceCard(padding: Design.medium + Design.xs)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("button-deposit-address")
+                    }
                 }
                 .padding(.horizontal, Design.large)
             }
@@ -242,51 +274,10 @@ struct WalletTopUpView: View {
                     .background(Design.background)
             }
             .themedScreen()
-        }
-    }
-
-    @ViewBuilder private var amountSection: some View {
-        if let pick = model.selected(store) {
-            let network = pick.network, asset = pick.asset
-            Section(header: Eyebrow("Asset")) {
-                let options = model.options(store)
-                if options.count > 1 {
-                    Picker("Pay with", selection: $model.choice) {
-                        ForEach(options.indices, id: \.self) { index in
-                            Text("\(options[index].asset.symbol) on \(options[index].network.name)").tag(index)
-                        }
-                    }
-                    .accessibilityIdentifier("refill-asset-picker")
-                }
-                AdaptiveDetailRow(title: "Token", value: asset.name)
-                AdaptiveDetailRow(title: "Network", value: network.name)
-                AdaptiveDetailRow(title: "Wallet balance", value: balanceText(asset: asset))
-                AdaptiveDetailRow(title: "For network fees", value: gasText)
-            }
-            Section {
-                TextField("Amount in USD", text: $model.amount)
-                    .keyboardType(.decimalPad).font(.largeTitle.weight(.semibold)).monospacedDigit()
-                    .focused($amountFocused).accessibilityIdentifier("amount-input")
-                    .onChange(of: model.amount) { model.amountChanged() }
-                Text("Maximum per refill: \(Money.formatted(String(model.limitCents(store))))").font(.footnote).foregroundStyle(Design.textSecondary)
-                if !model.amountValid(store) {
-                    Label("Enter more than $0 and no more than \(Money.formatted(String(model.limitCents(store)))), with up to two decimal places.",
-                          systemImage: "exclamationmark.circle")
-                        .font(.footnote).foregroundStyle(Design.negative).accessibilityIdentifier("amount-invalid")
-                }
-            } header: { Text("Amount") }
-            Section {
-                Button { amountFocused = false; Task { await model.review(store) } } label: {
-                    if model.working { ProgressView() } else { Text("Review refill") }
-                }
-                .frame(maxWidth: .infinity, minHeight: 44)
-                .disabled(!model.amountValid(store) || model.working || store.card?.status == .blockedByRisk)
-                .accessibilityIdentifier("button-preview")
-            }
         } else {
-            Section {
-                Label("Refills are not available on this server.", systemImage: "network.slash")
-            }
+            Label("Refills are not available on this server.", systemImage: "network.slash")
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .themedScreen()
         }
     }
 

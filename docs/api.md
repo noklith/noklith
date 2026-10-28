@@ -1,6 +1,6 @@
-# API fixture and wallet authentication foundation
+# API
 
-The API is a TypeScript/Fastify service with PostgreSQL migrations. It implements an **explicit screen fixture API**: isolated sessions, a demonstration card, a persistent history, creation of an empty card, and user freeze/unfreeze. It also supports separately configured [SIWE wallet authentication](auth.md) and [RPC account inspection](rpc.md). Wallet identities and fixture card ownership remain isolated. Receipt/transfer verification, exchange, real top-ups, card payments and issuer webhooks are not implemented.
+The API is a TypeScript/Fastify service on PostgreSQL. It serves the website and the iOS app: wallet sign-in ([SIWE](auth.md), [RPC account checks](rpc.md)), cards issued through IZIPAY or the DemoIssuer, history, freeze/unfreeze, [top-ups](funding.md) from a connected wallet, [personal deposit addresses](deposits.md), and [payment codes from cardholder mail](card-mail.md). A separate fixture mode serves sample data for screenshots and local development; fixture sessions and wallet sessions never mix.
 
 `packages/api-contracts/src/index.ts` is the shared wire definition and contains the JSON Schemas used by Fastify. The iOS client uses the same snake_case fields. Responses use integer **strings** for USD cents. `network_mode` and `issuer_mode` are independent fields.
 
@@ -32,11 +32,11 @@ It binds only to `http://127.0.0.1:3000`, applies migrations, and stores its dat
 
 `npm.cmd run smoke:fixture` starts the same server on an ephemeral loopback port, calls it with real HTTP requests, and closes the listener/database in `finally`. It uses the same ignored development database, so stop an existing `dev:fixture` instance before running smoke. The smoke test creates synthetic records and revokes its session. It prints no access token.
 
-`npm.cmd start` remains the ordinary entry point with `pg.Pool` and `DATABASE_URL`; it never loads PGlite. The local development command is not a hosted PostgreSQL service and does not verify testnet or wallet integration.
+`npm.cmd start` remains the ordinary entry point with `pg.Pool` and `DATABASE_URL`; it never loads PGlite.
 
 ### PostgreSQL service
 
-To run against a PostgreSQL service, install/start Docker Desktop separately or provide a PostgreSQL database. Docker and `psql` were not available in the implementation environment; the Compose process below has not yet been executed there.
+To run against a PostgreSQL service, install/start Docker Desktop separately or provide a PostgreSQL database.
 
 ```powershell
 # In apps/api, with Docker available:
@@ -62,7 +62,7 @@ Invoke-RestMethod "http://127.0.0.1:3000/v1/cards/$($card.card.id)/freeze" `
   -Method Post -Headers $headers -ContentType application/json -Body '{}'
 ```
 
-Use only local test data. Neither this API nor the app needs private keys. Keep `.env` and access tokens out of source control. TLS configuration, deployment, pinning, and certificate rotation remain dependent on the selected hosted environment.
+Use only local test data. Neither this API nor the app needs private keys. Keep `.env` and access tokens out of source control. On the server, Caddy terminates TLS behind Cloudflare (`deploy/Caddyfile`).
 
 ## Routes
 
@@ -100,9 +100,9 @@ Example card response:
 }
 ```
 
-The standard profile seeds $250.00, a $18.40 authorization followed by capture, and a pending $8.50 authorization. Available funds are $223.10; $8.50 remains held. The four ledger events are separate history entries, so clients must not count both an authorization and its capture as two purchases. Each fixture history item has `demonstration: true`, `network: null`, and `transaction_hash: null`. These records never claim on-chain settlement. The `empty` profile has no card/history; creating a card gives zero balances. The `risk` profile starts blocked.
+The standard profile seeds $250.00, a $18.40 authorization followed by capture, and a pending $8.50 authorization. Available funds are $223.10; $8.50 remains held. The four ledger events are separate history entries, so clients must not count both an authorization and its capture as two purchases. Each fixture history item has `demonstration: true`, `network: null`, and `transaction_hash: null`. The `empty` profile has no card/history; creating a card gives zero balances. The `risk` profile starts blocked.
 
-History is ordered by timestamp and UUID descending. Cursors are opaque to clients and validated within the authenticated user's history. Page size defaults to 20. Pull REST again after foregrounding or a lost connection; WebSocket events are not implemented in this milestone.
+History is ordered by timestamp and UUID descending. Cursors are opaque to clients and validated within the authenticated user's history. Page size defaults to 20. A WebSocket at `/v1/events` signals changes; clients then fetch `GET /v1/events?after=<seq>` and the REST state, and pull REST again after foregrounding or a lost connection.
 
 ## Persistence and safety boundaries
 
@@ -134,9 +134,9 @@ The `API checks` workflow (`.github/workflows/api-checks.yml`) runs on every pus
 
 Dependency installation reported 0 known vulnerabilities in 81 audited packages at installation time. [Authentication tests](auth.md) additionally check real EOA signatures using ephemeral test keys, nonce replay, domain/URI/chain/time binding, rollback, isolated sessions and persisted revocation. [Monetary tests](money.md) check exact integer conversion, fractional-cent rejection, single top-up boundaries and overflow. The additive authentication migration leaves existing fixture routes and identities separate.
 
-A production-hosted PostgreSQL run, native client/server integration, external-wallet/RPC authentication, transaction verification, atomic monthly/velocity limits, webhook deduplication, top-up recovery, and device security checks remain unverified or unimplemented. The later CI concurrency checks above cover authentication and its cleanup/limits, not the remaining financial workflows.
+Not yet checked end to end: a real deposit transfer to a personal address, payment codes from a real IZIPAY mail, and the app on a physical iPhone.
 
-Additional Windows HTTP evidence: `npm.cmd run smoke:fixture` exited 0 on 2026-10-07. It started a real loopback listener with the persisted PGlite development database and checked health/readiness, configuration, creation of a fixture session, card balances, four history events, freeze, unfreeze, logout, and rejection of the revoked bearer. It closed the listener and database in `finally`; no server was left running. `npm.cmd run check` also passed after adding the local entry point. This HTTP check uses the same migrated fixture data/service implementation as the app API, without asserting real wallet or hosted-database integration.
+Additional Windows HTTP evidence: `npm.cmd run smoke:fixture` exited 0 on 2026-10-07. It started a real loopback listener with the persisted PGlite development database and checked health/readiness, configuration, creation of a fixture session, card balances, four history events, freeze, unfreeze, logout, and rejection of the revoked bearer. It closed the listener and database in `finally`; no server was left running. `npm.cmd run check` also passed after adding the local entry point.
 
 ## Primary implementation references
 

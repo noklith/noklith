@@ -1,7 +1,7 @@
 import { decodeEventLog, decodeFunctionResult, encodeFunctionData, erc20Abi, getAddress, isAddress, toEventSelector } from 'viem';
 import type { Hex } from 'viem';
 import type { RpcEndpointConfiguration, RpcInspectorOptions, RpcRequest } from '../auth/rpc.ts';
-import { RpcInspectionError, rpcLimits, rpcQuantity, rpcSession, testnetEndpoints } from '../auth/rpc.ts';
+import { RpcInspectionError, rpcLimits, rpcQuantity, rpcSession, knownEndpoints } from '../auth/rpc.ts';
 
 export const TRANSFER_TOPIC = toEventSelector('Transfer(address,address,uint256)');
 
@@ -100,7 +100,7 @@ export function evaluateReceipt(receipt: ReceiptShape | null, latestBlock: bigin
 /** JSON-RPC implementation over the bounded transport used for wallet sign-in checks. */
 export function createEvmChainAdapter(endpoints: readonly RpcEndpointConfiguration[], options: RpcInspectorOptions = {}): ChainAdapter {
   const limits = rpcLimits(options, 1024 * 1024);
-  const urls = testnetEndpoints(endpoints);
+  const urls = knownEndpoints(endpoints);
   return {
     chainIds: [...urls.keys()],
     async checkTransfer(expected, required) {

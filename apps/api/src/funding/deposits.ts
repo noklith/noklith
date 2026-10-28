@@ -116,7 +116,7 @@ export class DepositService {
 }
 
 export interface DepositWatcher { stop(): Promise<void> }
-/** In-process loop like the funding worker; RPC failures are reported and retried on the next tick. */
+/** In-process loop; RPC failures are reported and retried on the next tick. */
 export function startDepositWatcher(service: DepositService, intervalMs = 15_000, onError: (error: unknown) => void = () => {}): DepositWatcher {
   let stopped = false;
   let running: Promise<void> = Promise.resolve();

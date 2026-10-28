@@ -66,7 +66,7 @@ struct CredentialsScreen: View {
         var authError: NSError?
         // Biometrics with the device passcode as the defined fallback.
         guard auth.canEvaluatePolicy(.deviceOwnerAuthentication, error: &authError) else {
-            message = String(localized: "Device authentication is unavailable. Set a device passcode to continue. Simulator verification requires an enrolled biometric simulation.")
+            message = String(localized: "Face ID and a passcode are not set up on this device. Set a device passcode to see card details.")
             return
         }
         do {
@@ -90,8 +90,6 @@ struct CredentialsScreen: View {
                 guard !Task.isCancelled else { return }
                 details = nil
             }
-        } catch let error as LAError where error.code == .userCancel || error.code == .appCancel || error.code == .systemCancel {
-            message = String(localized: "Details remain hidden. Authentication was not completed.")
         } catch {
             message = (error as? ClientError)?.errorDescription ?? String(localized: "Details remain hidden. Authentication was not completed.")
         }

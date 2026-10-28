@@ -166,7 +166,6 @@ struct AppLogo: View {
     }
 }
 
-/// A colored circular or rounded-square well with a white SF Symbol (history rows, settings cells).
 /// Round (or rounded-square) icon on the brand accent. Every icon uses the same brown, whatever it marks;
 /// the meaning comes from the symbol and the text beside it.
 struct IconBadge: View {

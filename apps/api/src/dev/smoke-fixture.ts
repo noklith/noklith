@@ -3,7 +3,7 @@ import { randomUUID } from 'node:crypto';
 import type { CardResponse, HistoryResponse, SessionResponse } from '../../../../packages/api-contracts/src/index.ts';
 import { startFixtureApp } from './fixture-app.ts';
 
-// Exercise an actual TCP listener, not Fastify.inject. Token values never go to output.
+// Uses a real TCP listener, not Fastify.inject. Token values never go to output.
 const { app, address } = await startFixtureApp({ port: 0, logger: false });
 const request = (path: string, init?: RequestInit) => fetch(`${address}${path}`, { ...init, signal: AbortSignal.timeout(10000) });
 try {
@@ -36,7 +36,7 @@ try {
   }
   assert.equal((await request('/v1/auth/logout', { method: 'POST', headers, body: '{}' })).status, 204);
   assert.equal((await request('/v1/card', { headers })).status, 401);
-  console.log('PASS: actual loopback HTTP health, ready, config, fixture session, card, history, freeze, unfreeze, logout, revoked access.');
+  console.log('PASS: loopback HTTP health, ready, config, fixture session, card, history, freeze, unfreeze, logout, revoked access.');
 } finally {
   await app.close();
   assert.equal(app.server.listening, false);

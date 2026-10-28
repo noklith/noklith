@@ -8,6 +8,8 @@ struct APIConfiguration: Decodable {
     let walletAuthEnabled: Bool
     let topUpEnabled: Bool
     let networks: [NetworkConfig]?
+    /// Personal deposit addresses (GET /v1/deposit-address); absent on older servers.
+    let depositsEnabled: Bool?
 }
 struct CardResponse: Decodable { let card: Card? }
 struct HistoryResponse: Decodable { let items: [Activity]; let nextCursor: String? }
@@ -34,7 +36,7 @@ enum ClientError: LocalizedError {
         case .unexpectedResponse: String(localized: "The server returned an unexpected response. Try refreshing.")
         case .server(let message): message
         case .sessionExpired: String(localized: "Your session expired. Please connect again.")
-        case .fixtureUnavailable: String(localized: "This server does not allow fixture sessions.")
+        case .fixtureUnavailable: String(localized: "Demo mode is not available on this server.")
         }
     }
 }

@@ -55,7 +55,7 @@ struct RefillAmountHeader: View {
     }
 }
 
-/// Rows on a plain rounded paper card (no stone frame), as on the refill design.
+/// Rows on a plain rounded paper card (no stone frame).
 struct RefillDetailsCard<Content: View>: View {
     @ViewBuilder let content: Content
     var body: some View {
@@ -125,7 +125,7 @@ struct RefillReviewButton: View {
     }
 }
 
-/// The round Close control of the refill design.
+/// Round Close control.
 struct RefillCloseButton: View {
     let action: () -> Void
     var body: some View {

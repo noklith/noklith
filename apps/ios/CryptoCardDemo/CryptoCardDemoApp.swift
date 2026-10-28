@@ -19,8 +19,7 @@ struct CryptoCardDemoApp: App {
         WindowGroup {
             RootView(store: store)
                 .tint(Design.accent)
-                // Owner decision 2026-10-21: text stays at the standard size whatever the system setting, because
-                // larger sizes broke words in buttons and activity rows. VoiceOver and Bold Text still apply.
+                // Fixed text size: larger sizes broke words in buttons and activity rows. VoiceOver and Bold Text still apply.
                 .dynamicTypeSize(.large)
         }
     }
@@ -39,6 +38,9 @@ struct RootView: View {
             Group {
                 if store.options.fixture && store.options.screen == "topup-status" {
                     TopUpStatusPreview(scenario: store.options.scenario)
+                } else if store.options.fixture && store.options.screen == "deposit" {
+                    // Sample address for review screenshots; no server is asked and nothing is sent.
+                    NavigationStack { DepositAddressView(store: store, sample: Fixtures.depositAddress) }
                 } else if store.connected {
                     TabView(selection: $tab) {
                         NavigationStack { CardScreen(store: store, sheet: $sheet) }
@@ -208,7 +210,7 @@ private struct WelcomeButtonsBottom: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = min(value, nextValue()) }
 }
 
-/// Large actions of the new design: a filled accent capsule or an outlined one, 56 pt tall by default, sentence case.
+/// Large actions: a filled accent capsule or an outlined one, 56 pt tall by default, sentence case.
 struct WelcomeButtonStyle: ButtonStyle {
     let prominent: Bool
     var height: CGFloat = 56

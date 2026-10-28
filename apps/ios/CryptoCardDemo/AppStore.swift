@@ -13,6 +13,8 @@ final class AppStore {
     /// The latest unexpired payment code for an IZIPAY card, if the server receives cardholder mail.
     private(set) var paymentCode: PaymentCodeInfo.Code?
     private(set) var networks: [NetworkConfig] = []
+    /// The server credits transfers to a personal deposit address.
+    private(set) var depositsEnabled = false
     private(set) var isLoading = false
     private(set) var isMutating = false
     private(set) var connected = false
@@ -109,7 +111,8 @@ final class AppStore {
             let config: APIConfiguration = try await APIClient(baseURL: baseURL).request("v1/config")
             guard generation == sessionGeneration else { return }
             networks = config.topUpEnabled ? (config.networks ?? []) : []
-        } catch { if generation == sessionGeneration { networks = [] } }
+            depositsEnabled = config.depositsEnabled ?? false
+        } catch { if generation == sessionGeneration { networks = []; depositsEnabled = false } }
         await refresh()
     }
 
@@ -257,6 +260,8 @@ final class AppStore {
 
     // MARK: Top-ups (wallet mode)
 
+    func depositAddress() async throws -> DepositAddress { try await api("v1/deposit-address") }
+
     func walletBalances() async -> WalletBalances? {
         guard isWallet else { return nil }
         let balances: WalletBalances? = try? await api("v1/wallet/balances")
@@ -328,7 +333,7 @@ final class AppStore {
                 _ = try await APIClient(baseURL: url).requestData("v1/auth/logout", method: "POST", body: Data("{}".utf8), token: token)
             } catch {
                 guard generation == sessionGeneration else { return }
-                errorMessage = String(localized: "Signed out on this device. Server revocation could not be confirmed; the old session expires within one hour.")
+                errorMessage = String(localized: "Signed out on this device. If the server did not get the sign-out, the old session ends within an hour.")
             }
         }
     }
@@ -343,6 +348,7 @@ final class AppStore {
         limits = nil
         paymentCode = nil
         networks = []
+        depositsEnabled = false
         walletAddress = nil
         walletChainID = nil
         walletBaseURL = nil

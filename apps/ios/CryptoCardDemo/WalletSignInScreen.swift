@@ -37,7 +37,7 @@ import SwiftUI
     }
 
     func handle(url: URL) {
-        // A deep link cannot initialise an unconfigured flow or trigger a signature.
+        // A deep link cannot initialize an unconfigured flow or trigger a signature.
         guard url.scheme == WalletIntegrationConfiguration.redirectURL.scheme,
               url.host == WalletIntegrationConfiguration.redirectURL.host else { return }
         connector?.handle(url: url)
@@ -76,7 +76,7 @@ struct WalletSignInScreen: View {
                     } else {
                         Text("Choose an external wallet. You'll review a sign-in message before approving it in your wallet.")
                             .font(.title3).foregroundStyle(Design.textSecondary)
-                        Text("Signing in does not authorise a transfer. This app never asks for your recovery phrase or private key.")
+                        Text("Signing in does not authorize a transfer. This app never asks for your recovery phrase or private key.")
                             .foregroundStyle(Design.textSecondary)
                         PrimaryButton(title: "Connect wallet", symbol: "link", action: flow.connect)
                             .accessibilityIdentifier("button-connect-wallet")
@@ -85,8 +85,6 @@ struct WalletSignInScreen: View {
                         Label(error, systemImage: "exclamationmark.circle.fill").foregroundStyle(Design.negative)
                             .accessibilityIdentifier("wallet-error")
                     }
-                    Text("Signing in moves no money. Your private key never leaves your wallet.")
-                        .font(.footnote).foregroundStyle(Design.textSecondary)
                 } else {
                     VStack(alignment: .leading, spacing: Design.small) {
                         Text("Wallet sign-in is\ncoming soon.")
@@ -143,7 +141,7 @@ struct WalletSignInScreen: View {
 private struct WalletAccountDetails: View {
     let account: WalletAccount
     private var network: String {
-        TestNetwork.names[account.chainID] ?? "Unsupported network"
+        KnownNetwork.names[account.chainID] ?? "Unsupported network"
     }
 
     var body: some View {

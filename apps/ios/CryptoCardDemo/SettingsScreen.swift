@@ -58,7 +58,7 @@ struct SettingsScreen: View {
                                 .lineLimit(1).truncationMode(.middle).textSelection(.enabled)
                         }
                         SettingsRow(symbol: "network", color: .indigo, title: "Network",
-                                    value: store.walletChainID.flatMap { TestNetwork.names[$0] } ?? "Network")
+                                    value: store.walletChainID.flatMap { KnownNetwork.names[$0] } ?? "Network")
                         SettingsRow(symbol: "signature", color: Design.positive, title: "Sign-in", value: "Verified by signature")
                     } else {
                         SettingsRow(symbol: "wallet.bifold.fill", color: Design.accent, title: "Wallet", value: "Not connected")
@@ -132,7 +132,7 @@ struct SettingsScreen: View {
 
     /// A card from the card program (IZIPAY), not the DemoIssuer stub.
     private var isIssuedCard: Bool { store.card?.issuerMode == "izipay" }
-    private var onTestNetwork: Bool { store.walletChainID.map(TestNetwork.isTest) ?? true }
+    private var onTestNetwork: Bool { store.walletChainID.map(KnownNetwork.isTest) ?? true }
 
     private var dataLabel: String {
         switch store.mode {

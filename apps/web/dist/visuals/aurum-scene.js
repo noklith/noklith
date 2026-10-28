@@ -1,8 +1,6 @@
 /**
- * Noklith Aurum scene, adapted from the user's supplied aurum-peak.html.
- * Actual source heightfield, barycentric wireframe, clouds, hover subdivision,
- * lens distortion, parallax, mist, grain and vignette are preserved.
- * Three.js r143 is local; no CDN, network requests, storage or page controls.
+ * Aurum scene, ported from aurum-peak.html: heightfield, barycentric wireframe, clouds, hover subdivision,
+ * lens distortion, parallax, mist, grain and vignette. Three.js r143 is served from this site.
  */
 import * as THREE from './vendor/three-r143.module.js';
 

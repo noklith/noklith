@@ -33,7 +33,7 @@ struct WalletAuthPolicy: Equatable, Sendable {
 
     init(origin: String, uri: String, allowedChainIDs: [Int]) throws {
         guard !allowedChainIDs.isEmpty, Set(allowedChainIDs).count == allowedChainIDs.count,
-              Set(allowedChainIDs).isSubset(of: Set(TestNetwork.names.keys)),
+              Set(allowedChainIDs).isSubset(of: Set(KnownNetwork.names.keys)),
               let root = URLComponents(string: origin), let target = URLComponents(string: uri),
               root.scheme == "https", let host = root.host, !host.isEmpty,
               root.user == nil, root.password == nil, root.path.isEmpty, root.query == nil, root.fragment == nil,
@@ -124,11 +124,10 @@ extension WalletConnector {
     }
 }
 
-/// Networks this build may use. Which ones are active is decided by the server's configuration
-/// (test networks on a test server, Polygon and BNB Smart Chain only when the server runs on real networks).
-enum TestNetwork {
+/// Networks this build can sign in on. The server's configuration decides which of them are active.
+enum KnownNetwork {
     static let names: [Int: String] = [84532: "Base Sepolia", 11155111: "Ethereum Sepolia", 46630: "Robinhood Chain Testnet",
-                                       137: "Polygon", 56: "BNB Smart Chain"]
+                                       8453: "Base", 137: "Polygon", 56: "BNB Smart Chain"]
     static let testnets: Set<Int> = [84532, 11155111, 46630]
     static func isTest(_ chainID: Int) -> Bool { testnets.contains(chainID) }
     /// Name for a CAIP-2 reference such as eip155:84532.

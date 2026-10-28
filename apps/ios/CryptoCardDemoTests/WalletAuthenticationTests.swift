@@ -55,9 +55,11 @@ final class WalletAuthenticationTests: XCTestCase {
     }
 
     func testPoliciesAndSignatureShapeFailClosed() throws {
-        for chains in [[], [1], [8453], [84532, 84532]] {
+        for chains in [[], [1], [10], [84532, 84532]] {
             XCTAssertThrowsError(try WalletAuthPolicy(origin: "https://demo.example", uri: "https://demo.example/sign-in", allowedChainIDs: chains))
         }
+        // Base mainnet is a listed network; the server's mode decides whether it is offered.
+        XCTAssertNoThrow(try WalletAuthPolicy(origin: "https://demo.example", uri: "https://demo.example/sign-in", allowedChainIDs: [8453]))
         for origin in ["http://demo.example", "https://demo.example/", "https://user:password@demo.example", "https://demo.example:443"] {
             XCTAssertThrowsError(try WalletAuthPolicy(origin: origin, uri: "https://demo.example/sign-in", allowedChainIDs: [84532]))
         }

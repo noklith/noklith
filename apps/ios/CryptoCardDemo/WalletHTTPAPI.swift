@@ -70,7 +70,7 @@ private final class AuthRedirectPolicy: NSObject, URLSessionTaskDelegate {
         guard (200..<300).contains(response.statusCode) else {
             if response.statusCode == 401 { throw ClientError.sessionExpired }
             if response.statusCode == 429 { throw ClientError.server(String(localized: "Too many sign-in attempts. Wait one minute and try again.")) }
-            if response.statusCode == 422 { throw ClientError.server(String(localized: "This build currently supports standard externally owned wallets only.")) }
+            if response.statusCode == 422 { throw ClientError.server(String(localized: "Use a regular wallet account. Smart-contract wallets cannot sign in yet.")) }
             throw WalletAuthenticationError.unavailable
         }
         return bytes

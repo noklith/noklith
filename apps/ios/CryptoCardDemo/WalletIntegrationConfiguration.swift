@@ -46,7 +46,7 @@ struct WalletIntegrationConfiguration: Equatable, Sendable {
 
     static func load(fixture: Bool, readData: () throws -> Data?) throws -> Self? {
         // Gate the resource lookup as well as decoding: fixture launches must not read
-        // deployment configuration or create a route to initialise the wallet SDK.
+        // deployment configuration or create a route to initialize the wallet SDK.
         guard !fixture else { return nil }
         return try load(data: readData(), fixture: false)
     }

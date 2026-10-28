@@ -30,6 +30,8 @@ if [ -n "$(git status --porcelain -- apps/api packages/api-contracts deploy apps
   exit 1
 fi
 echo "Deploying $COMMIT to $HOST"
+# An existing release directory is kept: running containers bind-mount it, and replacing it would leave them
+# serving a deleted directory (an empty website).
 git -c core.autocrlf=false archive --format=tar "$COMMIT" apps/api packages/api-contracts deploy apps/web/dist \
-  | ssh -o BatchMode=yes "$HOST" "set -e; d=/srv/crypto-card/releases/$COMMIT; rm -rf \"\$d.tmp\"; mkdir -p \"\$d.tmp\"; tar -x -C \"\$d.tmp\"; rm -rf \"\$d\"; mv \"\$d.tmp\" \"\$d\""
+  | ssh -o BatchMode=yes "$HOST" "set -e; d=/srv/crypto-card/releases/$COMMIT; if [ -d \"\$d\" ]; then cat >/dev/null; exit 0; fi; rm -rf \"\$d.tmp\"; mkdir -p \"\$d.tmp\"; tar -x -C \"\$d.tmp\"; mv \"\$d.tmp\" \"\$d\""
 ssh -o BatchMode=yes "$HOST" "bash /srv/crypto-card/releases/$COMMIT/deploy/activate.sh $COMMIT"
