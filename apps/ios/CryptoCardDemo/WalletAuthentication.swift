@@ -127,8 +127,9 @@ extension WalletConnector {
 /// Networks this build can sign in on. The server's configuration decides which of them are active.
 enum KnownNetwork {
     static let names: [Int: String] = [84532: "Base Sepolia", 11155111: "Ethereum Sepolia", 46630: "Robinhood Chain Testnet",
+                                       80002: "Polygon Amoy", 97: "BNB Smart Chain Testnet",
                                        8453: "Base", 137: "Polygon", 56: "BNB Smart Chain"]
-    static let testnets: Set<Int> = [84532, 11155111, 46630]
+    static let testnets: Set<Int> = [84532, 11155111, 46630, 80002, 97]
     static func isTest(_ chainID: Int) -> Bool { testnets.contains(chainID) }
     /// Name for a CAIP-2 reference such as eip155:84532.
     static func name(caip2: String) -> String? {

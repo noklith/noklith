@@ -60,6 +60,7 @@ final class WalletAuthenticationTests: XCTestCase {
         }
         // Base mainnet is a listed network; the server's mode decides whether it is offered.
         XCTAssertNoThrow(try WalletAuthPolicy(origin: "https://demo.example", uri: "https://demo.example/sign-in", allowedChainIDs: [8453]))
+        XCTAssertNoThrow(try WalletAuthPolicy(origin: "https://demo.example", uri: "https://demo.example/sign-in", allowedChainIDs: [80002, 97]))
         for origin in ["http://demo.example", "https://demo.example/", "https://user:password@demo.example", "https://demo.example:443"] {
             XCTAssertThrowsError(try WalletAuthPolicy(origin: origin, uri: "https://demo.example/sign-in", allowedChainIDs: [84532]))
         }

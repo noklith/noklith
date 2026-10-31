@@ -120,7 +120,7 @@
   try{await eth.request({method:'wallet_switchEthereumChain',params:[{chainId:hex}]})}
   catch(error){
    // Networks a wallet may not know yet: public RPC and explorer, used only to add the network to the wallet.
-   const known={84532:['Base Sepolia','ETH','https://sepolia.base.org','https://sepolia.basescan.org'],137:['Polygon','POL','https://polygon-rpc.com','https://polygonscan.com'],56:['BNB Smart Chain','BNB','https://bsc-dataseed.bnbchain.org','https://bscscan.com']}[chainId];
+   const known={84532:['Base Sepolia','ETH','https://sepolia.base.org','https://sepolia.basescan.org'],80002:['Polygon Amoy','POL','https://polygon-amoy-bor-rpc.publicnode.com','https://amoy.polygonscan.com'],97:['BNB Smart Chain Testnet','tBNB','https://data-seed-prebsc-1-s1.bnbchain.org:8545','https://testnet.bscscan.com'],137:['Polygon','POL','https://polygon-rpc.com','https://polygonscan.com'],56:['BNB Smart Chain','BNB','https://bsc-dataseed.bnbchain.org','https://bscscan.com']}[chainId];
    if(error?.code!==4902||!known)throw error;
    const [name,symbol,rpc,explorer]=known;
    await eth.request({method:'wallet_addEthereumChain',params:[{chainId:hex,chainName:name,nativeCurrency:{name:symbol,symbol,decimals:18},rpcUrls:[rpc],blockExplorerUrls:[explorer]}]});

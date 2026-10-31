@@ -85,14 +85,15 @@ function readServiceFeeBps(env: NodeJS.ProcessEnv): number {
 }
 
 /**
- * Funding is opt-in and fully explicit: network, token contract, recipient and confirmations. On real networks
- * (NETWORK_MODE=mainnet) TOP_UP_ASSETS picks stablecoins from the fixed list in chain/networks.ts, e.g. "137:USDT,56:USDT".
+ * Funding is opt-in and fully explicit: network, token contract, recipient and confirmations. TOP_UP_ASSETS picks
+ * stablecoins from the fixed list in chain/networks.ts, e.g. "137:USDT,56:USDT" (required on real networks; on test
+ * networks it replaces the single TOP_UP_CHAIN_ID / TOP_UP_TOKEN_ADDRESS pair).
  */
 export function readFundingConfig(env: NodeJS.ProcessEnv, walletAuth: WalletAuthRuntimeConfiguration | undefined,
   networkMode: NetworkMode = 'testnet'): FundingConfiguration | undefined {
   if (env.TOP_UP_ENABLED !== undefined && !['true', 'false'].includes(env.TOP_UP_ENABLED)) throw new Error('TOP_UP_ENABLED must be true or false.');
   if (env.TOP_UP_ENABLED !== 'true') return undefined;
-  if (networkMode === 'mainnet') return readMainnetFunding(env, walletAuth);
+  if (networkMode === 'mainnet' || env.TOP_UP_ASSETS !== undefined) return readListedFunding(env, walletAuth, networkMode === 'mainnet');
   const chainId = Number(env.TOP_UP_CHAIN_ID ?? '84532');
   const network = TESTNETS[chainId];
   if (!network || String(chainId) !== (env.TOP_UP_CHAIN_ID ?? '84532')) throw new Error('TOP_UP_CHAIN_ID must be one of the supported testnet IDs.');
@@ -116,8 +117,8 @@ export function readFundingConfig(env: NodeJS.ProcessEnv, walletAuth: WalletAuth
   };
 }
 
-/** Real stablecoin refills: only listed networks and their fixed token contracts, to an explicit recipient. */
-function readMainnetFunding(env: NodeJS.ProcessEnv, walletAuth: WalletAuthRuntimeConfiguration | undefined): FundingConfiguration {
+/** Stablecoin refills from the fixed list for the server's kind of network (real or test), to an explicit recipient. */
+function readListedFunding(env: NodeJS.ProcessEnv, walletAuth: WalletAuthRuntimeConfiguration | undefined, mainnet: boolean): FundingConfiguration {
   const recipient = env.TOP_UP_RECIPIENT_ADDRESS ?? '';
   if (!ADDRESS.test(recipient) || /^0x0{40}$/i.test(recipient)) throw new Error('TOP_UP_RECIPIENT_ADDRESS must be the explicit address that receives refills.');
   const picks = (env.TOP_UP_ASSETS ?? '').split(',').map(item => item.trim()).filter(Boolean);
@@ -129,13 +130,13 @@ function readMainnetFunding(env: NodeJS.ProcessEnv, walletAuth: WalletAuthRuntim
     const match = /^([1-9][0-9]*):([A-Z0-9]{2,10})$/.exec(pick);
     const chainId = Number(match?.[1]);
     const network = NETWORKS[chainId];
-    const token = network?.mainnet ? network.tokens.find(item => item.symbol === match?.[2]) : undefined;
-    if (!match || !network || !token) throw new Error(`TOP_UP_ASSETS entry ${pick} is not a supported real-network stablecoin.`);
+    const token = network && network.mainnet === mainnet ? network.tokens.find(item => item.symbol === match?.[2]) : undefined;
+    if (!match || !network || !token) throw new Error(`TOP_UP_ASSETS entry ${pick} is not a supported ${mainnet ? 'real-network' : 'test-network'} stablecoin.`);
     if (!walletAuth || !walletAuth.configuration.allowedChainIds.includes(chainId)) {
       throw new Error(`Refills on ${network.name} require AUTH_CHAIN_IDS including ${chainId}.`);
     }
     const entry = byChain.get(chainId) ?? { chainId, name: network.name, explorerTxURL: network.explorerTxURL, nativeSymbol: network.nativeSymbol,
-      mainnet: true, confirmations: rawConfirmations ? Number(rawConfirmations) : network.confirmations, assets: [] };
+      mainnet, confirmations: rawConfirmations ? Number(rawConfirmations) : network.confirmations, assets: [] };
     if (entry.assets.some(asset => asset.symbol === token.symbol)) throw new Error(`TOP_UP_ASSETS lists ${pick} twice.`);
     entry.assets.push({ symbol: token.symbol, name: token.name, tokenAddress: token.address, decimals: token.decimals });
     byChain.set(chainId, entry);

@@ -69,6 +69,25 @@ test('Robinhood Chain Testnet is selectable for sign-in and top-ups; its mainnet
   assert.throws(() => readFundingConfig({ ...funding, TOP_UP_CHAIN_ID: '84532' }, auth), /AUTH_CHAIN_IDS including 84532/);
 });
 
+test('a test server can take several listed test stablecoins, never a real one', () => {
+  const env = { ...configured, AUTH_CHAIN_IDS: '84532,80002,97', BASE_SEPOLIA_RPC_URL: 'https://base-sepolia.example/',
+    POLYGON_AMOY_RPC_URL: 'https://amoy.example/', BSC_TESTNET_RPC_URL: 'https://bsc-testnet.example/' };
+  const auth = readWalletAuthConfig(env, 'testnet');
+  const funding = { TOP_UP_ENABLED: 'true', TOP_UP_RECIPIENT_ADDRESS: `0x${'1'.repeat(40)}`, TOP_UP_ASSETS: '80002:USDC,97:USDT,84532:USDC' };
+  const networks = readFundingConfig(funding, auth)!.networks;
+  assert.deepEqual(networks.map(n => [n.chainId, n.mainnet, n.nativeSymbol, n.confirmations, n.assets.map(a => `${a.symbol}:${a.decimals}:${a.tokenAddress}`)]), [
+    [80002, false, 'POL', 5, ['USDC:6:0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582']],
+    [97, false, 'BNB', 5, ['USDT:18:0x337610d27c682E347C9cD60BD4b3b107C9d34dDd']],
+    [84532, false, 'ETH', 5, ['USDC:6:0x036CbD53842c5426634e7929541eC2318f3dCF7e']],
+  ]);
+  // The list wins over the single-network settings, and real stablecoins stay out of a test server.
+  assert.equal(readFundingConfig({ ...funding, TOP_UP_CHAIN_ID: '84532', TOP_UP_TOKEN_ADDRESS: `0x${'2'.repeat(40)}` }, auth)!.networks.length, 3);
+  assert.throws(() => readFundingConfig({ ...funding, TOP_UP_ASSETS: '137:USDT' }, auth), /not a supported test-network stablecoin/);
+  assert.throws(() => readFundingConfig({ ...funding, TOP_UP_ASSETS: '97:USDC' }, auth), /not a supported test-network stablecoin/);
+  assert.throws(() => readFundingConfig({ ...funding, TOP_UP_ASSETS: '' }, auth), /TOP_UP_ASSETS/);
+  assert.throws(() => readFundingConfig({ ...funding, TOP_UP_ASSETS: '46630:USDC' }, auth), /not a supported test-network stablecoin/);
+});
+
 test('real networks need NETWORK_MODE=mainnet with MAINNET_ENABLED and accept only the listed stablecoins', () => {
   const real = { ...configured, AUTH_CHAIN_IDS: '137,56', POLYGON_RPC_URL: 'https://polygon.example/', BSC_RPC_URL: 'https://bsc.example/' };
   // A test server can never reach a real network, and a real one never a test network.

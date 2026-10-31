@@ -20,19 +20,25 @@ const TOKEN = '0x036CbD53842c5426634e7929541eC2318f3dCF7e'.toLowerCase();
 const authConfig: AuthConfiguration = { origin: 'https://demo.example', uri: 'https://demo.example/sign-in', allowedChainIds: [84532] };
 const network = { chainId: 84532, name: 'Base Sepolia', confirmations: 3, explorerTxURL: 'https://sepolia.basescan.org/tx/',
   assets: [{ symbol: 'USDC', name: 'USDC (Base Sepolia test token)', tokenAddress: TOKEN, decimals: 6 }] };
-const funding = { recipient: '0x1111111111111111111111111111111111111111', ...DEFAULT_FUNDING_TIMING, networks: [network] };
+// BNB Smart Chain Testnet USDT has 18 decimals, as on the real network.
+const USDT_BSC = '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd'.toLowerCase();
+const bscTestnet = { chainId: 97, name: 'BNB Smart Chain Testnet', confirmations: 3, explorerTxURL: 'https://testnet.bscscan.com/tx/',
+  assets: [{ symbol: 'USDT', name: 'Tether USD (BNB Smart Chain Testnet test token)', tokenAddress: USDT_BSC, decimals: 18 }] };
+const TOKENS: Record<number, string> = { 84532: TOKEN, 97: USDT_BSC };
 const hash = () => `0x${randomBytes(32).toString('hex')}` as Hex;
 const usdc = (dollars: number) => BigInt(Math.round(dollars * 1_000_000));
 
 class ScanChain implements ChainAdapter {
-  chainIds = [84532];
+  chainIds = [84532, 97];
   latest = 1_000n;
-  transfers: IncomingTransfer[] = [];
+  /** Transfers on Base Sepolia unless chainId says otherwise. */
+  transfers: (IncomingTransfer & { chainId?: number })[] = [];
   async checkTransfer(): Promise<never> { throw new Error('not used'); }
   async latestBlock() { return this.latest; }
-  async incomingTransfers(_chainId: number, token: string, recipients: readonly string[], fromBlock: bigint, toBlock: bigint) {
-    assert.equal(token, TOKEN);
-    return this.transfers.filter(item => recipients.includes(item.to) && item.blockNumber >= fromBlock && item.blockNumber <= toBlock);
+  async incomingTransfers(chainId: number, token: string, recipients: readonly string[], fromBlock: bigint, toBlock: bigint) {
+    assert.equal(token, TOKENS[chainId]);
+    return this.transfers.filter(item => (item.chainId ?? 84532) === chainId && recipients.includes(item.to)
+      && item.blockNumber >= fromBlock && item.blockNumber <= toBlock);
   }
 }
 
@@ -41,7 +47,8 @@ function accountKey() {
   return { mnemonic, xpub: mnemonicToAccount(mnemonic, { path: "m/44'/60'/0'" }).getHdKey().publicExtendedKey };
 }
 
-async function setup() {
+async function setup(networks: typeof network[] = [network]) {
+  const funding = { recipient: '0x1111111111111111111111111111111111111111', ...DEFAULT_FUNDING_TIMING, networks };
   const db = testDatabase();
   const chain = new ScanChain();
   const issuer = new DemoIssuer();
@@ -158,4 +165,25 @@ test('transfers to addresses of other services are not credited', async t => {
   chain.latest = 1_010n;
   assert.equal(await deposits.scan(), 0);
   assert.equal((await db.query('SELECT 1 FROM top_up_intents')).rows.length, 0);
+});
+
+test('one address takes deposits on several networks, including 18-decimal USDT', async t => {
+  const { db, app, chain, service, deposits, signIn, addressOf } = await setup([network, bscTestnet]);
+  t.after(async () => { await app.close(); await db.close(); });
+  const user = await signIn();
+  const shown = await addressOf(user.headers);
+  assert.deepEqual(shown.networks.map(item => [item.chain_id, item.assets.map(asset => `${asset.symbol}:${asset.decimals}`)]), [[84532, ['USDC:6']], [97, ['USDT:18']]]);
+  const to = shown.address.toLowerCase(), from = '0x2222222222222222222222222222222222222222';
+  // $12.345 in USDT: whole cents are credited, the half cent stays unassigned.
+  chain.transfers.push({ chainId: 97, transactionHash: hash(), logIndex: 1, blockNumber: 1_002n, from, to, units: 12_345n * 10n ** 15n });
+  chain.transfers.push({ transactionHash: hash(), logIndex: 0, blockNumber: 1_003n, from, to, units: usdc(7) });
+  chain.latest = 1_010n;
+  assert.equal(await deposits.scan(), 2);
+  const rows = (await db.query<{ chain_id: number; asset: string; amount_cents: string; token_units: string }>(
+    'SELECT chain_id, asset, amount_cents::text AS amount_cents, token_units::text AS token_units FROM top_up_intents ORDER BY chain_id')).rows;
+  assert.deepEqual(rows.map(row => [Number(row.chain_id), row.asset, row.amount_cents, row.token_units]),
+    [[97, 'USDT', '1234', '12345000000000000000'], [84532, 'USDC', '700', '7000000']]);
+  await service.processDue();
+  const credited = await db.query<{ amount_cents: string }>(`SELECT amount_cents::text AS amount_cents FROM ledger_entries WHERE kind = 'top_up'`);
+  assert.deepEqual(credited.rows.map(row => row.amount_cents).sort(), ['1234', '700']);
 });

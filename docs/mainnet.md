@@ -1,7 +1,11 @@
 # Going live on Base (real USDC)
 
 The owner approved real funds on Base on 2026-10-21. The code is ready; the switch waits for the items below.
-Until then the server stays on Base Sepolia.
+Until then the server stays on test networks.
+
+IZIPAY tops up its balance only in USDT (seen 2026-10-31), so collected refills reach it directly only from
+USDT on Polygon (`137:USDT`) or BNB Smart Chain (`56:USDT`); Base USDC would need a swap first. Both are being
+tried on their test networks before one (or both) is picked; the settings below then change accordingly.
 
 ## Before the switch
 

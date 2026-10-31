@@ -13,18 +13,31 @@ export interface NetworkDefinition {
   nativeSymbol: string;
   /** Default confirmations before a transfer counts; TOP_UP_CONFIRMATIONS overrides it. */
   confirmations: number;
-  /** Stablecoins accepted for card refills on a real network (1 token = 1 USD). Test networks name theirs in configuration. */
+  /** Stablecoins accepted for card refills (1 token = 1 USD), picked with TOP_UP_ASSETS. */
   tokens: readonly NetworkToken[];
 }
 
 export const NETWORKS: Readonly<Record<number, NetworkDefinition>> = {
+  // Base Sepolia: Circle's test USDC (symbol USDC, 6 decimals), read from the chain on 2026-10-31.
   84532: { name: 'Base Sepolia', rpcVariable: 'BASE_SEPOLIA_RPC_URL', explorerTxURL: 'https://sepolia.basescan.org/tx/',
-    mainnet: false, nativeSymbol: 'ETH', confirmations: 5, tokens: [] },
+    mainnet: false, nativeSymbol: 'ETH', confirmations: 5, tokens: [
+      { symbol: 'USDC', name: 'USD Coin (Base Sepolia test token)', address: '0x036CbD53842c5426634e7929541eC2318f3dCF7e', decimals: 6 },
+    ] },
   11155111: { name: 'Ethereum Sepolia', rpcVariable: 'ETHEREUM_SEPOLIA_RPC_URL', explorerTxURL: 'https://sepolia.etherscan.io/tx/',
     mainnet: false, nativeSymbol: 'ETH', confirmations: 5, tokens: [] },
   // Robinhood Chain Testnet (Arbitrum Orbit, gas in test ETH). Its mainnet is 4663 and is not supported.
   46630: { name: 'Robinhood Chain Testnet', rpcVariable: 'ROBINHOOD_TESTNET_RPC_URL', explorerTxURL: 'https://explorer.testnet.chain.robinhood.com/tx/',
     mainnet: false, nativeSymbol: 'ETH', confirmations: 5, tokens: [] },
+  // Test stands for Polygon and BNB Smart Chain, read from the chains on 2026-10-31. Neither has an official test
+  // USDT on Amoy, so Amoy uses Circle's test USDC; the BNB Chain faucet's test USDT has 18 decimals like the real one.
+  80002: { name: 'Polygon Amoy', rpcVariable: 'POLYGON_AMOY_RPC_URL', explorerTxURL: 'https://amoy.polygonscan.com/tx/',
+    mainnet: false, nativeSymbol: 'POL', confirmations: 5, tokens: [
+      { symbol: 'USDC', name: 'USD Coin (Polygon Amoy test token)', address: '0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582', decimals: 6 },
+    ] },
+  97: { name: 'BNB Smart Chain Testnet', rpcVariable: 'BSC_TESTNET_RPC_URL', explorerTxURL: 'https://testnet.bscscan.com/tx/',
+    mainnet: false, nativeSymbol: 'BNB', confirmations: 5, tokens: [
+      { symbol: 'USDT', name: 'Tether USD (BNB Smart Chain Testnet test token)', address: '0x337610d27c682E347C9cD60BD4b3b107C9d34dDd', decimals: 18 },
+    ] },
   // Real networks for card refills. Verify each contract on the explorer before enabling a network.
   // Base: native USDC by Circle, read from the chain on 2026-10-21 (symbol USDC, 6 decimals, chain 0x2105).
   // About 2 s blocks; 20 confirmations is roughly 40 s.
