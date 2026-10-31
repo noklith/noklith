@@ -170,7 +170,7 @@ export const authVerifyRequestSchema = object({
 });
 export const walletAuthMetadataSchema = object({
   origin: { type: 'string', format: 'uri' }, uri: { type: 'string', format: 'uri' },
-  chain_ids: { type: 'array', items: chainIDSchema, minItems: 1, maxItems: 2, uniqueItems: true },
+  chain_ids: { type: 'array', items: chainIDSchema, minItems: 1, maxItems: 4, uniqueItems: true },
 });
 const count = { type: 'integer', minimum: 0 } as const;
 const limitValuesSchema = object({ single_top_up_cents: money, monthly_top_up_cents: money, daily_spend_cents: money,

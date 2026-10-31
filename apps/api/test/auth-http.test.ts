@@ -256,3 +256,14 @@ test('client keys group IPv6 by /64 and keep IPv4 as is', () => {
   assert.equal(networkKey('::ffff:192.0.2.1'), undefined);
   assert.equal(networkKey('192.0.2.1'), undefined);
 });
+
+test('the config lists every sign-in network, here all three test networks', async t => {
+  const db = testDatabase();
+  const allowedChainIds = [84532, 80002, 97];
+  const app = buildApp({ db, networkMode: 'testnet', auth: { configuration: { ...configuration, allowedChainIds }, dependencies: { inspectAccount: eoa, now: initial } } });
+  t.after(async () => { await app.close(); await db.close(); });
+  await migrate(db);
+  const response = await app.inject('/v1/config');
+  assert.equal(response.statusCode, 200, response.body);
+  assert.deepEqual(response.json().wallet_auth.chain_ids, allowedChainIds);
+});
